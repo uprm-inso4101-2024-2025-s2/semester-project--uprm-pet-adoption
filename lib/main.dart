@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Pet App',
-      routerConfig: appRouter,  // Use GoRouter for navigation
+      routerConfig: appRouter, // Use GoRouter for navigation
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
     );
   }
 }
-
