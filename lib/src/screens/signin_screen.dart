@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 
 //This file contains the Authentication Screen class. Everything that shows up in the authentication screen is managed here.
 
-class AuthScreen extends StatelessWidget {
-  const AuthScreen({super.key});
+class SignInScreen extends StatelessWidget {
+  const SignInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +21,18 @@ class AuthScreen extends StatelessWidget {
             const SizedBox(
                 height: 20
             ),
-            //An elevated button is a label child displayed on a Material widget whose Material.elevation increases when the button is pressed
+            //An elevated button is a label child displayed on a Material widget
+            // whose Material.elevation increases when the button is pressed
+
+            //Sign in button
             ElevatedButton(
               onPressed: () {
                 context.go('/menu'); // Navigate to Menu after sign-in
               },
               child: const Text('Sign In'),
             ),
+
+            //Home screen button
             ElevatedButton(
               onPressed: () {
                 context.go('/'); // Go back to Home

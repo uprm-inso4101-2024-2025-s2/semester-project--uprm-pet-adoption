@@ -17,12 +17,22 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            //SignIn button
             ElevatedButton(
               onPressed: () {
                 context.go('/signin'); // Navigate to Sign-In screen
               },
-              child: const Text('Go to Sign-In'),
+              child: const Text('sign up'),
             ),
+
+            //LogIn button
+            ElevatedButton(
+              onPressed: () {
+                context.go('/login'); // Navigate to Log-In screen
+              },
+              child: const Text('log in'),
+            ),
+
             //An elevated button is a label child displayed on a Material widget whose Material.elevation
             // increases when the button is pressed
             ElevatedButton(

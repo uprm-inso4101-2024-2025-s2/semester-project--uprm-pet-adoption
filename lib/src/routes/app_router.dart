@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../screens/home_screen.dart';
-import '../screens/auth_screen.dart';
+import '../screens/signin_screen.dart';
 import '../screens/menu_screen.dart';
+import '../screens/login_screen.dart';
 
 //This file contains the routes for all screens. It also manages transitions between screens.
 
@@ -34,11 +35,28 @@ final GoRouter appRouter = GoRouter(
       ),
     ),
 
-    //Route for authentication page
+    //Route for signin page
     GoRoute(
       path: '/signin',
       pageBuilder: (context, state) => CustomTransitionPage(
-        child: const AuthScreen(),
+        child: const SignInScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+
+    //Route for lognin page
+    GoRoute(
+      path: '/login',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const LogInScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
