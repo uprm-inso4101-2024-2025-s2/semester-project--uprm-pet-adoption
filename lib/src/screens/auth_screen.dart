@@ -1,43 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 
 //This file contains the Authentication Screen class. Everything that shows up in the authentication screen is managed here.
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends ConsumerWidget {
   const AuthScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       //AppBar is a prebuilt widget in Flutter
-      appBar: AppBar(
-          title: const
-          Text('Sign-In')),
+      appBar: AppBar(title: const Text('Sign-In')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Sign-In Screen'),
-            const SizedBox(
-                height: 20
-            ),
-            //An elevated button is a label child displayed on a Material widget whose Material.elevation increases when the button is pressed
+            const Text('Welcome! Press Sign In to continue.'),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                context.go('/menu'); // Navigate to Menu after sign-in
+              onPressed: () async {
+                await ref.read(authProvider.notifier).login();
+                if (context.mounted) {
+                  context.go('/');
+                }
               },
               child: const Text('Sign In'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.go('/'); // Go back to Home
-              },
-              child: const Text('Return to Home'),
             ),
           ],
         ),
       ),
     );
   }
-
 }
