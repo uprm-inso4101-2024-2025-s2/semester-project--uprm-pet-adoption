@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 
 //This file contains the Home Screen class. Everything that shows up in the home screen is managed here.
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      //AppBar is a prebuilt widget in Flutter
       appBar: AppBar(
-          title: const Text('Home Screen')
+        title: const Text('Home Screen'),
+        actions: [
+          TextButton.icon(
+            onPressed: () async {
+              await ref.read(authProvider.notifier).logout();
+              if (context.mounted) context.go('/signin');
+            },
+            icon: const Icon(Icons.logout),
+            label: const Text('Log Out'),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                context.go('/signin'); // Navigate to Sign-In screen
-              },
-              child: const Text('Go to Sign-In'),
-            ),
-            //An elevated button is a label child displayed on a Material widget whose Material.elevation
-            // increases when the button is pressed
+            const Text('You are logged in!'),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 context.go('/menu'); // Navigate to Menu screen
@@ -37,5 +42,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-
