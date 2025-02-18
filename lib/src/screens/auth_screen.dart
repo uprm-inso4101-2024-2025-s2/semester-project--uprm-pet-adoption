@@ -21,9 +21,11 @@ class AuthScreen extends ConsumerWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                await ref.read(authProvider.notifier).login();
+                await ref
+                    .read(authProvider.notifier)
+                    .login(); // calls login function
                 if (context.mounted) {
-                  context.go('/');
+                  context.go('/'); // get user back to home screen after login
                 }
               },
               child: const Text('Sign In'),

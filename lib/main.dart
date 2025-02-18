@@ -14,7 +14,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Pet App',
-      routerConfig: appRouter, // Use GoRouter for navigation
+      routerConfig: appRouter, // navigation using GoRouter
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

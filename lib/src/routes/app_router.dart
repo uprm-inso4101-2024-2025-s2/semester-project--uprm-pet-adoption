@@ -14,7 +14,7 @@ final GoRouter appRouter = GoRouter(
     final isLoggedIn = container.read(authProvider);
 
     if (!isLoggedIn && state.matchedLocation != '/signin') {
-      return '/signin';
+      return '/signin'; // get unauthenticated users back to login screen
     }
     return null;
   },

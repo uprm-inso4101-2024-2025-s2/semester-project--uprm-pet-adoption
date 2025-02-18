@@ -5,23 +5,20 @@ import 'package:go_router/go_router.dart';
 
 class MenuScreen extends StatelessWidget {
   //Used Stateless widget since it is not required to change over tine.
-  const MenuScreen({super.key});//This is the class constructor. Calling this, allow access to the menu's properties
+  const MenuScreen(
+      {super.key}); //This is the class constructor. Calling this, allow access to the menu's properties
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //AppBar is a prebuilt widget in Flutter
-      appBar: AppBar(
-          title: const Text('Menu Screen')
-      ),
+      appBar: AppBar(title: const Text('Menu Screen')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Menu'),
-            const SizedBox(
-                height: 20
-            ),
+            const SizedBox(height: 20),
             //An elevated button is a label child displayed on a Material widget whose Material.elevation increases when the button is pressed
             ElevatedButton(
               onPressed: () {
@@ -35,5 +32,3 @@ class MenuScreen extends StatelessWidget {
     );
   }
 }
-
-
