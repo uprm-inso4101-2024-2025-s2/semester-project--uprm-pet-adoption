@@ -20,20 +20,20 @@ class AuthScreen extends ConsumerWidget {
             const Text('Welcome! Select an option to continue.'),
             const SizedBox(height: 20),
 
-            //Log in button
-            ElevatedButton(
-              onPressed: () {
-                context.go('/login');
-              },
-              child: const Text('log in'),
-            ),
-
             //Sign up button
             ElevatedButton(
               onPressed: () {
                   context.go('/signup');
               },
-              child: const Text('sign up'),
+              child: const Image(image: AssetImage('images/SignUpbutton.png')),
+            ),
+
+            //Log in button
+            ElevatedButton(
+              onPressed: () {
+                context.go('/login');
+              },
+              child: const Image(image: AssetImage('images/LogInbutton.png')),
             ),
           ],
         ),
