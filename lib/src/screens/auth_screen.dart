@@ -14,9 +14,9 @@ class AuthScreen extends ConsumerWidget {
       backgroundColor: Color(0xFF82B0FF),
       body: Column(
         children: [
-          const SizedBox(height: 40),
+          const SizedBox(height: 5),
           const SizedBox(
-            height: 400,
+            height: 350,
             child: Image(image: AssetImage('images/sign_log.png')),
           ), // Controls text position
           const Text('Welcome! Select an option to continue.'), // welcome text
