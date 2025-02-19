@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:semester_project__uprm_pet_adoption/src/routes/app_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    DevicePreview(
+      enabled: true, // Set to false in production
+      builder: (context) => ProviderScope(child: MyApp()),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {
@@ -12,9 +18,10 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
+      builder: DevicePreview.appBuilder, // Enables device preview
       debugShowCheckedModeBanner: false,
       title: 'Pet App',
-      routerConfig: appRouter, // navigation using GoRouter
+      routerConfig: appRouter, // Navigation using GoRouter
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
