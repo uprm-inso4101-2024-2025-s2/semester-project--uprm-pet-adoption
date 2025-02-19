@@ -17,7 +17,7 @@ class HomeScreen extends ConsumerWidget {
           TextButton.icon(
             onPressed: () async {
               await ref.read(authProvider.notifier).logout();
-              if (context.mounted) context.go('/signin');
+              if (context.mounted) context.go('/auth');
             },
             icon: const Icon(Icons.logout),
             label: const Text('Log Out'),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../screens/home_screen.dart';
-import '../screens/auth_screen.dart';
+import '../screens/signup_screen.dart';
 import '../screens/menu_screen.dart';
+import '../screens/login_screen.dart';
+import '../screens/auth_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 
@@ -13,8 +15,8 @@ final GoRouter appRouter = GoRouter(
     final container = ProviderScope.containerOf(context);
     final isLoggedIn = container.read(authProvider);
 
-    if (!isLoggedIn && state.matchedLocation != '/signin') {
-      return '/signin'; // get unauthenticated users back to login screen
+    if (!isLoggedIn && state.matchedLocation == '/' || !isLoggedIn && state.matchedLocation == 'menu') {
+      return '/auth'; // get unauthenticated users back to start screen (authentication screen)
     }
     return null;
   },
@@ -44,11 +46,45 @@ final GoRouter appRouter = GoRouter(
       ),
     ),
 
-    //Route for authentication page
+    //Route for auth screen
     GoRoute(
-      path: '/signin',
+      path: '/auth',
       pageBuilder: (context, state) => CustomTransitionPage(
         child: const AuthScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+
+    //Route for signup screen
+    GoRoute(
+      path: '/signup',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const SignUpScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+
+    //Route for login screen
+    GoRoute(
+      path: '/login',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const LogInScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(

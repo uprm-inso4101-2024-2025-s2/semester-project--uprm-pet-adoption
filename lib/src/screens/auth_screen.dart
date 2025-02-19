@@ -12,23 +12,28 @@ class AuthScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       //AppBar is a prebuilt widget in Flutter
-      appBar: AppBar(title: const Text('Sign-In')),
+      appBar: AppBar(title: const Text('Pawfect Match')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Welcome! Press Sign In to continue.'),
+            const Text('Welcome! Select an option to continue.'),
             const SizedBox(height: 20),
+
+            //Log in button
             ElevatedButton(
-              onPressed: () async {
-                await ref
-                    .read(authProvider.notifier)
-                    .login(); // calls login function
-                if (context.mounted) {
-                  context.go('/'); // get user back to home screen after login
-                }
+              onPressed: () {
+                context.go('/login');
               },
-              child: const Text('Sign In'),
+              child: const Text('log in'),
+            ),
+
+            //Sign up button
+            ElevatedButton(
+              onPressed: () {
+                  context.go('/signup');
+              },
+              child: const Text('sign up'),
             ),
           ],
         ),
