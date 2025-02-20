@@ -131,7 +131,15 @@ class LogInScreen extends ConsumerWidget {
                   ),
                   SizedBox(height: 15),
                   //Login button, not implmented yet. Code for this button should be added below 
-                  // ---------------------------------------------------------------------------
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFC8E8FF),
+                      foregroundColor: Colors.black,
+                      minimumSize: Size(200,60),
+                    ),
+                    onPressed: () => 1, 
+                    child: const Text('log in', style: TextStyle(fontFamily: 'Archivo', fontSize: 20, fontWeight: FontWeight.bold))
+                  ),
                 ],
               ),
             ),
