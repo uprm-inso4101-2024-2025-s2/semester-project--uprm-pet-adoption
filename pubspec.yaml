@@ -68,7 +68,7 @@ flutter:
     - images/LogInbutton.png    
     - images/SignUpbutton.png
     - images/sign_log.png
-
+    - images/Login_SignUp_Background.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -81,6 +81,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Archivo
+      fonts:
+        - asset: fonts/ArchivoBlack.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

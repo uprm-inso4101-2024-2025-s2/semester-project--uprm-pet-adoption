@@ -10,42 +10,64 @@ class LogInScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      //AppBar is a prebuilt widget in Flutter
-      appBar: AppBar(
-          title: const
-          Text('Log-In')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Log-In Screen'),
-            const SizedBox(
-                height: 20
+    //This section shows the background image for this screen
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            'images/Login_SignUp_Background.png',
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+      
+      child: Scaffold(
+        //As scaffold makes is opaque by default set backgroundcolor to transaparent
+        backgroundColor: Colors.transparent,
+        //AppBar is a prebuilt widget in Flutter
+        appBar: AppBar(
+            toolbarHeight: -5,
+            backgroundColor: Color(0xFF82B0FF),
             ),
-            //An elevated button is a label child displayed on a Material widget
-            // whose Material.elevation increases when the button is pressed
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(
+               padding:
+                    EdgeInsets.only(bottom: 250), // Adjust vertical positioning 
+              child: const Text('log in',style: TextStyle(fontSize: 40, 
+              fontWeight: FontWeight.w900, 
+              fontFamily: 'Archivo')
+              ),
+              ),
+              const SizedBox(
+                  height: 20
+              ),
+              //An elevated button is a label child displayed on a Material widget
+              // whose Material.elevation increases when the button is pressed
 
-            //Login button
-            ElevatedButton(
-              onPressed: () async {
-                await ref.read(authProvider.notifier)
-                .login(); // calls login function
-                if (context.mounted) {
-                  context.go('/'); // get user back to home screen after log in
-                }
-              },
-              child: const Text('Log In'),
-            ),
+              //Login button
+              ElevatedButton(
+                onPressed: () async {
+                  await ref.read(authProvider.notifier)
+                  .login(); // calls login function
+                  if (context.mounted) {
+                    context.go('/'); // get user back to home screen after log in
+                  }
+                },
+                child: const Text('Log In'),
+              ),
 
-            //Go back to Auth button
-            ElevatedButton(
-              onPressed: () {
-                context.go('/auth'); // Go back to Auth screen
-              },
-              child: const Text('Return to Authentication'),
-            ),
-          ],
+              //Go back to Auth button
+              ElevatedButton(
+                onPressed: () {
+                  context.go('/auth'); // Go back to Auth screen
+                },
+                child: const Text('Return to Authentication'),
+              ),
+            ],
+          ),
         ),
       ),
     );
