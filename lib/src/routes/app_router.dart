@@ -67,7 +67,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/signup',
       pageBuilder: (context, state) => CustomTransitionPage(
-        child: const SignUpScreen(),
+        child: SignUpScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(

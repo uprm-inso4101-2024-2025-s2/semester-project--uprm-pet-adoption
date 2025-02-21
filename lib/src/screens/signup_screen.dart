@@ -4,7 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 
 class SignUpScreen extends ConsumerWidget {
-  const SignUpScreen({super.key});
+  SignUpScreen({super.key});
+
+  // Controllers for handling text input
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,24 +25,25 @@ class SignUpScreen extends ConsumerWidget {
               fit: BoxFit.cover,
             ),
           ),
-          // Sign-Up Form
           Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Sign Up Title
                   const Padding(
                     padding: EdgeInsets.only(bottom: 10),
                     child: Text(
-                      'sign up',
+                      'Sign Up',
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.w900,
                         fontFamily: 'Archivo',
-                        color: Color.fromARGB(255, 0, 0, 0), // Improved contrast
+                        color: Colors.black,
                       ),
                     ),
                   ),
+                  // Form Container
                   Container(
                     width: MediaQuery.of(context).size.width * 0.85,
                     padding: const EdgeInsets.all(20),
@@ -53,46 +61,78 @@ class SignUpScreen extends ConsumerWidget {
                     ),
                     child: Column(
                       children: [
-                        buildTextField(
-                            label: "Email",
-                            icon: Icons.email,
-                            obscureText: false),
+                        // Email Text Field
+                        buildTextField(controller: emailController, label: "Email", icon: Icons.email, obscureText: false),
                         const SizedBox(height: 20),
+                        // First and Last Name Fields
                         Row(
                           children: [
-                            Expanded(
-                              child: buildTextField(
-                                  label: "First Name", obscureText: false),
-                            ),
+                            Expanded(child: buildTextField(controller: firstNameController, label: "First Name", obscureText: false)),
                             const SizedBox(width: 10),
-                            Expanded(
-                              child: buildTextField(
-                                  label: "Last Name", obscureText: false),
-                            ),
+                            Expanded(child: buildTextField(controller: lastNameController, label: "Last Name", obscureText: false)),
                           ],
                         ),
                         const SizedBox(height: 20),
-                        buildTextField(
-                            label: "Password",
-                            icon: Icons.lock_outline,
-                            obscureText: true),
+                        // Password and Confirm Password Fields
+                        buildTextField(controller: passwordController, label: "Password", icon: Icons.lock_outline, obscureText: true),
                         const SizedBox(height: 20),
-                        buildTextField(
-                            label: "Confirm Password",
-                            icon: Icons.lock_outline,
-                            obscureText: true),
+                        buildTextField(controller: confirmPasswordController, label: "Confirm Password", icon: Icons.lock_outline, obscureText: true),
                         const SizedBox(height: 25),
+                        // Create Account Button
                         buildButton(
                           text: "Create Account",
-                          onPressed: () {},
+                          onPressed: () async {
+                            String email = emailController.text;
+                            String firstName = firstNameController.text;
+                            String lastName = lastNameController.text;
+                            String password = passwordController.text;
+                            String confirmPassword = confirmPasswordController.text;
+
+                            // Validate Password Matching
+                            if (password != confirmPassword) {
+                              ref.read(statusMessageProvider.notifier).state = "Passwords do not match";
+                              return;
+                            }
+
+                            // Example user ID based on name
+                            String userId = "${firstName}_$lastName";
+                            await ref.read(authProvider.notifier).signUp(
+                              userId: userId,
+                              email: email,
+                              password: password
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 15),
+                        // Status Message Display
+                        Consumer(
+                          builder: (context, ref, child) {
+                            final message = ref.watch(statusMessageProvider);
+                            return Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                message,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 25),
+                  // Return Button
                   buildButton(
                     text: "Return",
-                    onPressed: () => context.go('/auth'),
+                    onPressed: () { 
+                      ref.read(statusMessageProvider.notifier).state = ""; // Clear message when leaving
+                      context.go('/auth');
+                    },
                   ),
                 ],
               ),
@@ -103,9 +143,15 @@ class SignUpScreen extends ConsumerWidget {
     );
   }
 
-  Widget buildTextField(
-      {required String label, IconData? icon, required bool obscureText}) {
+  // Method for Creating Input Fields
+  Widget buildTextField({
+    required TextEditingController controller,
+    required String label,
+    IconData? icon,
+    required bool obscureText,
+  }) {
     return TextField(
+      controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
         enabledBorder: const UnderlineInputBorder(
@@ -122,34 +168,24 @@ class SignUpScreen extends ConsumerWidget {
         ),
         suffixIcon: icon != null ? Icon(icon, color: Color(0xFF5D5793)) : null,
       ),
-      style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        fontFamily: 'Archivo',
-        color: Colors.black,
-      ),
+      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Archivo', color: Colors.black),
     );
   }
 
+  // Method for Creating Buttons
   Widget buildButton({required String text, required VoidCallback onPressed}) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFFC8E8FF),
-        foregroundColor: Colors.black,
-        minimumSize: const Size(200, 60),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        backgroundColor: const Color(0xFFC8E8FF), // Light blue background
+        foregroundColor: Colors.black, // Black text
+        minimumSize: const Size(200, 60), // Button size
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       onPressed: onPressed,
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontFamily: 'Archivo',
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      child: Text(text, style: const TextStyle(fontFamily: 'Archivo', fontSize: 20, fontWeight: FontWeight.bold)),
     );
   }
 }
+
+
+
