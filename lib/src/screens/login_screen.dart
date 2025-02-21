@@ -23,6 +23,11 @@ class LogInScreen extends ConsumerWidget {
       child: Scaffold(
         //As scaffold makes is opaque by default set backgroundcolor to transaparent
         backgroundColor: Colors.transparent,
+        //AppBar is a prebuilt widget in Flutter
+        appBar: AppBar(
+            toolbarHeight: -5,
+            backgroundColor: Color(0xFF82B0FF),
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

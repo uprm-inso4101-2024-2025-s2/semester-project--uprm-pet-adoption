@@ -9,6 +9,11 @@ class SignUpScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+        //AppBar is a prebuilt widget in Flutter
+        appBar: AppBar(
+            toolbarHeight: -5,
+            backgroundColor: Color(0xFF82B0FF),
+        ),
       body: Stack(
         children: [
           // Background Image
