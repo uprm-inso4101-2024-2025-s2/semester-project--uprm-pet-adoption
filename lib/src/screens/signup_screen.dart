@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/gettoknow_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
+
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -188,23 +191,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           buildButton(
                             text: "Create Account",
                             onPressed: () async {
-                              if (_formKey.currentState!.validate()) {  // Validate form before proceeding
-                                String email = emailController.text;
-                                String firstName = firstNameController.text;
-                                String lastName = lastNameController.text;
-                                String password = passwordController.text;
-
-                                // Example user ID based on name
-                                String userId = "${firstName}_$lastName";
-
-                                await ref.read(authProvider.notifier).signUp(
-                                  userId: userId,
-                                  email: email,
-                                  password: password,
-                                );
+                              if (_formKey.currentState!.validate()) {
+                                context.go('/gettoknow');
                               }
-                            },
-                          ),
+                          })
                         ],
                       ),
                     ),
