@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
+import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
+
 
 //This file contains the Home Screen class. Everything that shows up in the home screen is managed here.
 
@@ -39,6 +41,8 @@ class HomeScreen extends ConsumerWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const BottomNavBar(
+          selectedIndex: 0), // Home is selected; this is merely a test to see how the bottomNavBar looks
     );
   }
 }
