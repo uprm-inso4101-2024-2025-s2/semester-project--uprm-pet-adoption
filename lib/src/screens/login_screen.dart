@@ -34,6 +34,142 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
   Widget build(BuildContext context) {
     // Watching status message from the provider
     final statusMessage = ref.watch(statusMessageProvider);
+        // Function to validate email
+    bool validateEmail(String email) {
+      return email.contains('@') && email.split('@').last.contains('.');
+    }
+
+    // Function which validates if the password has at least 4 numbers
+    bool validatePassword(String password) {
+      final RegExp regex = RegExp(r'(\D*\d){4,}');
+      return regex.hasMatch(password);
+    }
+
+    // Function which validates if the password has at least 1 special character
+    bool validateSpecialCharacter(String password) {
+      final RegExp regex = RegExp(r'[!@#\$%\^&\*\(\)_\+\-=\[\]\{\};:"\\|,.<>\/?]');
+      return regex.hasMatch(password);
+    }
+
+    // Function to handle login
+    void handleLogin() {
+      String email = usernameController.text.trim();
+      String password = passwordController.text.trim();
+
+      // Email validation
+      if (!validateEmail(email)) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Invalid Email'),
+              content: const Text('Please enter a valid email.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
+
+      if (password.isEmpty) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Invalid Password'),
+              content: const Text('Password cannot be empty.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
+
+      if(password.length < 8) {
+          showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Invalid Password'),
+              content: const Text('Password must be at least 8 characters long.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
+
+      if(!validatePassword(password)){
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Invalid Password'),
+              content: const Text('Password must contain at least 4 digits.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
+
+      if(!validateSpecialCharacter(password)){
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Invalid Password'),
+              content: const Text('Password must contain at least 1 special character.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
+
+      // Directly set isLoggedIn to true                       Note: This is temprorary, as proper validation to set this to true
+      //                                                             will be done once the data base is set up.
+      ref.read(authProvider.notifier).state = true;
+
+      // Navigate to home screen
+      context.go('/');
+      
+    }
 
     return Container(
       decoration: const BoxDecoration(
@@ -141,13 +277,17 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                         foregroundColor: Colors.black,
                         minimumSize: const Size(200, 60),
                       ),
-                      onPressed: () async {
-                        // Trigger login process through authentication provider
-                        await ref.read(authProvider.notifier).login(
-                          userId: usernameController.text,
-                          password: passwordController.text,
-                        );
+                      onPressed:() {
+                        // Function in charge of validating every input before logging in
+                        handleLogin();
                       },
+                      // onPressed: () async { 
+                      //   //Trigger login process through authentication provider                 //Note: this code works with firebase
+                      //   await ref.read(authProvider.notifier).login(                            //once it has been worked on, this will
+                      //     userId: usernameController.text,                                      //be uncommented and modified
+                      //     password: passwordController.text,
+                      //   );
+                      // },
                       child: const Text(
                         'Log In',
                         style: TextStyle(fontFamily: 'Archivo', fontSize: 20, fontWeight: FontWeight.bold),
