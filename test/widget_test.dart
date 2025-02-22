@@ -1,8 +1,8 @@
 // This is a Flutter Navigation Test.
 //
-// This test verifies that the app's navigation system works accordingly by 
+// This test verifies that the app's navigation system works accordingly by
 // checking wether users can transition between screens as expected.
-// 
+//
 // Test Navigation Flow:
 // 1. Start at HomeScreen.
 // 2. Navigates to AuthScreen and verifies the transition between screens.
@@ -22,7 +22,8 @@ import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart
 import 'package:semester_project__uprm_pet_adoption/src/screens/menu_screen.dart';
 
 void main() {
-  testWidgets('Navigation Test: Home -> Sign-In -> Menu', (WidgetTester tester) async {
+  testWidgets('Navigation Test: Home -> Sign-In -> Menu',
+      (WidgetTester tester) async {
     // Build the app with the initial screen (HomeScreen).
     await tester.pumpWidget(const MyApp());
 
