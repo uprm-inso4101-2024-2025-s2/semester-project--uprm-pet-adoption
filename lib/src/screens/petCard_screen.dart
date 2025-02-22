@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:semester_project__uprm_pet_adoption/src/widgets /pet_card.dart';
+import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_card.dart';
 
 /// PetCard Screen Widget
 /// -----------------
