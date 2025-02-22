@@ -22,6 +22,7 @@ class HomeScreen extends ConsumerWidget {
             icon: const Icon(Icons.logout),
             label: const Text('Log Out'),
           ),
+          
         ],
       ),
       body: Center(
@@ -35,6 +36,14 @@ class HomeScreen extends ConsumerWidget {
                 context.go('/menu'); // Navigate to Menu screen
               },
               child: const Text('Go to Menu'),
+            ),
+
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                context.go('/widgets');
+              },
+              child: const Text('Start Swiping'),
             ),
           ],
         ),

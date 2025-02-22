@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 import '../screens/home_screen.dart';
 import '../screens/signup_screen.dart';
 import '../screens/menu_screen.dart';
@@ -102,6 +103,22 @@ final GoRouter appRouter = GoRouter(
       path: '/menu',
       pageBuilder: (context, state) => CustomTransitionPage(
         child: const MenuScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+
+    GoRoute(
+      path: '/widgets',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const SwipeableStackWidget(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
