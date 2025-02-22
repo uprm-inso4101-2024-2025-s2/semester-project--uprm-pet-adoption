@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // This class is a state notifier that manages the SwipeableStackentication state of the user.
-// It extends StateNotifier<bool>, holding a boolean value representing SwipeableStackentication status.
 class SwipeableStackNotifier extends StateNotifier<bool> {
   SwipeableStackNotifier() : super(false) {
     checkSwipeStatus();

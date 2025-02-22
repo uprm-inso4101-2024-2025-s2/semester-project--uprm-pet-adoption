@@ -16,7 +16,7 @@ class SwipeableStackWidget extends ConsumerWidget{
   Widget build(BuildContext context, WidgetRef ref) {
     Set<PointerDeviceKind> allowedPointerKinds;
     return Scaffold(
-      //AppBar is a prebuilt widget in Flutter
+      //Color the background
       backgroundColor: Color(0xFF82B0FF),
       body: Center(
         child: Column(
@@ -29,13 +29,14 @@ class SwipeableStackWidget extends ConsumerWidget{
 
             Image(image: AssetImage('images/sign_log.png')),
 
-            //Like button
+            //Implemented the Swipe Feature, swipes from left to right
             Swipeable(
               key: ValueKey("swipe"),
               onSwipe:(direction) {
                 if (direction == SwipeDirection.startToEnd) {
                   SwipeDirection.horizontal;
                   SwipeEdge.left;
+                  //Swiping animation
                 } else {
                   SwipeDirection.horizontal;
                   SwipeEdge.right;
@@ -43,17 +44,14 @@ class SwipeableStackWidget extends ConsumerWidget{
               },
 
               background: Container(color: Colors.yellow),
-              // Widget to display below if swiping from end to start.
-              // Only works if [background] is defined
-              // Optional.
+              // widget animation background
               secondaryBackground: Container(color: Colors.teal),
-              // Function to call before calling onSwipe. If it returns false,
-              // swipe is aborted and onSwipe is not called.
-              // Optional.
+              // Confirm if Swipe gesture was accomplished
               confirmSwipe: (direction) async {
                 return true;
               },
 
+              //Allows mouse to drag screen in swipe direction
               allowedPointerKinds: allowedPointerKinds = {
                 PointerDeviceKind.touch,
                 PointerDeviceKind.stylus,
@@ -62,17 +60,18 @@ class SwipeableStackWidget extends ConsumerWidget{
                 PointerDeviceKind.unknown,
               },
 
+              //TODO: Implement the petCard object to be swiped
               child: const SizedBox(
                   height: 360,
                   child: Image(image: AssetImage('images/image.png')),
               ),
     ),
 
-        //Auth screen button
+        //Return to home button
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                context.go('/'); // Go back to Auth screen
+                context.go('/'); // Go back to home screen
               },
               child: const Text('Return to home'),
             ),

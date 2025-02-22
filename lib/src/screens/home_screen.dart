@@ -43,7 +43,7 @@ class HomeScreen extends ConsumerWidget {
               onPressed: () {
                 context.go('/widgets');
               },
-              child: const Text('Start Swiping'),
+              child: const Text('Start Swiping'), //go to match screen
             ),
           ],
         ),
