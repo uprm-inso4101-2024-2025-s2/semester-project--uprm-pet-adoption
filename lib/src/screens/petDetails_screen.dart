@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_card.dart';
+import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_details.dart';
 
-/// PetCard Screen Widget
+/// PetDetails Screen Widget
 /// -----------------
-/// This screen wraps `PetCard` and ensures that it always has the correct
+/// This screen wraps `PetDetails` and ensures that it always has the correct
 /// background, layout, and styling. It dynamically displays pet information.
 ///
 /// **Usage:**
-/// - Use this screen whenever you want to display a `PetCard`.
+/// - Use this screen whenever you want to display a `PetDetails` widget.
 /// - Pass dynamic pet details when navigating to this screen.
 ///
 /// **Example Usage:**
@@ -35,9 +35,9 @@ import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_card.dart';
 /// ```
 ///
 /// **Key Notes:**
-/// - Do **not** use `PetCard` directly in other screens.
+/// - Do **not** use `PetDetails` directly in other screens.
 /// - Always wrap it inside `PetScreen` to maintain consistent styling.
-/// - If modifications are needed, update this file instead of modifying `PetCard`.
+/// - If modifications are needed, update this file instead of modifying `PetDetails`.
 
 class PetScreen extends StatelessWidget {
   final String petName;
@@ -75,7 +75,7 @@ class PetScreen extends StatelessWidget {
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
-              'images/Login_SignUp_Background.png'), // Keep background
+              'assets/images/Login_SignUp_Background.png'), // Keep background
           fit: BoxFit.cover,
         ),
       ),
@@ -87,7 +87,7 @@ class PetScreen extends StatelessWidget {
           toolbarHeight: 0,
         ),
         body: Center(
-          child: PetCard(
+          child: PetDetails(
             petName: petName,
             petBreed: petBreed,
             petLocation: petLocation,
