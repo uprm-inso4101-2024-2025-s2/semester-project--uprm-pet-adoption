@@ -50,7 +50,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           // Background Image
           Positioned.fill(
             child: Image.asset(
-              'images/Login_SignUp_Background.png',
+              'assets/images/Login_SignUp_Background.png',
               fit: BoxFit.cover,
             ),
           ),
