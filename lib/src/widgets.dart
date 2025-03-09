@@ -25,7 +25,7 @@ class BottomNavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildNavItem(context, Icons.home, 0, "/home"),
-          _buildNavItem(context, Icons.chat_bubble_outline, 1, "/messages"),
+          _buildNavItem(context, Icons.chat_bubble_outline, 1, "/chat"),
           _buildNavItem(context, Icons.search, 2, "/search"),
           _buildNavItem(context, Icons.place, 3, "/location"),
           _buildNavItem(context, Icons.person, 4, "/profile"),
