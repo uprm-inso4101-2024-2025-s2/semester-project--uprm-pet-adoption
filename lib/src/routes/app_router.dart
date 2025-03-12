@@ -10,7 +10,7 @@ import '../screens/auth_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import '../screens/gettoknow_screen.dart';
-
+import '../screens/match_making_screen.dart';
 
 //This file contains the routes for all screens. It also manages transitions between screens.
 
@@ -19,7 +19,8 @@ final GoRouter appRouter = GoRouter(
     final container = ProviderScope.containerOf(context);
     final isLoggedIn = container.read(authProvider);
 
-    if (!isLoggedIn && state.matchedLocation == '/' || !isLoggedIn && state.matchedLocation == 'menu') {
+    if (!isLoggedIn && state.matchedLocation == '/' ||
+        !isLoggedIn && state.matchedLocation == 'menu') {
       return '/auth'; // get unauthenticated users back to start screen (authentication screen)
     }
     return null;
@@ -149,11 +150,28 @@ final GoRouter appRouter = GoRouter(
         },
       ),
     ),
-    
+
     GoRoute(
       path: '/dms',
       pageBuilder: (context, state) => CustomTransitionPage(
         child: const DMScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+
+    //Route for match making screen
+    GoRoute(
+      path: '/matchmaking',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const MatchMakingScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
