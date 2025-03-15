@@ -23,12 +23,12 @@ class GettoknowScreen extends StatelessWidget {
               },
               child: const Text("Return"),
             ),
-            const SizedBox(height: 20), // Spacing between text and button
+            const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-                context.go('/'); // Go to the home screen for the moment
+                context.go('/chat'); // Go to chat screen
               },
-              child: const Text("Continue to Home Screen"),
+              child: const Text("Message"),
             ),
           ],
         ),

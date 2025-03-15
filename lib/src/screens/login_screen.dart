@@ -39,9 +39,9 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
       return email.contains('@') && email.split('@').last.contains('.');
     }
 
-    // Function which validates if the password has at least 4 numbers
+    // Function which validates if the password has at least 1 number
     bool validatePassword(String password) {
-      final RegExp regex = RegExp(r'(\D*\d){4,}');
+      final RegExp regex = RegExp(r'\d');
       return regex.hasMatch(password);
     }
 
@@ -99,13 +99,13 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
         return;
       }
 
-      if(password.length < 8) {
+      if(password.length < 6) {
           showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text('Invalid Password'),
-              content: const Text('Password must be at least 8 characters long.'),
+              content: const Text('Password must be at least 6 characters long.'),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -126,7 +126,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text('Invalid Password'),
-              content: const Text('Password must contain at least 4 digits.'),
+              content: const Text('Password must contain at least 1 digit.'),
               actions: [
                 TextButton(
                   onPressed: () {
