@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_card.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 
@@ -16,7 +17,7 @@ class HomeScreen extends ConsumerWidget {
         // Background
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/Login_SignUp_Background.png'),
+            image: AssetImage('assets/images/Login_SignUp_Background.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -56,22 +57,38 @@ class HomeScreen extends ConsumerWidget {
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 15),
-                      // Pet Card placeholder (inside suggested pet)
-                      Container(
-                        height: 100,
-                        color: Colors.grey,
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "Pet Card Placeholder",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
+                      /// **Displays a pet card with swipe-based interaction**
+                      ///
+                      /// - Swiping **right** triggers `onAccept` (Pet is accepted).
+                      /// - Swiping **left** triggers `onReject` (Pet is rejected).
+                      /// - Clicking the heart icon toggles the **favorite status**.
+                      /// - The card includes an **image carousel** for browsing pet pictures.
+                      PetCard(
+                        petName: "Ronnie",
+                        petBreed: "Labrador",
+                        petAge: "Puppy",
+                        petImages: [
+                          "assets/images/temp_dog_img.jpg",
+                          "assets/images/temp_dog_img2.jpg",
+                        ],
+                        petDescription: "My name is Ronnie and I am looking for a loving home!",
+                        petTags: ["Labrador", "Puppy"],
+                        isFavorite: false,
+                        onFavoriteToggle: () {
+                          print("Favorite toggled!");
+                        },
+                        onAdopt: () {
+                          print("Adoption started!");
+                        },
+                        onAccept: () {
+                          print("Pet Accepted!");
+                        },
+                        onReject: () {
+                          print("Pet Rejected!");
+                        },
                       ),
-                    ],
-                  ),
-                ),
 
-                const SizedBox(height: 30),
+                      const SizedBox(height: 30),
 
                 // "Find Pawfect Match" button - navigates to match_making_screen.dart
                 TextButton(
@@ -81,7 +98,7 @@ class HomeScreen extends ConsumerWidget {
                     backgroundColor: Colors.transparent,
                   ),
                   child: Image.asset(
-                    'images/Find_Pawfect_Match_button.png',
+                    'assets/images/Find_Pawfect_Match_button.png',
                     width: 300, // Increase or decrease as needed
                     height: 120, // Increase or decrease as needed
                     fit: BoxFit.contain,
@@ -89,6 +106,9 @@ class HomeScreen extends ConsumerWidget {
                 ),
 
                 const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
               ],
             ),
 

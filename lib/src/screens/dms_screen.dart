@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart'; // Import for navigation
 
 
 
-//TODAS LAS IMAGENES NECESARIAS PARA LOS BOTONES SE ENCUENTRAN EN EL IMAGES/ FOLDER
+//TODAS LAS IMAGENES NECESARIAS PARA LOS BOTONES SE ENCUENTRAN EN ASSETS/ IMAGES
 class DMScreen extends StatelessWidget {
   const DMScreen({super.key});
 
@@ -17,7 +17,7 @@ class DMScreen extends StatelessWidget {
             // Setting background image
             
             image: DecorationImage(
-              image: AssetImage('images/Login_SignUp_Background.png'),
+              image: AssetImage('assets/images/Login_SignUp_Background.png'),
               fit: BoxFit.cover,
             ),
           ),
