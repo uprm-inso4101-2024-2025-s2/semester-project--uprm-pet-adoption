@@ -25,7 +25,6 @@ class ChatScreen extends StatelessWidget {
               textDirection: TextDirection.ltr,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900,color: Colors.black),
             ),
-            //const SizedBox(height: 30,width: 60), // Spacing between text and button
             Container(
               width: MediaQuery.of(context).size.width * 0.95,
               padding: const EdgeInsets.all(30),
@@ -35,11 +34,45 @@ class ChatScreen extends StatelessWidget {
                 shape: BoxShape.rectangle,
               ),
               child: TextButton.icon(
+                  onPressed: ( ){
+                  context.go('/dms');
+                  },
+                  label: Text(
+                    "message         11:11 am",
+                    maxLines: 2,
+                    style:  TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Archivo',
+                        color: Colors.black,
+                    ),
+                  ),
+                  icon: CircleAvatar(
+                    foregroundColor: Color(0xFF82B0FF),
+                    backgroundColor: Color(0xFF82B0FF),
+                    radius: 20,
+                    /*child: Image.asset(
+                    'icons/Icon-192.png',
+                    fit: BoxFit.cover,
+                    )*/
+                  ),
+                  iconAlignment: IconAlignment.start,
+              ),
+          ),
+          Container(
+              width: MediaQuery.of(context).size.width * 0.95,
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.horizontal(),
+                shape: BoxShape.rectangle,
+              ),
+              child: TextButton.icon(
                 onPressed: () {
                 context.go('/dms'); // Navigate to Messages screen
                 }, 
                 label: Text(
-                  "message",
+                  "message         11:59 am",
                   style:  TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -73,7 +106,7 @@ class ChatScreen extends StatelessWidget {
                 context.go('/dms'); // Navigate to Messages screen
                 }, 
                 label: Text(
-                  "message",
+                  "message        12:00 pm",
                   style:  TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -107,7 +140,7 @@ class ChatScreen extends StatelessWidget {
                 context.go('/dms'); // Navigate to Messages screen
                 }, 
                 label: Text(
-                  "message",
+                  "message        12:04 pm",
                   style:  TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -141,41 +174,7 @@ class ChatScreen extends StatelessWidget {
                 context.go('/dms'); // Navigate to Messages screen
                 }, 
                 label: Text(
-                  "message",
-                  style:  TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Archivo',
-                      color: Colors.black,
-                  ),
-                ),
-                icon: CircleAvatar(
-                  foregroundColor: Color(0xFF82B0FF),
-                  backgroundColor: Color(0xFF82B0FF),
-                  radius: 20,
-                  /*child: Image.asset(
-                  'icons/Icon-192.png',
-                  fit: BoxFit.cover,
-                  )*/
-                ),
-                iconAlignment: IconAlignment.start,
-                
-              ),
-          ),
-          Container(
-              width: MediaQuery.of(context).size.width * 0.95,
-              padding: const EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.horizontal(),
-                shape: BoxShape.rectangle,
-              ),
-              child: TextButton.icon(
-                onPressed: () {
-                context.go('/dms'); // Navigate to Messages screen
-                }, 
-                label: Text(
-                  "message",
+                  "message         12:30 pm",
                   style:  TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
