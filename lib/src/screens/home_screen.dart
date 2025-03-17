@@ -5,6 +5,8 @@ import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_card.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 
+import 'menu_screen.dart';
+
 //This file contains the Home Screen class. Everything that shows up in the home screen is managed here.
 
 class HomeScreen extends ConsumerWidget {
@@ -13,10 +15,10 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Color.fromRGBO(130,176,255,1),),
+      endDrawer: MenuScreen(),
       body: Container(
         // Background
-        appBar: AppBar(),
-        endDrawer: Drawer(),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/Login_SignUp_Background.png'),
