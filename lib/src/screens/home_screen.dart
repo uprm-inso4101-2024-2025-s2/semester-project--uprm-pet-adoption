@@ -15,6 +15,8 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       body: Container(
         // Background
+        appBar: AppBar(),
+        endDrawer: Drawer(),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/Login_SignUp_Background.png'),
