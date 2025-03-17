@@ -48,7 +48,7 @@ class MenuScreen extends Drawer {
                       SizedBox(width: 6.0),
                       IconButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            //***button goes here Navigator.pop(context);***
                           },
                           icon: const Icon(Icons.menu))
                     ],
@@ -59,9 +59,7 @@ class MenuScreen extends Drawer {
             SizedBox(height: 40.0),
             Material(
               child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
+                //***button goes here, use onTap***
                 child: ListTile(
                   leading: Container(
                     width: 20,
@@ -70,7 +68,7 @@ class MenuScreen extends Drawer {
                   ),
                   tileColor: Color.fromRGBO(244, 233, 107, 1),
                   title: const Text(
-                    'ACCOUNT',
+                    '', //***name of button widget goes here***
                     style: TextStyle(
                       fontFamily: 'Archivo',
                     ),
@@ -91,16 +89,35 @@ class MenuScreen extends Drawer {
                   color: Color.fromRGBO(198, 187, 60, 1),
                 ),
                 title: const Text(
-                  'ABOUT US',
+                  '', //***name of button widget goes here***
                   style: TextStyle(
                     fontFamily: 'Archivo',
                   ),
                 ),
                 selected: false,
-                onTap: () {
-                  // Update the state of the app
-                  context.go('/login');
-                },
+                // ***button goes here*** onTap
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Material(
+              color: Color.fromRGBO(244, 233, 107, 1),
+              child: ListTile(
+                leading: Container(
+                  width: 20,
+                  height: 70,
+                  color: Color.fromRGBO(198, 187, 60, 1),
+                ),
+                //name of tag
+                title: const Text(
+                  '', //***name of button widget goes here***
+                  style: TextStyle(
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+                selected: false,
+                //***button goes here, use onTap***
               ),
             ),
             SizedBox(
@@ -115,17 +132,13 @@ class MenuScreen extends Drawer {
                   color: Color.fromRGBO(198, 187, 60, 1),
                 ),
                 title: const Text(
-                  'SHELTERS',
+                  '', //***name of button widget goes here***
                   style: TextStyle(
                     fontFamily: 'Archivo',
                   ),
                 ),
                 selected: false,
-                onTap: () {
-                  // Update the state of the app
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
+                //***button goes here, use onTap***
               ),
             ),
             SizedBox(
@@ -140,54 +153,28 @@ class MenuScreen extends Drawer {
                   color: Color.fromRGBO(198, 187, 60, 1),
                 ),
                 title: const Text(
-                  'SERVICES',
+                  '', //***name of button widget goes here***
                   style: TextStyle(
                     fontFamily: 'Archivo',
                   ),
                 ),
                 selected: false,
-                onTap: () {
-                  // Update the state of the app
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Material(
-              color: Color.fromRGBO(244, 233, 107, 1),
-              child: ListTile(
-                leading: Container(
-                  width: 20,
-                  height: 70,
-                  color: Color.fromRGBO(198, 187, 60, 1),
-                ),
-                title: const Text(
-                  'SETTINGS',
-                  style: TextStyle(
-                    fontFamily: 'Archivo',
-                  ),
-                ),
-                selected: false,
-                onTap: () {
-                  // Update the state of the app
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
+                //***button goes here, use onTap***
               ),
             ),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * .5 - 100,
             ),
-            IconButton(
-                alignment: Alignment.centerRight,
-                iconSize: 50,
-                onPressed: () {
-                  context.go('/auth');
-                },
-                icon: const Icon(Icons.logout)),
+            SizedBox(
+              width: 20,
+              child: IconButton(
+                  alignment: Alignment.centerRight,
+                  iconSize: 50,
+                  onPressed: () {
+                    context.go('/auth');
+                  },
+                  icon: const Icon(Icons.logout)),
+            ),
           ],
         ),
       ),
