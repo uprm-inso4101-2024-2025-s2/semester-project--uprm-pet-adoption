@@ -11,7 +11,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import '../screens/gettoknow_screen.dart';
 import '../screens/match_making_screen.dart';
-
+import '../screens/pet_tips_screen.dart';
+import '../screens/favorites_screen.dart';
 //This file contains the routes for all screens. It also manages transitions between screens.
 
 final GoRouter appRouter = GoRouter(
@@ -183,5 +184,36 @@ final GoRouter appRouter = GoRouter(
         },
       ),
     ),
+    GoRoute(
+      path: '/tips',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const PetTips(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/favorites',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const Favorites(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+
   ],
 );
