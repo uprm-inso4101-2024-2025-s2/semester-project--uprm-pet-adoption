@@ -118,10 +118,47 @@ class HomeScreen extends ConsumerWidget {
               width: double.infinity,
               color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.8),
               alignment: Alignment.center,
-              child: const Text(
-                "Footer Placeholder",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+              padding: EdgeInsets.zero,
+              child: 
+              
+              Row(
+                
+                children: [
+
+                  IconButton(onPressed: (){context.go('/');},
+                   icon: Image.asset("assets/images/house_button_home.png",width:35,height:35),
+                   padding: EdgeInsets.only(left:20 ),
+                   constraints: BoxConstraints(),
+                   ),
+                  SizedBox(width:40),
+
+                  IconButton(onPressed: (){context.go('/chat');}, 
+                  icon: Image.asset("assets/images/messages_botton_home.png",width:35,height:35),
+                   padding: EdgeInsets.only(left: 10),
+                   constraints: BoxConstraints(),                
+                  ),
+                  SizedBox(width:40),
+                  
+                  IconButton(onPressed: (){}, 
+                  icon: Image.asset("assets/images/plus_button_home.png",width:35,height:35),
+                    padding: EdgeInsets.zero,
+                   constraints: BoxConstraints(),),
+
+                  SizedBox(width:40),
+
+                  IconButton(onPressed: (){context.go('/');}, 
+                  icon: Image.asset("assets/images/Map_pin_home.png",width:35,height:35),
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),),
+
+                  SizedBox(width:40),
+                  IconButton(onPressed: (){context.go('/');}, 
+                  icon: Image.asset("assets/images/person_button_home.png",width:45,height:45),
+                   padding: EdgeInsets.zero,
+                   constraints: BoxConstraints(),
+                  ),
+                ],)
+              
             ),
           ],
         ),
