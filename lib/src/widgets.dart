@@ -27,7 +27,7 @@ class BottomNavBar extends StatelessWidget {
           _buildNavItem(context, Icons.home, 0, "/"),
           _buildNavItem(context, Icons.chat_bubble_outline, 1, "/chat"),
           _buildNavItem(context, Icons.add_circle_outline, 2, "/"),
-          _buildNavItem(context, Icons.place, 3, "/location"),
+          _buildNavItem(context, Icons.place, 3, "/map"),
           _buildNavItem(context, Icons.person, 4, "/profile"),
         ],
       ),
