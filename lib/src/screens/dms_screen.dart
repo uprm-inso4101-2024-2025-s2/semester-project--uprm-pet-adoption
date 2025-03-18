@@ -106,45 +106,48 @@ class _ChatInputBarState extends State<ChatInputBar> {
       return SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (_showImage)
-              Container(
-                alignment: Alignment.topRight,
-                width: 550,
-                height: 105,
-                margin: const EdgeInsets.only(top: 16, bottom: 16, left: 125),
-                decoration: BoxDecoration(
-                  color: Colors.yellow[200],
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  
-                  children: [
-                    Row(
-                      //buttons to open camera 
-                      children: [
-                        IconButton(onPressed: (){_openCamera();}, icon: Image.asset("images/Camera_button_dms.png",height: 40,width: 40,),padding: EdgeInsets.zero), // or replace with Image.asset(...)
-                        SizedBox(width: 8),
-                        IconButton(onPressed: (){_openCamera();},icon:Text("Camera",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16))),
-                      ],
-                    ),
-
-                    //buttons to open gallery
-                    SizedBox(height: 1),
-                    Row(
-                      children: [
-                        IconButton(onPressed: (){_openGallery();}, icon: Image.asset("images/Documents_button_dms.png",height: 35,width: 35,),padding: EdgeInsets.zero), // or replace with Image.asset(...)
-                        SizedBox(width: 8),
-                        IconButton(onPressed: (){_openGallery();},icon:Text("Documents",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15))),
-                      ],
-                    ),
-                      
+              
+                Container(
+                  alignment: Alignment.topLeft,
+                  width: 200,
+                  height: 105,
+                  margin: const EdgeInsets.only(top: 16, bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.yellow[200],
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     
-                  ],
+                    children: [
+                      Row(
+                        //buttons to open camera 
+                        children: [
+                          IconButton(onPressed: (){_openCamera();}, icon: Image.asset("images/Camera_button_dms.png",height: 40,width: 40,),padding: EdgeInsets.zero), // or replace with Image.asset(...)
+                          SizedBox(width: 8),
+                          IconButton(onPressed: (){_openCamera();},icon:Text("Camera",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16))),
+                        ],
+                      ),
+
+                      //buttons to open gallery
+                      SizedBox(height: 1),
+                      Row(
+                        children: [
+                          IconButton(onPressed: (){_openGallery();}, icon: Image.asset("images/Documents_button_dms.png",height: 35,width: 35,),padding: EdgeInsets.zero), // or replace with Image.asset(...)
+                          SizedBox(width: 8),
+                          IconButton(onPressed: (){_openGallery();},icon:Text("Documents",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15))),
+                        ],
+                      ),
+                        
+                      
+                    ],
+                  ),
                 ),
-              ),
+                
 
   // Chat input field
   Container(
@@ -203,7 +206,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                   ),
                   fillColor: const Color.fromARGB(255, 207, 207, 207),
                   filled: true,
-                  suffixIcon: IconButton(
+                  prefixIcon: IconButton(
                     icon: Image.asset(
                       'images/plus_circle_icon.png',
                       height: 35,
