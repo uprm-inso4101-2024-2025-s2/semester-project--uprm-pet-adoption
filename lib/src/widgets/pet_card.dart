@@ -87,7 +87,8 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
   void _onHorizontalDragUpdate(DragUpdateDetails details) {
     setState(() {
       _dragOffset += details.delta;
-      _opacity = 1.0 - (_dragOffset.dx.abs() / 200);
+
+      _opacity = (1.0 - (_dragOffset.dx.abs() / 200)).clamp(0.0, 1.0);
     });
   }
 
@@ -100,8 +101,10 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
     setState(() {
       _dragOffset = Offset.zero;
       _opacity = 1.0;
+      
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -243,4 +246,6 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
       ),
     );
   }
+
+
 }
