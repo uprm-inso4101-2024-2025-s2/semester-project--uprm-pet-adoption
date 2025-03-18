@@ -149,79 +149,86 @@ class _ChatInputBarState extends State<ChatInputBar> {
                 ),
                 
 
-  // Chat input field
-  Container(
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (_selectedImage != null)
-          Stack(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
-                    image: FileImage(File(_selectedImage!.path)),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedImage = null;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      shape: BoxShape.circle,
+            // Chat input field
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (_selectedImage != null)
+                    Stack(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: FileImage(File(_selectedImage!.path)),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedImage = null;
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black54,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.close, color: Colors.white, size: 20),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: const Icon(Icons.close, color: Colors.white, size: 20),
+                    
+                  // + circle button 
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _fileNameController,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                            hintText: "Send a message...",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                            fillColor: const Color.fromARGB(255, 207, 207, 207),
+                            filled: true,
+                            prefixIcon: IconButton(
+                              icon: Image.asset(
+                                'images/plus_circle_icon.png',
+                                height: 35,
+                                width: 35,
+                              ),
+                              onPressed: _toggleImage,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: (){
+                                //Send a message
+                                final message = _fileNameController.text.trim();
+                                print("Sending: $message");
+                                _fileNameController.clear();
+                              }, icon: const Icon(Icons.send)),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-          
-        // + circle button 
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _fileNameController,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                  hintText: "Send a message...",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                  fillColor: const Color.fromARGB(255, 207, 207, 207),
-                  filled: true,
-                  prefixIcon: IconButton(
-                    icon: Image.asset(
-                      'images/plus_circle_icon.png',
-                      height: 35,
-                      width: 35,
-                    ),
-                    onPressed: _toggleImage,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  )
+            )
           ],
         ),
       );
