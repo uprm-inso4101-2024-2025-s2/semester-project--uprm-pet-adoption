@@ -5,6 +5,7 @@ import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_card.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets/home_top_bar.dart';
+import 'package:semester_project__uprm_pet_adoption/src/widgets/home_top_bar.dart';
 
 //This file contains the Home Screen class. Everything that shows up in the home screen is managed here.
 class PetStackNotifier extends StateNotifier<List<PetCard>> {
