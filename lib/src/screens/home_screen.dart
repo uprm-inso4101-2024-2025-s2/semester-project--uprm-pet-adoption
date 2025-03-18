@@ -13,7 +13,8 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: Container(
+      body: SafeArea(
+        child: Container(
         // Background
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -24,7 +25,6 @@ class HomeScreen extends ConsumerWidget {
 
         // Main layout: Column with header, middle content, and footer
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Header
             Container(
@@ -38,12 +38,10 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
 
-            // Middle content
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // "Suggested Pet" placeholder
-                Container(
+            // Middle content centered in remaining space
+            Expanded(
+              child: Center(
+                child: Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   padding: const EdgeInsets.all(10),
@@ -53,16 +51,9 @@ class HomeScreen extends ConsumerWidget {
                     children: [
                       const Text(
                         "Suggested Pet Placeholder",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 15),
-                      /// **Displays a pet card with swipe-based interaction**
-                      ///
-                      /// - Swiping **right** triggers `onAccept` (Pet is accepted).
-                      /// - Swiping **left** triggers `onReject` (Pet is rejected).
-                      /// - Clicking the heart icon toggles the **favorite status**.
-                      /// - The card includes an **image carousel** for browsing pet pictures.
                       PetCard(
                         petName: "Ronnie",
                         petBreed: "Labrador",
@@ -71,7 +62,8 @@ class HomeScreen extends ConsumerWidget {
                           "assets/images/temp_dog_img.jpg",
                           "assets/images/temp_dog_img2.jpg",
                         ],
-                        petDescription: "My name is Ronnie and I am looking for a loving home!",
+                        petDescription:
+                            "My name is Ronnie and I am looking for a loving home!",
                         petTags: ["Labrador", "Puppy"],
                         isFavorite: false,
                         onFavoriteToggle: () {
@@ -87,45 +79,34 @@ class HomeScreen extends ConsumerWidget {
                           print("Pet Rejected!");
                         },
                       ),
-
                       const SizedBox(height: 30),
-
-                // "Find Pawfect Match" button - navigates to match_making_screen.dart
-                TextButton(
-                  onPressed: () => context.go('/matchmaking'),
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    backgroundColor: Colors.transparent,
-                  ),
-                  child: Image.asset(
-                    'assets/images/Find_Pawfect_Match_button.png',
-                    width: 300, // Increase or decrease as needed
-                    height: 120, // Increase or decrease as needed
-                    fit: BoxFit.contain,
-                  ),
-                ),
-
-                const SizedBox(height: 20),
+                      TextButton(
+                        onPressed: () => context.go('/matchmaking'),
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          backgroundColor: Colors.transparent,
+                        ),
+                        child: Image.asset(
+                          'assets/images/Find_Pawfect_Match_button.png',
+                          width: 300,
+                          height: 120,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
-              ],
-            ),
-
-            // Footer
-            Container(
-              height: 60,
-              width: double.infinity,
-              color: Colors.white.withOpacity(0.8),
-              alignment: Alignment.center,
-              child: const Text(
-                "Footer Placeholder",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
           ],
         ),
+            
+
+        ),
       ),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
+
     );
   }
 }
