@@ -12,8 +12,10 @@ import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.
 import '../screens/gettoknow_screen.dart';
 import '../screens/match_making_screen.dart';
 import '../screens/pet_tips_screen.dart';
-import '../screens/favorites_screen.dart';import '../screens/user_profile_screen.dart';
+import '../screens/favorites_screen.dart';
+import '../screens/user_profile_screen.dart';
 import '../screens/map_screen.dart';
+import '../screens/search_screen.dart';
 //This file contains the routes for all screens. It also manages transitions between screens.
 
 final GoRouter appRouter = GoRouter(
@@ -234,6 +236,21 @@ final GoRouter appRouter = GoRouter(
       path: '/favorites',
       pageBuilder: (context, state) => CustomTransitionPage(
         child: const Favorites(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/search',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const Search(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
