@@ -12,7 +12,8 @@ import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.
 import '../screens/gettoknow_screen.dart';
 import '../screens/match_making_screen.dart';
 import '../screens/pet_tips_screen.dart';
-import '../screens/favorites_screen.dart';
+import '../screens/favorites_screen.dart';import '../screens/user_profile_screen.dart';
+import '../screens/map_screen.dart';
 //This file contains the routes for all screens. It also manages transitions between screens.
 
 final GoRouter appRouter = GoRouter(
@@ -173,6 +174,36 @@ final GoRouter appRouter = GoRouter(
       path: '/matchmaking',
       pageBuilder: (context, state) => CustomTransitionPage(
         child: const MatchMakingScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/profile',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const Profile(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/map',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const Maps(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
