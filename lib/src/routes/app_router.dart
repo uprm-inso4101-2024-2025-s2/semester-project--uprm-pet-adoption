@@ -32,7 +32,7 @@ final GoRouter appRouter = GoRouter(
       path: '/',
       //Page with custom transition functionality. This is part of the Go Router library.
       pageBuilder: (context, state) => CustomTransitionPage(
-        child: const HomeScreen(),
+        child:  HomeScreen(),
         //In Flutter's GoRouter, the transitionsBuilder function controls how a new screen
         // appears and how the current screen disappears during navigation.
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
