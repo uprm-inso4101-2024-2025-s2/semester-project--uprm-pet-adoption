@@ -8,9 +8,9 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     // backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Messages", selectionColor: Colors.black), 
+        title: const Text("Messages", selectionColor: Colors.black),
         //foregroundColor: Color(0xFFFFF581),
         backgroundColor: Color(0xFFFFF581),
       ),
@@ -23,7 +23,10 @@ class ChatScreen extends StatelessWidget {
               "Chats",
               textAlign: TextAlign.start,
               textDirection: TextDirection.ltr,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900,color: Colors.black),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black),
             ),
             //const SizedBox(height: 30,width: 60), // Spacing between text and button
             Container(
@@ -36,15 +39,15 @@ class ChatScreen extends StatelessWidget {
               ),
               child: TextButton.icon(
                 onPressed: () {
-                context.go('/dms'); // Navigate to Messages screen
-                }, 
+                  context.go('/dms'); // Navigate to Messages screen
+                },
                 label: Text(
                   "message",
-                  style:  TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Archivo',
-                      color: Colors.black,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Archivo',
+                    color: Colors.black,
                   ),
                 ),
                 icon: CircleAvatar(
@@ -57,10 +60,9 @@ class ChatScreen extends StatelessWidget {
                   )*/
                 ),
                 iconAlignment: IconAlignment.start,
-                
               ),
-          ),
-          Container(
+            ),
+            Container(
               width: MediaQuery.of(context).size.width * 0.95,
               padding: const EdgeInsets.all(30),
               decoration: BoxDecoration(
@@ -70,15 +72,15 @@ class ChatScreen extends StatelessWidget {
               ),
               child: TextButton.icon(
                 onPressed: () {
-                context.go('/dms'); // Navigate to Messages screen
-                }, 
+                  context.go('/dms'); // Navigate to Messages screen
+                },
                 label: Text(
                   "message",
-                  style:  TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Archivo',
-                      color: Colors.black,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Archivo',
+                    color: Colors.black,
                   ),
                 ),
                 icon: CircleAvatar(
@@ -91,10 +93,9 @@ class ChatScreen extends StatelessWidget {
                   )*/
                 ),
                 iconAlignment: IconAlignment.start,
-                
               ),
-          ),
-          Container(
+            ),
+            Container(
               width: MediaQuery.of(context).size.width * 0.95,
               padding: const EdgeInsets.all(30),
               decoration: BoxDecoration(
@@ -104,15 +105,15 @@ class ChatScreen extends StatelessWidget {
               ),
               child: TextButton.icon(
                 onPressed: () {
-                context.go('/dms'); // Navigate to Messages screen
-                }, 
+                  context.go('/dms'); // Navigate to Messages screen
+                },
                 label: Text(
                   "message",
-                  style:  TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Archivo',
-                      color: Colors.black,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Archivo',
+                    color: Colors.black,
                   ),
                 ),
                 icon: CircleAvatar(
@@ -125,10 +126,9 @@ class ChatScreen extends StatelessWidget {
                   )*/
                 ),
                 iconAlignment: IconAlignment.start,
-                
               ),
-          ),
-          Container(
+            ),
+            Container(
               width: MediaQuery.of(context).size.width * 0.95,
               padding: const EdgeInsets.all(30),
               decoration: BoxDecoration(
@@ -138,15 +138,15 @@ class ChatScreen extends StatelessWidget {
               ),
               child: TextButton.icon(
                 onPressed: () {
-                context.go('/dms'); // Navigate to Messages screen
-                }, 
+                  context.go('/dms'); // Navigate to Messages screen
+                },
                 label: Text(
                   "message",
-                  style:  TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Archivo',
-                      color: Colors.black,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Archivo',
+                    color: Colors.black,
                   ),
                 ),
                 icon: CircleAvatar(
@@ -159,10 +159,9 @@ class ChatScreen extends StatelessWidget {
                   )*/
                 ),
                 iconAlignment: IconAlignment.start,
-                
               ),
-          ),
-          Container(
+            ),
+            Container(
               width: MediaQuery.of(context).size.width * 0.95,
               padding: const EdgeInsets.all(30),
               decoration: BoxDecoration(
@@ -172,15 +171,15 @@ class ChatScreen extends StatelessWidget {
               ),
               child: TextButton.icon(
                 onPressed: () {
-                context.go('/dms'); // Navigate to Messages screen
-                }, 
+                  context.go('/dms'); // Navigate to Messages screen
+                },
                 label: Text(
                   "message",
-                  style:  TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Archivo',
-                      color: Colors.black,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Archivo',
+                    color: Colors.black,
                   ),
                 ),
                 icon: CircleAvatar(
@@ -193,14 +192,12 @@ class ChatScreen extends StatelessWidget {
                   )*/
                 ),
                 iconAlignment: IconAlignment.start,
-                
               ),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
-    ),
-    bottomNavigationBar: const BottomNavBar(
-      selectedIndex: 0),
-  );
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 1),
+    );
   }
 }
