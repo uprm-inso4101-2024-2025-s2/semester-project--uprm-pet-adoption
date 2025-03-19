@@ -106,8 +106,10 @@ class DMScreen extends StatelessWidget {
               nip: BubbleNip.leftTop,
               color: const Color(0xFF82B0FF),
               child: const Text(
-                  'Great!',
-                  maxLines: 10,
+                  'This message is reallly long!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+                  maxLines: 7,
+                  overflow: TextOverflow.clip,
+
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w100,
