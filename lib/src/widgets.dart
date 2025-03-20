@@ -7,6 +7,10 @@ import 'package:go_router/go_router.dart';
 /// - Highlights the active tab with a yellow color.
 ///
 /// Used in: Home, Match, and Profile Screens.
+
+
+
+
 class BottomNavBar extends StatelessWidget {
   /// The current index of the selected tab.
   final int selectedIndex;
