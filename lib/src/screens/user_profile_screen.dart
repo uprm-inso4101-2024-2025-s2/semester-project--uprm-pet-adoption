@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:semester_project__uprm_pet_adoption/src/widgets/profile_header.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -12,27 +11,33 @@ class Profile extends StatelessWidget {
         preferredSize: const Size.fromHeight(56.0),
         child: AppBar(
           backgroundColor: Color(0xFFFFF581), // Updated background color
-          title: const Text(
-            'Profile',
-            style: TextStyle(
-              fontFamily: 'Archivo',
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
+          title: Align(
+            alignment: Alignment.centerLeft, // Align title to the left
+            child: const Text(
+              'Profile',
+              style: TextStyle(
+                fontFamily: 'Archivo',
+                fontSize: 35,
+              ),
             ),
           ),
+          titleSpacing: 0, // Reduce spacing to move the title more to the left
           leading: IconButton(
             icon: Image.asset('assets/images/Arrow_Circle_dms.png',
-                width: 30, height: 30), // Fixed missing height
+                width: 30, height: 30),
             onPressed: () {
-              context.go('/home');
+              context.go('/');
             },
           ),
           actions: [
             IconButton(
-              icon: Image.asset('assets/images/filters.png',
-                  width: 60, height: 60), // Notification as image
+              icon: SizedBox(
+                width: 50,
+                height: 30,
+                child: Image.asset('assets/images/filters.png'),
+              ),
               onPressed: () {
-                context.go('/notifications');
+                context.go('/filters');
               },
             ),
           ],
@@ -44,12 +49,6 @@ class Profile extends StatelessWidget {
           children: [
             const Text('User Profile'),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                context.go('/');
-              },
-              child: const Text('Return to Home'),
-            ),
           ],
         ),
       ),
