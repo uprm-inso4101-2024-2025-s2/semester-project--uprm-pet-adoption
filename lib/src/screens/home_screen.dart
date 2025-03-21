@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -159,9 +161,6 @@ class HomeScreen extends ConsumerWidget {
         // Main layout: Column with header, middle content, and footer
         child: Column(
           children: [
-
-
-
             // Middle content centered in remaining space
             Expanded(
               child: Center(
@@ -169,14 +168,10 @@ class HomeScreen extends ConsumerWidget {
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   padding: const EdgeInsets.all(10),
-                  color: Colors.orangeAccent.withOpacity(0.4),
+                  // color: Colors.white.withOpacity(0.4),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        "Suggested for you",
-                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                      ),
                       const SizedBox(height: 15),
                       // AnimatedSwitcher to switch between cards
                       AnimatedSwitcher(
