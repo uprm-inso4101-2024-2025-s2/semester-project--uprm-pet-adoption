@@ -124,6 +124,14 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  Text(
+                    'Suggested for you',
+                    style:
+                    TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
                   Stack(
                     children: [
                       // Image Slider
