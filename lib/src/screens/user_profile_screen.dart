@@ -1,29 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-//This file contains the User profile class. Everything that shows up in the User Profile is managed here.
+import 'package:semester_project__uprm_pet_adoption/src/widgets/profile_header.dart';
 
 class Profile extends StatelessWidget {
-  //Used Stateless widget since it is not required to change over tine.
-  const Profile(
-      {super.key}); //This is the class constructor. Calling this, allow access to the menu's properties
+  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //AppBar is a prebuilt widget in Flutter
-      appBar: AppBar(title: const Text('User Profile Screen')),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56.0),
+        child: AppBar(
+          backgroundColor: Color(0xFFFFF581), // Updated background color
+          title: const Text(
+            'Profile',
+            style: TextStyle(
+              fontFamily: 'Archivo',
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          leading: IconButton(
+            icon: Image.asset('assets/images/Arrow_Circle_dms.png',
+                width: 30, height: 30), // Fixed missing height
+            onPressed: () {
+              context.go('/home');
+            },
+          ),
+          actions: [
+            IconButton(
+              icon: Image.asset('assets/images/filters.png',
+                  width: 60, height: 60), // Notification as image
+              onPressed: () {
+                context.go('/notifications');
+              },
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('User Profile'),
             const SizedBox(height: 20),
-            //An elevated button is a label child displayed on a Material widget
-            // whose Material.elevation increases when the button is pressed
             ElevatedButton(
               onPressed: () {
-                context.go('/'); // Navigate back to Home
+                context.go('/');
               },
               child: const Text('Return to Home'),
             ),
