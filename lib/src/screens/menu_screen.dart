@@ -49,6 +49,7 @@ class MenuScreen extends Drawer {
                       IconButton(
                           onPressed: () {
                             //***button goes here Navigator.pop(context);***
+                            Navigator.pop(context);
                           },
                           icon: const Icon(Icons.menu))
                     ],
