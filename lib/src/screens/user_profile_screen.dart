@@ -29,18 +29,6 @@ class Profile extends StatelessWidget {
               context.go('/');
             },
           ),
-          actions: [
-            IconButton(
-              icon: SizedBox(
-                width: 50,
-                height: 30,
-                child: Image.asset('assets/images/filters.png'),
-              ),
-              onPressed: () {
-                context.go('/filters');
-              },
-            ),
-          ],
         ),
       ),
       body: Center(
