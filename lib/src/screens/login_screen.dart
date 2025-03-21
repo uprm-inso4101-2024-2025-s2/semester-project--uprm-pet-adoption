@@ -200,7 +200,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
               ),
               // Login form container
               Container(
-                height: 350,
+                height: 375,
                 width: MediaQuery.of(context).size.width * 0.8,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -268,6 +268,18 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                         fontFamily: 'Archivo',
                         color: Colors.black,
                       ),
+                    ),
+                    const SizedBox(height: 15),
+                    // "Forgot Password?" text button
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                    onPressed: () {
+                    // Navigate to the Forgot Password screen
+                    context.go('/forgot_password');
+                    },
+                    child: const Text('Forgot Password?'),
+                    ),
                     ),
                     const SizedBox(height: 15),
                     // Login button
