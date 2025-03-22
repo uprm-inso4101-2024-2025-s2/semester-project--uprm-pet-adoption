@@ -1,0 +1,21 @@
+{
+    "version": "2.0",
+    "projectName": "UPRM Pet Adoption",
+    "managers": ["Kay9876", "jahsyelrojas"],
+    "milestones": {
+      "Milestone #1": {
+        "startDate": "2025-01-27",
+        "endDate": "2025-02-21",
+        "projectedGroupGrade": 100.0
+      },
+      "Milestone #2": {
+          "startDate": "2025-02-24",
+          "endDate": "2025-03-21",
+          "projectedGroupGrade": 100.0
+      }
+    },
+    "lectureTopicTaskQuota": 4,
+    "countOpenIssues": false,
+    "sprints": 2,
+    "minTasksPerSprint": 1
+  }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 
 class LogInScreen extends ConsumerStatefulWidget {
@@ -52,7 +53,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
     }
 
     // Function to handle login
-    void handleLogin() {
+    void handleLogin() async{
       String email = usernameController.text.trim();
       String password = passwordController.text.trim();
 
@@ -164,18 +165,18 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
 
       // Directly set isLoggedIn to true                       Note: This is temprorary, as proper validation to set this to true
       //                                                             will be done once the data base is set up.
-      ref.read(authProvider.notifier).state = true;
-
-      // Navigate to home screen
+      ref.read(authProvider.notifier).state= await AuthService().signin(
+        email: email,
+        password: password,
+        );
       context.go('/');
-      
     }
 
     return Container(
       decoration: const BoxDecoration(
         // Setting background image
         image: DecorationImage(
-          image: AssetImage('images/Login_SignUp_Background.png'),
+          image: AssetImage('assets/images/Login_SignUp_Background.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -200,7 +201,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
               ),
               // Login form container
               Container(
-                height: 350,
+                height: 375,
                 width: MediaQuery.of(context).size.width * 0.8,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -268,6 +269,18 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                         fontFamily: 'Archivo',
                         color: Colors.black,
                       ),
+                    ),
+                    const SizedBox(height: 15),
+                    // "Forgot Password?" text button
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                    onPressed: () {
+                    // Navigate to the Forgot Password screen
+                    context.go('/forgot_password');
+                    },
+                    child: const Text('Forgot Password?'),
+                    ),
                     ),
                     const SizedBox(height: 15),
                     // Login button
