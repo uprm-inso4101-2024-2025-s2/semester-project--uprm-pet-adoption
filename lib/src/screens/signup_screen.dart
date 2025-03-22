@@ -208,7 +208,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 if (_formKey.currentState!.validate()) {
                                   AuthService().signup(
                                     email: emailController.text, 
-                                    password: passwordController.text
+                                    password: passwordController.text, firstName: '', lastName: '', phoneNumber: ''
+                                    
+
                                     );
                                   //Create user with signup inputs
                                   User user = User(
