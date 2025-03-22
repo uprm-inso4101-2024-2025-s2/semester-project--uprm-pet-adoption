@@ -4,15 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart'; // Import for navigation
 
+// Main Screen
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Messages", selectionColor: Colors.black), 
-        backgroundColor: Color(0xFFFFF581),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80), // height for Appbar
+        child: const ChatHeader(), // use the custom ChatHeader widget
       ),
       body: Center(
         child: Column(
@@ -369,9 +370,42 @@ class ChatScreen extends StatelessWidget {
           ),
         ],
       ),
-    ),
-    bottomNavigationBar: const BottomNavBar(
-      selectedIndex: 0),
-  );
+    );
   }
+}
+
+// Add User Popup - Allows adding a new user by entering a username
+void _showAddUserDialog(BuildContext context) {
+  TextEditingController usernameController =
+      TextEditingController(); // Controller for input field
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Add User to Chat"),
+        content: TextField(
+          controller: usernameController, // Captures user input
+          decoration: const InputDecoration(hintText: "Enter username"),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context), // Close popup
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              String username = usernameController.text.trim(); // Get input
+              if (username.isNotEmpty) {
+                print(
+                    "User added: $username"); // Placeholder for future functionality
+                Navigator.pop(context); // Close popup
+              }
+            },
+            child: const Text("Add"),
+          ),
+        ],
+      );
+    },
+  );
 }

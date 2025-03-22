@@ -1,3 +1,4 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cmake.sourceDirectory": "C:/Users/Daniella Melero/OneDrive/Desktop/Projectfolder/semester-project--uprm-pet-adoption/linux"
 }
