@@ -16,7 +16,11 @@ import '../screens/favorites_screen.dart';
 import '../screens/user_profile_screen.dart';
 import '../screens/map_screen.dart';
 import '../screens/search_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_verification_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
 import '../screens/settings_screen.dart';
+
 
 //This file contains the routes for all screens. It also manages transitions between screens.
 
@@ -107,6 +111,58 @@ final GoRouter appRouter = GoRouter(
         },
       ),
     ),
+
+// Route for forgot password screen 
+GoRoute(
+  path: '/forgot_password',
+  pageBuilder: (context, state) => CustomTransitionPage(
+    child: const ForgotPasswordScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  ),
+),
+
+// Route for forgot password verification screen
+GoRoute(
+  path: '/forgot_password_verification',
+  pageBuilder: (context, state) => CustomTransitionPage(
+    child: const ForgotPasswordVerificationScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  ),
+),
+
+// Route for forgot password change screen
+GoRoute(
+  path: '/forgot_password_change',
+  pageBuilder: (context, state) => CustomTransitionPage(
+    child: const ForgotPasswordChangeScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  ),
+),
+
 
     //Route for menu screen
     GoRoute(
