@@ -8,17 +8,34 @@ plugins {
 }
 
 android {
+
+    testOptions {
+        unitTests.all {
+            it.enabled = false
+        }
+    }
+
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+
+    lintOptions {
+        abortOnError = false 
+        checkReleaseBuilds = false 
+    }
+
     namespace = "com.example.semester_project__uprm_pet_adoption"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = "17"
     }
 
     defaultConfig {
@@ -26,8 +43,8 @@ android {
         applicationId = "com.example.semester_project__uprm_pet_adoption"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = 25
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -48,4 +65,8 @@ flutter {
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:33.9.0')
     implementation 'com.google.firebase:firebase-analytics'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
 }
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.android.application'

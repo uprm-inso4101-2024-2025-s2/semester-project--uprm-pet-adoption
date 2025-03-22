@@ -1,0 +1,2 @@
+C:/Users/aleja/Desktop/Need Org/PetApp_INSO4101/semester-project--uprm-pet-adoption/android/app/.cxx/Debug/4n5se1b6/x86/CMakeFiles/edit_cache.dir
+C:/Users/aleja/Desktop/Need Org/PetApp_INSO4101/semester-project--uprm-pet-adoption/android/app/.cxx/Debug/4n5se1b6/x86/CMakeFiles/rebuild_cache.dir

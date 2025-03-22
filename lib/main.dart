@@ -3,17 +3,27 @@ import 'package:device_preview/device_preview.dart';
 import 'package:semester_project__uprm_pet_adoption/src/routes/app_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-void main() {
+import 'package:semester_project__uprm_pet_adoption/src/services/firebase_cloud_messaging.dart';
 
-  Firebase.initializeApp();
+void main() async {
 
-  runApp(
-    DevicePreview(
-      enabled: true, // Set to false in production
-      builder: (context) => ProviderScope(child: MyApp()),
-    ),
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await MessagingNotifications.instance.initialize();
+
+  // runApp(
+  //   DevicePreview(
+  //     enabled: true, // Set to false in production
+  //     builder: (context) => ProviderScope(child: MyApp()),
+  //   ),
+  // );
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
