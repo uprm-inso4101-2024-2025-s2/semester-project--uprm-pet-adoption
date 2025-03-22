@@ -1,6 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart'; 
+import 'package:go_router/go_router.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart'; // Import for navigation
 
 class Search extends StatelessWidget {
@@ -20,15 +20,38 @@ class Search extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // App Bar
+            // App Bar with Back functionality
             AppBar(
               backgroundColor: appBarColor,
               elevation: 0,
               centerTitle: false,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => context.pop(),
+              leading: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(255, 245, 121, 1.0),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 2.0,
+                    ),
+                  ),
+                  child: Center(
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 18,
+                        color: Colors.black,
+                      ),
+                      padding: EdgeInsets.zero,
+                      onPressed: () => context.go('/'), //  sends user to Home
+                    ),
+                  ),
+                ),
               ),
+
               title: const Text(
                 'Search',
                 style: TextStyle(
@@ -71,7 +94,7 @@ class Search extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // Tags 
+            // Tags
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
@@ -207,20 +230,10 @@ class Search extends StatelessWidget {
             ),
 
             const Spacer(),
-
-            // // Return Button
-            // Padding(
-            //   padding: const EdgeInsets.only(bottom: 24.0),
-            //   child: ElevatedButton(
-            //     onPressed: () => context.go('/'),
-            //     child: const Text('Return to Home'),
-            //   ),
-            // ),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(
-      selectedIndex: 0),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
     );
   }
 }
