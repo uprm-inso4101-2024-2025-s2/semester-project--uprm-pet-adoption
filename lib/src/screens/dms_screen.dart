@@ -7,7 +7,6 @@ import 'package:bubble/bubble.dart'; //import flutter bubble widget
 
 // Import for navigation
 
-
 class DMScreen extends StatelessWidget {
 
   const DMScreen({super.key});
@@ -24,6 +23,119 @@ class DMScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Bubble(
+                margin: const BubbleEdges.only(top: 10),
+                alignment: Alignment.topRight,
+                nipWidth: 8,
+                nipHeight: 24,
+                nip: BubbleNip.rightTop,
+                color: const Color(0xFF82B0FF),
+                child: const Text(
+                  'Hello, I would like to adopt',
+                  textAlign: TextAlign.right, 
+                  maxLines: 5,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w100,
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 90,
+                child: Text(
+                  "11:59 pm",
+                  textWidthBasis: TextWidthBasis.longestLine,
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.ltr,
+                ),
+              ),
+              Bubble(
+                margin: const BubbleEdges.only(top: 10),
+                alignment: Alignment.topLeft,
+                nipWidth: 8,
+                nipHeight: 24,
+                nip: BubbleNip.leftTop,
+                color: Colors.white,
+                child: const Text(
+                  'Sure!!!',
+                  maxLines: 5,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w100,
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 85,
+                child: Text(
+                  "12:01 am",
+                  textWidthBasis: TextWidthBasis.longestLine,
+                  textAlign: TextAlign.left,
+                  textDirection: TextDirection.ltr,
+                ),
+              ),
+              Bubble(
+                margin: const BubbleEdges.only(top: 10),
+                alignment: Alignment.topRight,
+                nipWidth: 8,
+                nipHeight: 24,
+                nip: BubbleNip.rightTop,
+                color: Color(0xFF82B0FF),
+                child: const Text(
+                  'I want a pug',
+                  textAlign: TextAlign.right, 
+                  maxLines: 5, //Character limit set to 5 lines of message
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w100,
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                        height: 45,
+                        child: Text(
+                          "12:05 am",
+                          textWidthBasis: TextWidthBasis.longestLine,
+                          textAlign: TextAlign.right,
+                          textDirection: TextDirection.ltr,
+                        ),
+                      ),
+              Bubble(
+                        //padding: BubbleEdges.all(2),
+                        margin: const BubbleEdges.only(top: 10),
+                        alignment: Alignment.topLeft,
+                        nipWidth: 6,
+                        nipHeight: 24,
+                        nip: BubbleNip.leftTop,
+                        color: Colors.white,
+                        child: const Text(
+                            'This message is reallly long!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+                            maxLines: 5,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w100,
+                              fontFamily: 'Archivo',
+                            ),
+                          ),
+                      ),
+              const SizedBox(
+                        //height:0,
+                        child: Text(
+                          "12:10 am",
+                          textWidthBasis: TextWidthBasis.longestLine,
+                          textAlign: TextAlign.left,
+                          textDirection: TextDirection.ltr,
+                        ),
+                      ),
+            ],
+          )
         ),
 
       //TOP BAR 
@@ -101,17 +213,15 @@ class DMScreen extends StatelessWidget {
 
 
 
-
       //keyboard implementation
       floatingActionButton: Align(
         alignment: Alignment.bottomLeft,
         child: Padding(
             padding:const EdgeInsets.only(left:40.0),
             child: ChatInputBar(),
-        )
+        ),
       ),
-      );
-  
+    );
   }
 
 }
@@ -204,7 +314,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                         //buttons to open camera 
                         children: [
                           IconButton(onPressed: (){_openCamera();}, icon: Image.asset("images/Camera_button_dms.png",height: 40,width: 40,),padding: EdgeInsets.zero), // or replace with Image.asset(...)
-                          SizedBox(width: 8),
+                          SizedBox(width: 8.0),
                           IconButton(onPressed: (){_openCamera();},icon:Text("Camera",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16))),
                         ],
                       ),
@@ -308,124 +418,5 @@ class _ChatInputBarState extends State<ChatInputBar> {
           ],
         ),
       );
-    }
-            // Implemented Message Bubble with temporary text
-            Bubble(
-              margin: const BubbleEdges.only(top: 10),
-              alignment: Alignment.topRight,
-              nipWidth: 8,
-              nipHeight: 24,
-              nip: BubbleNip.rightTop,
-              color: const Color(0xFF82B0FF),
-              child: const Text(
-                'Hello, I would like to adopt',
-                textAlign: TextAlign.right, 
-                maxLines: 5,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'Archivo',
-                ),
-              ),
-            ),
-            // Box containing time of message
-            const SizedBox(
-              height: 90,
-              child: Text(
-                "11:59 pm",
-                textWidthBasis: TextWidthBasis.longestLine,
-                textAlign: TextAlign.right,
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-            Bubble(
-              margin: const BubbleEdges.only(top: 10),
-              alignment: Alignment.topLeft,
-              nipWidth: 8,
-              nipHeight: 24,
-              nip: BubbleNip.leftTop,
-              color: Colors.white,
-              child: const Text(
-                'Sure!!!',
-                maxLines: 5,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'Archivo',
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 85,
-              child: Text(
-                "12:01 am",
-                textWidthBasis: TextWidthBasis.longestLine,
-                textAlign: TextAlign.left,
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-            Bubble(
-              margin: const BubbleEdges.only(top: 10),
-              alignment: Alignment.topRight,
-              nipWidth: 8,
-              nipHeight: 24,
-              nip: BubbleNip.rightTop,
-              color: Color(0xFF82B0FF),
-              child: const Text(
-                  'I want a pug',
-                  textAlign: TextAlign.right, 
-                  maxLines: 5, //Character limit set to 5 lines of message
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w100,
-                    fontFamily: 'Archivo',
-                  ),
-                ),
-            ),
-            const SizedBox(
-              height: 45,
-              child: Text(
-                "12:05 am",
-                textWidthBasis: TextWidthBasis.longestLine,
-                textAlign: TextAlign.right,
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-             Bubble(
-              //padding: BubbleEdges.all(2),
-              margin: const BubbleEdges.only(top: 10),
-              alignment: Alignment.topLeft,
-              nipWidth: 6,
-              nipHeight: 24,
-              nip: BubbleNip.leftTop,
-              color: Colors.white,
-              child: const Text(
-                  'This message is reallly long!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
-                  maxLines: 5,
-                  overflow: TextOverflow.clip,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w100,
-                    fontFamily: 'Archivo',
-                  ),
-                ),
-            ),
-            const SizedBox(
-              //height:0,
-              child: Text(
-                "12:10 am",
-                textWidthBasis: TextWidthBasis.longestLine,
-                textAlign: TextAlign.left,
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-          ]
-        )
-      )
-    );
-  }
 }
-
-    
-
-
+}

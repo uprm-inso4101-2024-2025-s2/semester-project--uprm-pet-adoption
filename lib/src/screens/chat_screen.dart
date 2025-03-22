@@ -4,6 +4,23 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart'; // Import for navigation
 
+// Custom ChatHeader widget
+class ChatHeader extends StatelessWidget {
+  const ChatHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: const Text(
+        "Chat",
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      centerTitle: true,
+      backgroundColor: Colors.blue,
+    );
+  }
+}
+
 // Main Screen
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -366,14 +383,14 @@ class ChatScreen extends StatelessWidget {
                       Text("Yesterday", style: TextStyle(fontSize : 15)),
                     ],
                 ),
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      )
     );
   }
 }
-
 // Add User Popup - Allows adding a new user by entering a username
 void _showAddUserDialog(BuildContext context) {
   TextEditingController usernameController =
