@@ -17,7 +17,7 @@ class AuthScreen extends ConsumerWidget {
           const SizedBox(height: 5),
           const SizedBox(
             height: 350,
-            child: Image(image: AssetImage('images/sign_log.png')),
+            child: Image(image: AssetImage('assets/images/sign_log.png')),
           ), // Controls text position
           const Text('Welcome! Select an option to continue.'), // welcome text
           const SizedBox(height: 20),
@@ -36,7 +36,7 @@ class AuthScreen extends ConsumerWidget {
               padding: EdgeInsets.zero,
               backgroundColor: Colors.transparent,
             ),
-            child: const Image(image: AssetImage('images/SignUpbutton.png')),
+            child: const Image(image: AssetImage('assets/images/SignUpbutton.png')),
           ),
 
           const SizedBox(height: 15), // Adjust space between buttons
@@ -50,7 +50,7 @@ class AuthScreen extends ConsumerWidget {
               padding: EdgeInsets.zero,
               backgroundColor: Colors.transparent,
             ),
-            child: const Image(image: AssetImage('images/LogInbutton.png')),
+            child: const Image(image: AssetImage('assets/images/LogInbutton.png')),
           ),
         ],
       ),
