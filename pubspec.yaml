@@ -49,6 +49,10 @@ dependencies:
   firebase_messaging: ^15.2.4
   flutter_local_notifications: ^19.0.0
 
+  #Supabase 
+  supabase_flutter: ^2.8.4
+  file_picker: ^9.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
