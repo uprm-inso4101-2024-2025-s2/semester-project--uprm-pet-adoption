@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,16 +7,42 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService{
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Future<void> signup({
+
     required String email,
-    required String password
+    required String password,
+    required String firstName,
+    required String lastName,
+    required String phoneNumber,
+
   })async {
 
     try{
 
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email, password: password
-        );
+      // Create the user in Firebase Authentication
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Get the user's UID
+      String uid = userCredential.user!.uid;
+
+      await _firestore.collection('users').doc(uid).set({
+        'First_name': firstName,
+        'Last_name': lastName,
+        'Location': '', // Initialize with an empty string
+        'Password': password, // Note: Storing passwords in Firestore is not recommended
+        'Pet': '', // Initialize with an empty string
+        'Pet_picture': '', // Initialize with an empty string
+        'Phone_number': phoneNumber,
+        'Profile_picture': '', // Initialize with an empty string
+        'email': email,
+        'created_at': FieldValue.serverTimestamp(), // Optional: Add a timestamp
+      });
         
     } on FirebaseAuthException catch(e){
       String message = '';
@@ -24,6 +51,7 @@ class AuthService{
       } else if(e.code == 'email-already-in-use'){
         message = 'An account already exists with that email.';
       }
+
       Fluttertoast.showToast(
        msg: message,
        toastLength: Toast.LENGTH_LONG,
@@ -34,7 +62,7 @@ class AuthService{
       );
     }
     catch(e){
-
+      print('Error during signup: $e');
     }
   }
   
@@ -45,10 +73,33 @@ class AuthService{
 
     try{
 
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email, 
-        password: password
-        );
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Get the user's UID
+      String uid = userCredential.user!.uid;
+
+      // Check if the user's document exists in Firestore
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
+
+      if (!userDoc.exists) {
+        // If the document doesn't exist, create it
+        await _firestore.collection('users').doc(uid).set({
+          'First_name': '', // Initialize with an empty string
+          'Last_name': '', // Initialize with an empty string
+          'Location': '', // Initialize with an empty string
+          'Password': password, // Note: Storing passwords in Firestore is not recommended
+          'Pet': '', // Initialize with an empty string
+          'Pet_picture': '', // Initialize with an empty string
+          'Phone_number': '', // Initialize with an empty string
+          'Profile_picture': '', // Initialize with an empty string
+          'email': email,
+          'created_at': FieldValue.serverTimestamp(), // Optional: Add a timestamp
+        });
+      }
+
       return true;
 
     } on FirebaseAuthException catch(e){
