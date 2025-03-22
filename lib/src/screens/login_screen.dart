@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 
 class LogInScreen extends ConsumerStatefulWidget {
@@ -21,6 +22,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
     // Initializing controllers for username and password input fields
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+    AnalyticsService().logScreenView("login_screen");
   }
 
   @override
