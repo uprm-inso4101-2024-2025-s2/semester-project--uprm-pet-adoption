@@ -49,7 +49,7 @@ class PetDetails extends StatefulWidget {
   final VoidCallback onAdopt;
 
   const PetDetails({
-    Key? key,
+    super.key,
     required this.petName,
     required this.petBreed,
     required this.petLocation,
@@ -62,7 +62,7 @@ class PetDetails extends StatefulWidget {
     required this.isFavorite,
     required this.onFavoriteToggle,
     required this.onAdopt,
-  }) : super(key: key);
+  });
 
   @override
   _PetDetailsState createState() => _PetDetailsState();

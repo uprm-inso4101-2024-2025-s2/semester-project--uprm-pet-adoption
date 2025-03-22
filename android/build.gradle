@@ -8,11 +8,14 @@ allprojects {
 buildscript {
     repositories{
         google()
+        mavenCentral()
         jcenter()
     }
 
     dependencies{
-        classpath 'com.google.gms.google-services:4.4.2'
+        classpath 'com.android.tools.build:gradle:8.2.1'
+        classpath 'com.google.gms:google-services:4.4.2'
+        ext.kotlin_version = '1.9.22'
     }
 }
 

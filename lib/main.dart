@@ -1,12 +1,22 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:semester_project__uprm_pet_adoption/src/routes/app_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-void main() {
+import 'firebase_options.dart';
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FlutterError.onError = (errorDetails){
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
 
-  Firebase.initializeApp();
+  PlatformDispatcher.instance.onError = (error,stack){
+    FirebaseCrashlytics.instance.recordError(error, stack,fatal: true);
+    return true;
+  };
 
   runApp(
     DevicePreview(

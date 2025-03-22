@@ -39,7 +39,7 @@ class PetCard extends StatefulWidget {
   final VoidCallback onReject;
 
   const PetCard({
-    Key? key,
+    super.key,
     required this.petName,
     required this.petBreed,
     required this.petAge,
@@ -51,7 +51,7 @@ class PetCard extends StatefulWidget {
     required this.onAdopt,
     required this.onAccept,
     required this.onReject,
-  }) : super(key: key);
+  });
 
   @override
   _PetCardState createState() => _PetCardState();

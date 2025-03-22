@@ -27,6 +27,8 @@ class Profile extends StatelessWidget {
               },
               child: const Text('Return to Home'),
             ),
+            //Crash test
+            ElevatedButton(onPressed: () => throw Exception(),child: const Text("Throw Test Exception"))
           ],
         ),
       ),

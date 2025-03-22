@@ -12,7 +12,12 @@
           "package_name": "com.example.semester_project__uprm_pet_adoption"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "621168795418-dj7d48ht6p44i95j82r2gu1en7dmhmeq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBA6KgbO67mbK9oxgZPfU86y1HDGo0QIh0"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621168795418-dj7d48ht6p44i95j82r2gu1en7dmhmeq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "621168795418-6p9231paiah2lbehcphnj37v6o6o85rh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.semesterProjectUprmPetAdoption"
+              }
+            }
+          ]
         }
       }
     }
