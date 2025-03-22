@@ -1,8 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({Key? key}) : super(key: key);
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
+  const ForgotPasswordScreen({super.key});
+
+@override
+  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
+}
+
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
+  late TextEditingController usernameController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initializing controllers for username and password input fields
+    usernameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // Disposing controllers to prevent memory leaks
+    usernameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +93,7 @@ class ForgotPasswordScreen extends StatelessWidget {
 
             // Email TextField 
             TextField(
+              controller: usernameController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 labelStyle: const TextStyle(
@@ -103,7 +127,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: ElevatedButton(
                 onPressed: () {
-                 
+                 AuthService().resetPassword(email: usernameController.text.trim());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.yellow,
