@@ -11,8 +11,9 @@ import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 class TopNavBar extends StatelessWidget {
   /// The current index of the selected tab.
   final int selectedIndex;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const TopNavBar({super.key, required this.selectedIndex});
+  const TopNavBar({super.key, required this.selectedIndex,required this.scaffoldKey});
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +21,21 @@ class TopNavBar extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 0,top: 0), // Extra top padding for status bar
       width:150,
       height: 150,
-      
-      decoration: 
+
+      decoration:
         const BoxDecoration(
           color: Color.fromRGBO(130, 176, 255, 1),
-          
+
 
       ),
       child: Padding(
         padding: EdgeInsets.zero,
         child:Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children:[ 
+          children:[
             Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            
+
             children: [
               // This makes the image bigger and ensures it doesn't get constrained
               SizedBox(
@@ -60,15 +61,22 @@ class TopNavBar extends StatelessWidget {
                 child: Row(
 
                   mainAxisAlignment: MainAxisAlignment.start,
-                  
+
                   children: [
                     _buildNavItem(context, Icons.search, 0, "/search"),
                     _buildNavItem(context, Icons.lightbulb, 1, "/tips"),
                     _buildNavItem(context, Icons.favorite_border, 2, "/favorites"),
-                    _buildNavItem(context, Icons.list, 3, "/menu"),
+                    IconButton(
+                        onPressed: () {
+                          scaffoldKey.currentState?.openEndDrawer();
+                        },
+                        color: Color.fromRGBO(255, 245, 129, 1),
+                        icon: Icon(Icons.menu)
+                    )
+
                   ],
                 ),
-                
+
             ),
 
           ],
