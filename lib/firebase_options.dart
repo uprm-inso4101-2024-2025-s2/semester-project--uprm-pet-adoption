@@ -64,6 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '621168795418',
     projectId: 'pet-adoption-89a32',
     storageBucket: 'pet-adoption-89a32.firebasestorage.app',
+    iosClientId: '621168795418-6p9231paiah2lbehcphnj37v6o6o85rh.apps.googleusercontent.com',
     iosBundleId: 'com.example.semesterProjectUprmPetAdoption',
   );
 
@@ -73,6 +74,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '621168795418',
     projectId: 'pet-adoption-89a32',
     storageBucket: 'pet-adoption-89a32.firebasestorage.app',
+    iosClientId: '621168795418-6p9231paiah2lbehcphnj37v6o6o85rh.apps.googleusercontent.com',
     iosBundleId: 'com.example.semesterProjectUprmPetAdoption',
   );
 
@@ -85,4 +87,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'pet-adoption-89a32.firebasestorage.app',
     measurementId: 'G-80DRK7FSCT',
   );
+
 }

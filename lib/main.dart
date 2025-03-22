@@ -22,12 +22,13 @@ void main() async {
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcnNteG1oaXF3Y2FsdW51Z3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIyNjQxNDksImV4cCI6MjA1Nzg0MDE0OX0.em9xSkNRv462OXRm5pKDYEBqTqhMnPhEK5l5ttWw-94'
   );
 
-  runApp(
-    DevicePreview(
-      enabled: true, // Set to false in production
-      builder: (context) => ProviderScope(child: MyApp()),
-    ),
-  );
+  // runApp(
+  //   DevicePreview(
+  //     enabled: true, // Set to false in production
+  //     builder: (context) => ProviderScope(child: MyApp()),
+  //   ),
+  // );
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
