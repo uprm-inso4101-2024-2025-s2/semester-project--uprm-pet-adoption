@@ -24,7 +24,8 @@ class DMScreen extends StatelessWidget {
             ),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Bubble(
                 margin: const BubbleEdges.only(top: 10),
