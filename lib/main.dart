@@ -5,6 +5,7 @@ import 'package:semester_project__uprm_pet_adoption/src/routes/app_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
@@ -15,6 +16,11 @@ void main() async {
   );
   FirebaseFirestore.instance.settings =
       const Settings(persistenceEnabled: true);
+
+  await Supabase.initialize(
+    url: 'https://csrsmxmhiqwcalunugzf.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcnNteG1oaXF3Y2FsdW51Z3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIyNjQxNDksImV4cCI6MjA1Nzg0MDE0OX0.em9xSkNRv462OXRm5pKDYEBqTqhMnPhEK5l5ttWw-94'
+  );
 
   runApp(
     DevicePreview(
