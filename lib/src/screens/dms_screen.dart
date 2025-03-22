@@ -28,9 +28,9 @@ class DMScreen extends StatelessWidget {
               child: const Text(
                 'Hello, I would like to adopt',
                 textAlign: TextAlign.right, 
-                maxLines: 10,
+                maxLines: 5,
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 15,
                   fontWeight: FontWeight.w100,
                   fontFamily: 'Archivo',
                 ),
@@ -55,9 +55,9 @@ class DMScreen extends StatelessWidget {
               color: Colors.white,
               child: const Text(
                 'Sure!!!',
-                maxLines: 10,
+                maxLines: 5,
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 15,
                   fontWeight: FontWeight.w100,
                   fontFamily: 'Archivo',
                 ),
@@ -78,13 +78,13 @@ class DMScreen extends StatelessWidget {
               nipWidth: 8,
               nipHeight: 24,
               nip: BubbleNip.rightTop,
-              color: Colors.white,
+              color: Color(0xFF82B0FF),
               child: const Text(
                   'I want a pug',
                   textAlign: TextAlign.right, 
-                  maxLines: 10, //Character limit set to 10 lines of message
+                  maxLines: 5, //Character limit set to 5 lines of message
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 15,
                     fontWeight: FontWeight.w100,
                     fontFamily: 'Archivo',
                   ),
@@ -100,19 +100,19 @@ class DMScreen extends StatelessWidget {
               ),
             ),
              Bubble(
+              //padding: BubbleEdges.all(2),
               margin: const BubbleEdges.only(top: 10),
               alignment: Alignment.topLeft,
-              nipWidth: 8,
+              nipWidth: 6,
               nipHeight: 24,
               nip: BubbleNip.leftTop,
-              color: const Color(0xFF82B0FF),
+              color: Colors.white,
               child: const Text(
                   'This message is reallly long!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
-                  maxLines: 7,
+                  maxLines: 5,
                   overflow: TextOverflow.clip,
-
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 15,
                     fontWeight: FontWeight.w100,
                     fontFamily: 'Archivo',
                   ),
