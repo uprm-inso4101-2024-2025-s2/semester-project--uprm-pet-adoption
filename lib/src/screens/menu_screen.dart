@@ -11,90 +11,6 @@ class MenuScreen extends Drawer {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //AppBar is a prebuilt widget in Flutter
-      appBar: AppBar(title: const Text('Menu Screen')),
-      body: Padding(
-        padding: EdgeInsets.zero,
-        child: Drawer(
-          backgroundColor: Color(0xFFFFF581),
-          child: ListView(
-            padding: EdgeInsets.all(30),
-            children: [
-              ListTile(
-                leading: Icon(Icons.person_2_rounded,color:Colors.black),
-                title: Text(
-                  'Account',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.black,
-                    letterSpacing: 0,
-                    fontFamily: 'Archivo'
-                  ),
-                ),
-                onTap: () {context.go('/auth');},
-              ),
-              ListTile(
-                leading: Icon(Icons.info_outline_rounded,color:Colors.black),
-                title: Text(
-                  'About Us',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.black,
-                    letterSpacing: 0,
-                    fontFamily: 'Archivo'
-                  ),
-                ),
-                onTap: () {context.go('/about_us');},
-              ),
-              ListTile(
-                leading: Icon(Icons.house_sharp,color:Colors.black),
-                title: Text(
-                  'Shelters',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.black,
-                    letterSpacing: 0,
-                    fontFamily: 'Archivo'
-                  ),
-                ),
-                onTap: () {context.go('/gettoknow');},
-              ),
-              ListTile(
-                leading: Icon(Icons.question_mark_sharp,color:Colors.black),
-                title: Text(
-                  'FAQs',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.black,
-                    letterSpacing: 0,
-                    fontFamily: 'Archivo'
-                  ),
-                ),
-                onTap: () {context.go('/FAQs');},
-              ),
-              ListTile(
-                style: ListTileStyle.list,
-                selectedTileColor: Colors.grey,
-                minVerticalPadding: 10,
-                leading: Icon(Icons.settings,color:Colors.black),
-                title: Text(
-                  'Settings',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.black,
-                    letterSpacing: 0,
-                    fontFamily: 'Archivo'
-                  ),
-                ),
-                onTap: () {context.go('/settings');},
-              ),
-            ]
-          )
-        ),
-      ),
-
-
     return Container(
       // Set the width of the drawer
       width: MediaQuery.sizeOf(context).width * 0.55, // Adjust as desired
@@ -149,16 +65,22 @@ class MenuScreen extends Drawer {
             // Box 1 (empty)
             Material(
               child: InkWell(
+                onTap: () {
+                  context.go('/profile');
+                },
                 child: ListTile(
                   leading: Container(
-                    width: 20,
-                    height: 70,
-                    color: const Color.fromRGBO(198, 187, 60, 1),
+                      width: 25,
+                      height: 70,
+                      color: Color.fromRGBO(198, 187, 60, 1),
+                      child: Icon(Icons.person_2_rounded,color:Colors.black)
                   ),
                   tileColor: const Color.fromRGBO(244, 233, 107, 1),
                   title: const Text(
-                    '',
-                    style: TextStyle(fontFamily: 'Archivo'),
+                    'Account', //***name of button widget goes here***
+                    style: TextStyle(
+                      fontFamily: 'Archivo',
+                    ),
                   ),
                   selected: false,
                 ),
@@ -167,22 +89,22 @@ class MenuScreen extends Drawer {
             const SizedBox(height: 8),
 
             // Box 2 (empty)
-            Material(
-              color: const Color.fromRGBO(244, 233, 107, 1),
-              child: ListTile(
-                leading: Container(
-                  width: 20,
-                  height: 70,
-                  color: const Color.fromRGBO(198, 187, 60, 1),
-                ),
-                title: const Text(
-                  '',
-                  style: TextStyle(fontFamily: 'Archivo'),
-                ),
-                selected: false,
-              ),
-            ),
-            const SizedBox(height: 8),
+            // Material(
+            //   color: const Color.fromRGBO(244, 233, 107, 1),
+            //   child: ListTile(
+            //     leading: Container(
+            //       width: 25,
+            //       height: 70,
+            //       color: const Color.fromRGBO(198, 187, 60, 1),
+            //     ),
+            //     title: const Text(
+            //       '',
+            //       style: TextStyle(fontFamily: 'Archivo'),
+            //     ),
+            //     selected: false,
+            //   ),
+            // ),
+            // const SizedBox(height: 8),
 
             // 3) FAQ Box -> "FAQ"
             Material(
@@ -194,9 +116,10 @@ class MenuScreen extends Drawer {
                 },
                 child: ListTile(
                   leading: Container(
-                    width: 20,
-                    height: 70,
-                    color: const Color.fromRGBO(198, 187, 60, 1),
+                      width: 25,
+                      height: 70,
+                      color: const Color.fromRGBO(198, 187, 60, 1),
+                      child: Icon(Icons.question_mark_sharp)
                   ),
                   title: const Text(
                     'FAQ',
@@ -213,40 +136,73 @@ class MenuScreen extends Drawer {
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: ListTile(
                 leading: Container(
-                  width: 20,
-                  height: 70,
-                  color: Color.fromRGBO(198, 187, 60, 1),
+                    width: 25,
+                    height: 70,
+                    color: Color.fromRGBO(198, 187, 60, 1),
+                    child: Icon(Icons.info_outlined)
                 ),
                 title: const Text(
-                  '',
-                  style: TextStyle(fontFamily: 'Archivo'),
+                  'About Us', //***name of button widget goes here***
+                  style: TextStyle(
+                    fontFamily: 'Archivo',
+                  ),
                 ),
                 selected: false,
+                // ***button goes here*** onTap
+                onTap: () {context.go('/about_us');},
               ),
             ),
             const SizedBox(height: 8),
 
             // Box 5 (empty)
             Material(
-              color: const Color.fromRGBO(244, 233, 107, 1),
+              color: Color.fromRGBO(244, 233, 107, 1),
               child: ListTile(
                 leading: Container(
-                  width: 20,
-                  height: 70,
-                  color: Color.fromRGBO(198, 187, 60, 1),
+                    width: 25,
+                    height: 70,
+                    color: Color.fromRGBO(198, 187, 60, 1),
+                    child: Icon(Icons.house_sharp,color:Colors.black)
                 ),
+                //name of tag
                 title: const Text(
-                  '',
-                  style: TextStyle(fontFamily: 'Archivo'),
+                  'Shelters', //***name of button widget goes here***
+                  style: TextStyle(
+                    fontFamily: 'Archivo',
+                  ),
                 ),
                 selected: false,
+                //***button goes here, use onTap***
+                onTap: () {context.go('/gettoknow');},
               ),
             ),
-            const SizedBox(height: 8),
 
             // Spacer
             SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.5 - 100,
+              height: 8,
+            ),
+            Material(
+              color: Color.fromRGBO(244, 233, 107, 1),
+              child: ListTile(
+                leading: Container(
+                  width: 25,
+                  height: 70,
+                  color: Color.fromRGBO(198, 187, 60, 1),
+                  child: Icon(Icons.settings,color:Colors.black),
+                ),
+                title: const Text(
+                  'Settings', //***name of button widget goes here***
+                  style: TextStyle(
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+                selected: false,
+                //***button goes here, use onTap***
+                onTap: () {context.go('/settings');},
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * .5 - 100,
             ),
 
             // Logout icon
@@ -264,6 +220,8 @@ class MenuScreen extends Drawer {
           ],
         ),
       ),
+
+
     );
   }
 }
