@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:semester_project__uprm_pet_adoption/services/database_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/gettoknow_screen.dart';
@@ -34,6 +35,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     lastNameController = TextEditingController();
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
+    AnalyticsService().logScreenView("signup_screen");
   }
 
   @override
@@ -208,7 +210,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 if (_formKey.currentState!.validate()) {
                                   AuthService().signup(
                                     email: emailController.text, 
-                                    password: passwordController.text
+                                    password: passwordController.text, firstName: '', lastName: '', phoneNumber: ''
+                                    
+
                                     );
                                   //Create user with signup inputs
                                   User user = User(
@@ -224,6 +228,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                   //Add user to database
                                   _databaseService.addUser(user);
                                   context.go('/gettoknow');
+                                  AnalyticsService().addSignUp();
                                 }
                               })
                         ],
