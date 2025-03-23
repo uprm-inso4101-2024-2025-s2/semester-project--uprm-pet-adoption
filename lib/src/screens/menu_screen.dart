@@ -66,7 +66,7 @@ class MenuScreen extends Drawer {
             Material(
               child: InkWell(
                 onTap: () {
-                  context.go('/auth');
+                  context.go('/profile');
                 },
                 child: ListTile(
                   leading: Container(
@@ -119,6 +119,7 @@ class MenuScreen extends Drawer {
                     width: 20,
                     height: 70,
                     color: const Color.fromRGBO(198, 187, 60, 1),
+                    child: Icon(Icons.question_mark_sharp)
                   ),
                   title: const Text(
                     'FAQ',
@@ -138,7 +139,7 @@ class MenuScreen extends Drawer {
                   width: 20,
                   height: 70,
                   color: Color.fromRGBO(198, 187, 60, 1),
-                  child: Icon(Icons.question_mark_sharp)
+                  child: Icon(Icons.info_outlined)
                 ),
                 title: const Text(
                   'About Us', //***name of button widget goes here***
@@ -175,30 +176,6 @@ class MenuScreen extends Drawer {
                 onTap: () {context.go('/gettoknow');},
               ),
             ),
-            SizedBox(
-              height: 8,
-            ),
-            Material(
-              color: Color.fromRGBO(244, 233, 107, 1),
-              child: ListTile(
-                leading: Container(
-                  width: 20,
-                  height: 70,
-                  color: Color.fromRGBO(198, 187, 60, 1),
-                  child: Icon(Icons.question_mark_sharp,color:Colors.black)
-                ),
-                title: const Text(
-                  'FAQs', //***name of button widget goes here***
-                  style: TextStyle(
-                    fontFamily: 'Archivo',
-                  ),
-                ),
-                selected: false,
-                //***button goes here, use onTap***
-                onTap: () {context.go('/FAQs');},
-              ),
-            ),
-            const SizedBox(height: 8),
 
             // Spacer
             SizedBox(
