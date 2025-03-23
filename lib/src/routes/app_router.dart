@@ -24,7 +24,7 @@ import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_verification_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/settings_screen.dart';
-import 'package:semester_project__uprm_pet_adoption/src/screens/faq_screen.dart';
+// import 'package:semester_project__uprm_pet_adoption/src/screens/faq_screen.dart';
 
 
 //This file contains the routes for all screens. It also manages transitions between screens.
@@ -190,7 +190,7 @@ GoRoute(
   GoRoute(
     path: '/faq',
     pageBuilder: (context, state) => CustomTransitionPage(
-      child: const FAQScreen(),
+      child: const FAQ_Screen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: Tween<Offset>(
