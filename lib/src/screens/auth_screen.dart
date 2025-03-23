@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 
 //This file contains the Authentication Screen class. Everything that shows up in the authentication screen is managed here.
+final hasLoggedAuthScreenViewProvider = StateProvider<bool>((ref) => false);
 
 class AuthScreen extends ConsumerWidget {
   const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final hasLoggedScreenView = ref.watch(hasLoggedAuthScreenViewProvider);
+    if (!hasLoggedScreenView) {
+      AnalyticsService().logScreenView("auth_screen");
+      ref.read(hasLoggedAuthScreenViewProvider.notifier).state = true;
+    }
+
     return Scaffold(
       backgroundColor: Color(0xFF82B0FF),
       body: Column(
