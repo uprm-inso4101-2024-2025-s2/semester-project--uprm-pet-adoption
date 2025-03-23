@@ -10,17 +10,47 @@ class ChatHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: const Text(
-        "Chat",
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return Container(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 40, bottom: 5),
+      color: const Color(0xFFFFF581), // Yellow background
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Top row: Messages title + Add User button
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Messages",
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.person_add,
+                    size: 35, color: Colors.black), // Add User to chat icon
+                onPressed: () {
+                  _showAddUserDialog(context); // Opens add-user popup
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 5), // space between "Messages" and "Chats"
+          const Text(
+            "Chats",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
-      centerTitle: true,
-      backgroundColor: Colors.blue,
     );
   }
 }
-
 // Main Screen
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -37,12 +67,6 @@ class ChatScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           textDirection: TextDirection.ltr,
           children: [
-            const Text(
-              "Chats",
-              textAlign: TextAlign.start,
-              textDirection: TextDirection.ltr,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900,color: Colors.black),
-            ),
             //Create the container for chat widgets
             InkWell(
               onTap: () {
@@ -387,7 +411,8 @@ class ChatScreen extends StatelessWidget {
             ),
           ],
         ),
-      )
+      ),
+        bottomNavigationBar: const BottomNavBar(selectedIndex: 1),
     );
   }
 }
