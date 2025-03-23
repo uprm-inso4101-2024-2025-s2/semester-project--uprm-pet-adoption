@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/FAQs_screen.dart' hide FAQScreen;
+import 'package:semester_project__uprm_pet_adoption/src/screens/settings_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/chat_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/dms_screen.dart';
 import '../screens/home_screen.dart';
@@ -10,8 +12,6 @@ import '../screens/auth_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import '../screens/gettoknow_screen.dart';
-import '../screens/AboutUs_screen.dart';
-import '../screens/Settings_Screen.dart';
 import '../screens/FAQ_screen.dart';
 
 import '../screens/match_making_screen.dart';
@@ -23,8 +23,6 @@ import '../screens/search_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_verification_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
-import 'package:semester_project__uprm_pet_adoption/src/screens/settings_screen.dart';
-// import 'package:semester_project__uprm_pet_adoption/src/screens/faq_screen.dart';
 
 
 //This file contains the routes for all screens. It also manages transitions between screens.
@@ -343,21 +341,21 @@ GoRoute(
       ),
     ),
     // Route for chat settings
-  //   GoRoute(
-  //   path: '/settings',
-  //   pageBuilder: (context, state) => CustomTransitionPage(
-  //     child: const SettingsScreen(), // Replace with your actual settings screen widget
-  //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //       return SlideTransition(
-  //         position: Tween<Offset>(
-  //           begin: const Offset(1, 0),
-  //           end: Offset.zero,
-  //         ).animate(animation),
-  //         child: child,
-  //       );
-  //     },
-  //   ),
-  // ),
+    GoRoute(
+    path: '/settings',
+    pageBuilder: (context, state) => CustomTransitionPage(
+      child: const SettingsScreen(), // Replace with your actual settings screen widget
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        );
+      },
+    ),
+  ),
 
 
   ],
