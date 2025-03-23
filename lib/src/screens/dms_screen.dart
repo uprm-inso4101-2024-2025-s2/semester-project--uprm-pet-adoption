@@ -2,12 +2,10 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-// Import for navigation
-import 'package:go_router/go_router.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import 'package:bubble/bubble.dart'; //import flutter bubble widget
-// Import for navigation
 
+// Import for navigation
 
 class DMScreen extends StatelessWidget {
 
@@ -25,9 +23,123 @@ class DMScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Bubble(
+                margin: const BubbleEdges.only(top: 10),
+                alignment: Alignment.topRight,
+                nipWidth: 8,
+                nipHeight: 24,
+                nip: BubbleNip.rightTop,
+                color: const Color(0xFF82B0FF),
+                child: const Text(
+                  'Hello, I would like to adopt',
+                  textAlign: TextAlign.right, 
+                  maxLines: 5,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w100,
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 90,
+                child: Text(
+                  "11:59 pm",
+                  textWidthBasis: TextWidthBasis.longestLine,
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.ltr,
+                ),
+              ),
+              Bubble(
+                margin: const BubbleEdges.only(top: 10),
+                alignment: Alignment.topLeft,
+                nipWidth: 8,
+                nipHeight: 24,
+                nip: BubbleNip.leftTop,
+                color: Colors.white,
+                child: const Text(
+                  'Sure!!!',
+                  maxLines: 5,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w100,
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 85,
+                child: Text(
+                  "12:01 am",
+                  textWidthBasis: TextWidthBasis.longestLine,
+                  textAlign: TextAlign.left,
+                  textDirection: TextDirection.ltr,
+                ),
+              ),
+              Bubble(
+                margin: const BubbleEdges.only(top: 10),
+                alignment: Alignment.topRight,
+                nipWidth: 8,
+                nipHeight: 24,
+                nip: BubbleNip.rightTop,
+                color: Color(0xFF82B0FF),
+                child: const Text(
+                  'I want a pug',
+                  textAlign: TextAlign.right, 
+                  maxLines: 5, //Character limit set to 5 lines of message
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w100,
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                        height: 45,
+                        child: Text(
+                          "12:05 am",
+                          textWidthBasis: TextWidthBasis.longestLine,
+                          textAlign: TextAlign.right,
+                          textDirection: TextDirection.ltr,
+                        ),
+                      ),
+              Bubble(
+                        //padding: BubbleEdges.all(2),
+                        margin: const BubbleEdges.only(top: 10),
+                        alignment: Alignment.topLeft,
+                        nipWidth: 6,
+                        nipHeight: 24,
+                        nip: BubbleNip.leftTop,
+                        color: Colors.white,
+                        child: const Text(
+                            'This message is reallly long!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+                            maxLines: 5,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w100,
+                              fontFamily: 'Archivo',
+                            ),
+                          ),
+                      ),
+              const SizedBox(
+                        //height:0,
+                        child: Text(
+                          "12:10 am",
+                          textWidthBasis: TextWidthBasis.longestLine,
+                          textAlign: TextAlign.left,
+                          textDirection: TextDirection.ltr,
+                        ),
+                      ),
+            ],
+          )
         ),
 
-      //TOP BAR
+      //TOP BAR 
       //HEADER IMPLEMENTATION
       appBar: AppBar(
       backgroundColor: color,
@@ -39,10 +151,10 @@ class DMScreen extends StatelessWidget {
           IconButton(
             icon: Image.asset(
               'assets/images/Arrow_Circle_dms.png',
-              width: 40,
+              width: 40, 
               height: 40,
             ),
-            visualDensity: VisualDensity.compact,
+            visualDensity: VisualDensity.compact, 
             onPressed: () {
               context.go('/chat');
             },
@@ -50,7 +162,7 @@ class DMScreen extends StatelessWidget {
           //Add profile icon
           ClipOval(
             child: SizedBox(
-              width: 100,
+              width: 100, 
               height: 100,
               child: Image.asset(
                 'assets/images/chat_profile_icon.png',
@@ -58,14 +170,14 @@ class DMScreen extends StatelessWidget {
               ),
             ),
           ),
-
+          
           //Add name and status
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Name',
+                'Name', 
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -73,7 +185,7 @@ class DMScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                'Online',
+                'Online', 
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.indigo[900],
@@ -102,17 +214,15 @@ class DMScreen extends StatelessWidget {
 
 
 
-
       //keyboard implementation
       floatingActionButton: Align(
         alignment: Alignment.bottomLeft,
         child: Padding(
             padding:const EdgeInsets.only(left:40.0),
             child: ChatInputBar(),
-        )
+        ),
       ),
-      );
-
+    );
   }
 
 }
@@ -186,7 +296,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (_showImage)
-
+              
                 Container(
                   alignment: Alignment.topLeft,
                   width: 200,
@@ -199,13 +309,13 @@ class _ChatInputBarState extends State<ChatInputBar> {
                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-
+                    
                     children: [
                       Row(
-                        //buttons to open camera
+                        //buttons to open camera 
                         children: [
                           IconButton(onPressed: (){_openCamera();}, icon: Image.asset("images/Camera_button_dms.png",height: 40,width: 40,),padding: EdgeInsets.zero), // or replace with Image.asset(...)
-                          SizedBox(width: 8),
+                          SizedBox(width: 8.0),
                           IconButton(onPressed: (){_openCamera();},icon:Text("Camera",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16))),
                         ],
                       ),
@@ -219,12 +329,12 @@ class _ChatInputBarState extends State<ChatInputBar> {
                           IconButton(onPressed: (){_openGallery();},icon:Text("Documents",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15))),
                         ],
                       ),
-
-
+                        
+                      
                     ],
                   ),
                 ),
-
+                
 
             // Chat input field
             Container(
@@ -267,8 +377,8 @@ class _ChatInputBarState extends State<ChatInputBar> {
                         ),
                       ],
                     ),
-
-                  // + circle button
+                    
+                  // + circle button 
                   Row(
                     children: [
                       Expanded(
@@ -309,129 +419,5 @@ class _ChatInputBarState extends State<ChatInputBar> {
           ],
         ),
       );
-    }
-      appBar: AppBar(title: const Text("DMS")),
-      body: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: ListView(
-          children: [
-            // Implemented Message Bubble with temporary text
-            Bubble(
-              margin: const BubbleEdges.only(top: 10),
-              alignment: Alignment.topRight,
-              nipWidth: 8,
-              nipHeight: 24,
-              nip: BubbleNip.rightTop,
-              color: const Color(0xFF82B0FF),
-              child: const Text(
-                'Hello, I would like to adopt',
-                textAlign: TextAlign.right,
-                maxLines: 10,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'Archivo',
-                ),
-              ),
-            ),
-            // Box containing time of message
-            const SizedBox(
-              height: 90,
-              child: Text(
-                "11:59 pm",
-                textWidthBasis: TextWidthBasis.longestLine,
-                textAlign: TextAlign.right,
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-            Bubble(
-              margin: const BubbleEdges.only(top: 10),
-              alignment: Alignment.topLeft,
-              nipWidth: 8,
-              nipHeight: 24,
-              nip: BubbleNip.leftTop,
-              color: Colors.white,
-              child: const Text(
-                'Sure!!!',
-                maxLines: 10,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'Archivo',
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 85,
-              child: Text(
-                "12:01 am",
-                textWidthBasis: TextWidthBasis.longestLine,
-                textAlign: TextAlign.left,
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-            Bubble(
-              margin: const BubbleEdges.only(top: 10),
-              alignment: Alignment.topRight,
-              nipWidth: 8,
-              nipHeight: 24,
-              nip: BubbleNip.rightTop,
-              color: Colors.white,
-              child: const Text(
-                  'I want a pug',
-                  textAlign: TextAlign.right,
-                  maxLines: 10, //Character limit set to 10 lines of message
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w100,
-                    fontFamily: 'Archivo',
-                  ),
-                ),
-            ),
-            const SizedBox(
-              height: 45,
-              child: Text(
-                "12:05 am",
-                textWidthBasis: TextWidthBasis.longestLine,
-                textAlign: TextAlign.right,
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-             Bubble(
-              margin: const BubbleEdges.only(top: 10),
-              alignment: Alignment.topLeft,
-              nipWidth: 8,
-              nipHeight: 24,
-              nip: BubbleNip.leftTop,
-              color: const Color(0xFF82B0FF),
-              child: const Text(
-                  'This message is reallly long!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
-                  maxLines: 7,
-                  overflow: TextOverflow.clip,
-
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w100,
-                    fontFamily: 'Archivo',
-                  ),
-                ),
-            ),
-            const SizedBox(
-              //height:0,
-              child: Text(
-                "12:10 am",
-                textWidthBasis: TextWidthBasis.longestLine,
-                textAlign: TextAlign.left,
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-          ]
-        )
-      )
-    );
-  }
 }
-
-
-
-
+}
