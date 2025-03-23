@@ -81,50 +81,50 @@ class ChatScreen extends StatelessWidget {
                   shape: BoxShape.rectangle,
                 ),
                 child: Row(
-                    children: [
-                      // Profile icon
-                      CircleAvatar(
+                  children: [
+                    // Profile icon
+                    CircleAvatar(
                         foregroundColor: Color(0xFF82B0FF),
                         backgroundColor: Color(0xFF82B0FF),
                         radius: 20,
                         child: Icon(
-                            Icons.person_2_sharp,
-                            color: Colors.black,
+                          Icons.person_2_sharp,
+                          color: Colors.black,
                         )
-                      ),
-                      SizedBox(width: 16,),
-                      Expanded(
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
                         child: Container(
                           color: Colors.white,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //Chat name
-                              Text("Name", 
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Archivo',
-                                  fontWeight: FontWeight.bold,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //Chat name
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 6,),
-                              //Button with message preview
-                              Text(
-                                "Message preview",
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: 'Archivo',
+                                SizedBox(height: 6,),
+                                //Button with message preview
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
                                 )
-                              )
-                            ]
+                              ]
                           ),
                         )
-                      ),
-                      // Message time (temporary time added)
-                      Text("11:59 am", style: TextStyle(fontSize : 15)),
-                    ],
+                    ),
+                    // Message time (temporary time added)
+                    Text("11:59 am", style: TextStyle(fontSize : 15)),
+                  ],
                 ),
               ),
             ),
@@ -142,46 +142,46 @@ class ChatScreen extends StatelessWidget {
                   shape: BoxShape.rectangle,
                 ),
                 child: Row(
-                    children: [
-                      CircleAvatar(
+                  children: [
+                    CircleAvatar(
                         foregroundColor: Color(0xFF82B0FF),
                         backgroundColor: Color(0xFF82B0FF),
                         radius: 20,
                         child: Icon(
-                            Icons.person_2_sharp,
-                            color: Colors.black,
+                          Icons.person_2_sharp,
+                          color: Colors.black,
                         )
-                      ),
-                      SizedBox(width: 16,),
-                      Expanded(
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
                         child: Container(
                           color: Colors.white,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Name", 
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Archivo',
-                                  fontWeight: FontWeight.bold,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 6,),
-                              Text(
-                                "Message preview",
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: 'Archivo',
+                                SizedBox(height: 6,),
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
                                 )
-                              )
-                            ]
+                              ]
                           ),
                         )
-                      ),
-                      Text("12:00 pm", style: TextStyle(fontSize : 15)),
-                    ],
+                    ),
+                    Text("12:00 pm", style: TextStyle(fontSize : 15)),
+                  ],
                 ),
               ),
             ),
@@ -198,103 +198,47 @@ class ChatScreen extends StatelessWidget {
                   shape: BoxShape.rectangle,
                 ),
                 child: Row(
-                    children: [
-                      CircleAvatar(
+                  children: [
+                    CircleAvatar(
                         foregroundColor: Color(0xFF82B0FF),
                         backgroundColor: Color(0xFF82B0FF),
                         radius: 20,
                         child: Icon(
-                            Icons.person_2_sharp,
-                            color: Colors.black,
+                          Icons.person_2_sharp,
+                          color: Colors.black,
                         )
-                      ),
-                      SizedBox(width: 16,),
-                      Expanded(
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
                         child: Container(
                           color: Colors.white,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Name", 
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Archivo',
-                                  fontWeight: FontWeight.bold,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 6,),
-                              Text(
-                                "Message preview",
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: 'Archivo',
+                                SizedBox(height: 6,),
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
                                 )
-                              )
-                            ]
+                              ]
                           ),
                         )
-                      ),
-                      Text("4:57 pm", style: TextStyle(fontSize : 15)),
-                    ],
+                    ),
+                    Text("4:57 pm", style: TextStyle(fontSize : 15)),
+                  ],
                 ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                context.go('/dms');
-              },
-              child: Container(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.horizontal(),
-                    shape: BoxShape.rectangle,
-                  ),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        foregroundColor: Color(0xFF82B0FF),
-                        backgroundColor: Color(0xFF82B0FF),
-                        radius: 20,
-                        child: Icon(
-                            Icons.person_2_sharp,
-                            color: Colors.black,
-                        )
-                      ),
-                      SizedBox(width: 16,),
-                      Expanded(
-                        child: Container(
-                          color: Colors.white,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Name", 
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Archivo',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 6,),
-                              Text(
-                                "Message preview",
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: 'Archivo',
-                                )
-                              )
-                            ]
-                          ),
-                        )
-                      ),
-                      Text("5:00 pm", style: TextStyle(fontSize : 15)),
-                    ],
-                  ),
               ),
             ),
             InkWell(
@@ -310,50 +254,50 @@ class ChatScreen extends StatelessWidget {
                   shape: BoxShape.rectangle,
                 ),
                 child: Row(
-                    children: [
-                      CircleAvatar(
+                  children: [
+                    CircleAvatar(
                         foregroundColor: Color(0xFF82B0FF),
                         backgroundColor: Color(0xFF82B0FF),
                         radius: 20,
                         child: Icon(
-                            Icons.person_2_sharp,
-                            color: Colors.black,
+                          Icons.person_2_sharp,
+                          color: Colors.black,
                         )
-                      ),
-                      SizedBox(width: 16,),
-                      Expanded(
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
                         child: Container(
                           color: Colors.white,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Name", 
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Archivo',
-                                  fontWeight: FontWeight.bold,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 6,),
-                              Text(
-                                "Message preview",
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: 'Archivo',
+                                SizedBox(height: 6,),
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
                                 )
-                              )
-                            ]
+                              ]
                           ),
                         )
-                      ),
-                      Text("Yesterday", style: TextStyle(fontSize : 15)),
-                    ],
+                    ),
+                    Text("5:00 pm", style: TextStyle(fontSize : 15)),
+                  ],
                 ),
+              ),
             ),
-          ),
-          InkWell(
+            InkWell(
               onTap: () {
                 context.go('/dms');
               },
@@ -366,60 +310,116 @@ class ChatScreen extends StatelessWidget {
                   shape: BoxShape.rectangle,
                 ),
                 child: Row(
-                    children: [
-                      CircleAvatar(
+                  children: [
+                    CircleAvatar(
                         foregroundColor: Color(0xFF82B0FF),
                         backgroundColor: Color(0xFF82B0FF),
                         radius: 20,
                         child: Icon(
-                            Icons.person_2_sharp,
-                            color: Colors.black,
+                          Icons.person_2_sharp,
+                          color: Colors.black,
                         )
-                      ),
-                      SizedBox(width: 16,),
-                      Expanded(
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
                         child: Container(
                           color: Colors.white,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Name", 
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Archivo',
-                                  fontWeight: FontWeight.bold,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 6,),
-                              Text(
-                                "Message preview",
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: 'Archivo',
+                                SizedBox(height: 6,),
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
                                 )
-                              )
-                            ]
+                              ]
                           ),
                         )
-                      ),
-                      Text("Yesterday", style: TextStyle(fontSize : 15)),
-                    ],
+                    ),
+                    Text("Yesterday", style: TextStyle(fontSize : 15)),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                context.go('/dms');
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                padding: const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.horizontal(),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                        foregroundColor: Color(0xFF82B0FF),
+                        backgroundColor: Color(0xFF82B0FF),
+                        radius: 20,
+                        child: Icon(
+                          Icons.person_2_sharp,
+                          color: Colors.black,
+                        )
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 6,),
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
+                                )
+                              ]
+                          ),
+                        )
+                    ),
+                    Text("Yesterday", style: TextStyle(fontSize : 15)),
+                  ],
                 ),
               ),
             ),
           ],
         ),
       ),
-        bottomNavigationBar: const BottomNavBar(selectedIndex: 1),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 1),
     );
   }
 }
 // Add User Popup - Allows adding a new user by entering a username
 void _showAddUserDialog(BuildContext context) {
   TextEditingController usernameController =
-      TextEditingController(); // Controller for input field
+  TextEditingController(); // Controller for input field
 
   showDialog(
     context: context,
