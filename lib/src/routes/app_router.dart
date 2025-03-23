@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:semester_project__uprm_pet_adoption/src/screens/FAQ_screen.dart' hide FAQScreen;
+import 'package:semester_project__uprm_pet_adoption/src/screens/FAQ_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/settings_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/chat_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/dms_screen.dart';
