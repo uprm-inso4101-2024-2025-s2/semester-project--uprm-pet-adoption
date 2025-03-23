@@ -49,6 +49,7 @@ dependencies:
   google_sign_in: ^6.3.0
   firebase_messaging: ^15.2.4
   flutter_local_notifications: ^19.0.0
+  bubble: ^1.2.1
 
   #Supabase 
   supabase_flutter: ^2.8.4
