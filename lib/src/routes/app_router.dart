@@ -19,7 +19,7 @@ import '../screens/search_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_verification_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
-import '../screens/settings_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/settings_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/faq_screen.dart';
 
 
@@ -339,21 +339,21 @@ GoRoute(
       ),
     ),
     // Route for chat settings
-    GoRoute(
-    path: '/settings',
-    pageBuilder: (context, state) => CustomTransitionPage(
-      child: const SettingsScreen(), // Replace with your actual settings screen widget
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(1, 0),
-            end: Offset.zero,
-          ).animate(animation),
-          child: child,
-        );
-      },
-    ),
-  ),
+  //   GoRoute(
+  //   path: '/settings',
+  //   pageBuilder: (context, state) => CustomTransitionPage(
+  //     child: const SettingsScreen(), // Replace with your actual settings screen widget
+  //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+  //       return SlideTransition(
+  //         position: Tween<Offset>(
+  //           begin: const Offset(1, 0),
+  //           end: Offset.zero,
+  //         ).animate(animation),
+  //         child: child,
+  //       );
+  //     },
+  //   ),
+  // ),
 
 
   ],
