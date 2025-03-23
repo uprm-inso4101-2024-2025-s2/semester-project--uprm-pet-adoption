@@ -17,10 +17,76 @@ class DMScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color color = const Color.fromRGBO(255, 245, 121, 100);
     return Scaffold(
-      //TOP BAR
+      //TOP BAR 
+      //HEADER IMPLEMENTATION
       appBar: AppBar(
-        backgroundColor: color,
+      backgroundColor: color,
+      leadingWidth: 200,
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Add back button
+          IconButton(
+            icon: Image.asset(
+              'assets/images/Arrow_Circle_dms.png',
+              width: 40, 
+              height: 40,
+            ),
+            visualDensity: VisualDensity.compact, 
+            onPressed: () {
+              context.go('/chat');
+            },
+          ),
+          //Add profile icon
+          ClipOval(
+            child: SizedBox(
+              width: 100, 
+              height: 100,
+              child: Image.asset(
+                'assets/images/chat_profile_icon.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          
+          //Add name and status
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Name', 
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              Text(
+                'Online', 
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.indigo[900],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
+      // Add chat setting icon
+      actions: [
+        IconButton(
+          icon: Image.asset(
+            'assets/images/three_dots.png',
+            width: 35,
+            height: 35,
+          ),
+          onPressed: () {
+            context.go('/settings');
+          },
+        ),
+      ],
+    ),
       body: Container(
         decoration: const BoxDecoration(
             // Setting background image

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:semester_project__uprm_pet_adoption/src/screens/FAQs_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/FAQs_screen.dart' hide FAQScreen;
 import 'package:semester_project__uprm_pet_adoption/src/screens/Settings_Screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/chat_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/dms_screen.dart';
@@ -14,7 +14,7 @@ import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.
 import '../screens/gettoknow_screen.dart';
 import '../screens/AboutUs_screen.dart';
 import '../screens/Settings_Screen.dart';
-import '../screens/FAQs_screen.dart';
+import '../screens/FAQ_screen.dart';
 
 import '../screens/match_making_screen.dart';
 import '../screens/pet_tips_screen.dart';
@@ -22,6 +22,13 @@ import '../screens/favorites_screen.dart';
 import '../screens/user_profile_screen.dart';
 import '../screens/map_screen.dart';
 import '../screens/search_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_verification_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
+//import '../screens/settings_screen.dart';
+//import 'package:semester_project__uprm_pet_adoption/src/screens/faq_screen.dart';
+
+
 //This file contains the routes for all screens. It also manages transitions between screens.
 
 final GoRouter appRouter = GoRouter(
@@ -112,6 +119,58 @@ final GoRouter appRouter = GoRouter(
       ),
     ),
 
+// Route for forgot password screen 
+GoRoute(
+  path: '/forgot_password',
+  pageBuilder: (context, state) => CustomTransitionPage(
+    child: const ForgotPasswordScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  ),
+),
+
+// Route for forgot password verification screen
+GoRoute(
+  path: '/forgot_password_verification',
+  pageBuilder: (context, state) => CustomTransitionPage(
+    child: const ForgotPasswordVerificationScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  ),
+),
+
+// Route for forgot password change screen
+GoRoute(
+  path: '/forgot_password_change',
+  pageBuilder: (context, state) => CustomTransitionPage(
+    child: const ForgotPasswordChangeScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  ),
+),
+
+
     //Route for menu screen
     GoRoute(
       path: '/menu',
@@ -128,6 +187,23 @@ final GoRouter appRouter = GoRouter(
         },
       ),
     ),
+
+  // FAQ Screen
+  GoRoute(
+    path: '/faq',
+    pageBuilder: (context, state) => CustomTransitionPage(
+      child: const FAQ_Screen(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        );
+      },
+    ),
+  ),
 
     GoRoute(
       path: '/gettoknow',
@@ -181,38 +257,6 @@ final GoRouter appRouter = GoRouter(
       path: '/about_us',
       pageBuilder: (context, state) => CustomTransitionPage(
         child: const AboutUsScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(1, 0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          );
-        },
-      ),
-    ),
-
-    GoRoute(
-      path: '/FAQs',
-      pageBuilder: (context, state) => CustomTransitionPage(
-        child: const FAQScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(1, 0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          );
-        },
-      ),
-    ),
-
-    GoRoute(
-      path: '/settings',
-      pageBuilder: (context, state) => CustomTransitionPage(
-        child: const SettingsScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
@@ -316,6 +360,23 @@ final GoRouter appRouter = GoRouter(
         },
       ),
     ),
+    // Route for chat settings
+    GoRoute(
+    path: '/settings',
+    pageBuilder: (context, state) => CustomTransitionPage(
+      child: const SettingsScreen(), // Replace with your actual settings screen widget
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        );
+      },
+    ),
+  ),
+
 
   ],
 );

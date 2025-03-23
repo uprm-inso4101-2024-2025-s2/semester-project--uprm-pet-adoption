@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
+import 'package:semester_project__uprm_pet_adoption/services/database_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/gettoknow_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
-
+import 'package:semester_project__uprm_pet_adoption/models/user.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -14,6 +17,8 @@ class SignUpScreen extends ConsumerStatefulWidget {
 }
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+  final DatabaseService _databaseService = DatabaseService();
+
   final _formKey = GlobalKey<FormState>();
 
   late final TextEditingController emailController;
@@ -30,6 +35,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     lastNameController = TextEditingController();
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
+    AnalyticsService().logScreenView("signup_screen");
   }
 
   @override
@@ -101,14 +107,20 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 return "Please enter an email";
                               }
 
-                              final allowedDomains = ['@gmail.com', '@yahoo.com', '@upr.edu'];
+                              final allowedDomains = [
+                                '@gmail.com',
+                                '@yahoo.com',
+                                '@upr.edu'
+                              ];
 
-                              if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+                              if (!RegExp(
+                                      r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
                                   .hasMatch(value)) {
                                 return "Invalid email format";
                               }
 
-                              bool isValDomain = allowedDomains.any((domain) => value.endsWith(domain));
+                              bool isValDomain = allowedDomains
+                                  .any((domain) => value.endsWith(domain));
                               if (!isValDomain) {
                                 return "Please use a valid email domain";
                               }
@@ -127,7 +139,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                     if (value == null || value.isEmpty) {
                                       return "Enter first name";
                                     }
-                                    if(!RegExp(r"^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$").hasMatch(value)) {
+                                    if (!RegExp(r"^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$")
+                                        .hasMatch(value)) {
                                       return "Invalid characters";
                                     }
                                     return null;
@@ -144,7 +157,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                     if (value == null || value.isEmpty) {
                                       return "Enter last name";
                                     }
-                                    if(!RegExp(r"^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$").hasMatch(value)) {
+                                    if (!RegExp(r"^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$")
+                                        .hasMatch(value)) {
                                       return "Invalid characters";
                                     }
                                     return null;
@@ -162,11 +176,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Enter a password";
-                              } 
+                              }
                               if (value.length < 6) {
                                 return "Password must be at least 6 characters";
                               }
-                              if (!RegExp(r'^(?=.*[0-9])(?=.*[!@#\$%^&*(),.?":{}|<>]).{6,}$').hasMatch(value)) {
+                              if (!RegExp(
+                                      r'^(?=.*[0-9])(?=.*[!@#\$%^&*(),.?":{}|<>]).{6,}$')
+                                  .hasMatch(value)) {
                                 return "Must include a number and a special character";
                               }
                               return null;
@@ -189,12 +205,32 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           ),
                           const SizedBox(height: 25),
                           buildButton(
-                            text: "Create Account",
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                context.go('/gettoknow');
-                              }
-                          })
+                              text: "Create Account",
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  AuthService().signup(
+                                    email: emailController.text, 
+                                    password: passwordController.text, firstName: '', lastName: '', phoneNumber: ''
+                                    
+
+                                    );
+                                  //Create user with signup inputs
+                                  User user = User(
+                                      First_name: firstNameController.text,
+                                      Last_name: lastNameController.text,
+                                      Location: "",
+                                      Password: passwordController.text,
+                                      Pet: "",
+                                      Pet_picture: 0,
+                                      Phone_number: "000000000",
+                                      Profile_picture: 0,
+                                      email: emailController.text);
+                                  //Add user to database
+                                  _databaseService.addUser(user);
+                                  context.go('/gettoknow');
+                                  AnalyticsService().addSignUp();
+                                }
+                              })
                         ],
                       ),
                     ),
@@ -202,7 +238,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     buildButton(
                       text: "Return",
                       onPressed: () {
-                        ref.read(statusMessageProvider.notifier).state = ""; // Clear message when leaving
+                        ref.read(statusMessageProvider.notifier).state =
+                            ""; // Clear message when leaving
                         context.go('/auth');
                       },
                     ),
@@ -242,7 +279,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               fontFamily: 'Archivo',
               color: Colors.black,
             ),
-            suffixIcon: icon != null ? Icon(icon, color: Color(0xFF5D5793)) : null,
+            suffixIcon:
+                icon != null ? Icon(icon, color: Color(0xFF5D5793)) : null,
           ),
           style: const TextStyle(
             fontSize: 18,

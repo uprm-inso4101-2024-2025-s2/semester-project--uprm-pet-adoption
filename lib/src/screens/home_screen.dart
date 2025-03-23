@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_card.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
@@ -128,6 +129,7 @@ final petStackProvider =
     StateNotifierProvider<PetStackNotifier, List<PetCard>>((ref) {
   return PetStackNotifier();
 });
+final hasLoggedScreenViewProvider = StateProvider<bool>((ref) => false);
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
 
@@ -137,6 +139,8 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    AnalyticsService().logScreenView("home_screen");
+
     final petList = ref.watch(petStackProvider);
     final currentPet = petList.isNotEmpty ? petList.last : null;
     return Scaffold(

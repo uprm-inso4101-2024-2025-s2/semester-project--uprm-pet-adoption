@@ -39,11 +39,13 @@ class BottomNavBar extends StatelessWidget {
   }
 
   /// Helper function to build navigation icons.
-  Widget _buildNavItem(BuildContext context, IconData icon, int index, String route) {
+  Widget _buildNavItem(
+      BuildContext context, IconData icon, int index, String route) {
     final isSelected = selectedIndex == index;
 
     return IconButton(
-      icon: Icon(icon, size: 30, color: isSelected ? Colors.yellow : Colors.yellow[200]),
+      icon: Icon(icon,
+          size: 30, color: isSelected ? Colors.yellow : Colors.yellow[200]),
       onPressed: () {
         if (GoRouterState.of(context).uri.toString() != route) {
           context.go(route); // Navigate using GoRouter
