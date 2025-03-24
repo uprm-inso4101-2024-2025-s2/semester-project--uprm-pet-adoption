@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'menu_screen.dart'; // Make sure this import exists for MenuScreen
+
 // Data model for a single FAQ
 class FAQItem {
   final String question;
@@ -17,14 +19,17 @@ class FAQSection {
   FAQSection({required this.category, required this.faqs});
 }
 
-class FAQScreen extends StatefulWidget {
-  const FAQScreen({Key? key}) : super(key: key);
+class FAQ_Screen extends StatefulWidget {
+  const FAQ_Screen({Key? key}) : super(key: key);
 
   @override
-  State<FAQScreen> createState() => _FAQScreenState();
+  State<FAQ_Screen> createState() => _FAQScreenState();
 }
 
-class _FAQScreenState extends State<FAQScreen> {
+class _FAQScreenState extends State<FAQ_Screen> {
+  // Scaffold key for opening the drawer
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   // The user's current search text
   String _searchQuery = '';
 
@@ -33,27 +38,27 @@ class _FAQScreenState extends State<FAQScreen> {
     FAQItem(
       question: 'How do I adopt a pet from the app?',
       answer:
-          'To adopt a pet, you must be at least 18 years old. Provide valid ID, complete the application, and pay any required fees.',
+      'To adopt a pet, you must be at least 18 years old. Provide valid ID, complete the application, and pay any required fees.',
     ),
     FAQItem(
       question: 'What are the requirements for adoption?',
       answer:
-          'Requirements can vary, but typically include a valid ID, proof of residence, and possibly a home visit.',
+      'Requirements can vary, but typically include a valid ID, proof of residence, and possibly a home visit.',
     ),
     FAQItem(
       question: 'How long does the adoption process take?',
       answer:
-          'Most adoptions are completed within a few days, depending on paperwork and approvals.',
+      'Most adoptions are completed within a few days, depending on paperwork and approvals.',
     ),
     FAQItem(
       question: 'Are there adoption fees?',
       answer:
-          'Yes, adoption fees help cover medical care, vaccinations, microchipping, and more.',
+      'Yes, adoption fees help cover medical care, vaccinations, microchipping, and more.',
     ),
     FAQItem(
       question: 'Can I return a pet if the adoption doesn’t work out?',
       answer:
-          'Many organizations allow returns within a set timeframe. Check your adoption contract or ask the shelter.',
+      'Many organizations allow returns within a set timeframe. Check your adoption contract or ask the shelter.',
     ),
   ];
 
@@ -62,27 +67,27 @@ class _FAQScreenState extends State<FAQScreen> {
     FAQItem(
       question: 'How do I take care of a newly adopted pet?',
       answer:
-          'Provide a safe space, schedule a vet check-up, and introduce them slowly to your home and family.',
+      'Provide a safe space, schedule a vet check-up, and introduce them slowly to your home and family.',
     ),
     FAQItem(
       question: 'What vaccinations does my pet need?',
       answer:
-          'Core vaccinations typically include rabies, distemper, and parvovirus. Consult your vet for details.',
+      'Core vaccinations typically include rabies, distemper, and parvovirus. Consult your vet for details.',
     ),
     FAQItem(
       question: 'How often should I take my pet to the vet?',
       answer:
-          'At least once a year for routine exams. Senior pets or pets with health issues may need more frequent visits.',
+      'At least once a year for routine exams. Senior pets or pets with health issues may need more frequent visits.',
     ),
     FAQItem(
       question: 'What should I feed my pet?',
       answer:
-          'Choose a high-quality food suitable for your pet’s age, size, and health. Always have fresh water available.',
+      'Choose a high-quality food suitable for your pet’s age, size, and health. Always have fresh water available.',
     ),
     FAQItem(
       question: 'How can I train my pet?',
       answer:
-          'Use positive reinforcement techniques, be consistent, and consider professional training classes if needed.',
+      'Use positive reinforcement techniques, be consistent, and consider professional training classes if needed.',
     ),
   ];
 
@@ -113,19 +118,37 @@ class _FAQScreenState extends State<FAQScreen> {
     // Count total results after filtering
     final allFilteredFaqsCount = filteredSections.fold<int>(
       0,
-      (sum, section) => sum + section.faqs.length,
+          (sum, section) => sum + section.faqs.length,
     );
 
     return Scaffold(
+      key: _scaffoldKey, // Assign the scaffold key
+      endDrawer: const MenuScreen(), // Add the MenuScreen as a drawer instead of full-screen
       appBar: AppBar(
+        automaticallyImplyLeading: false, // disables automatic hamburger
         backgroundColor: Colors.yellow,
-        // Back arrow that navigates to the Home screen
+        // ✅ Menu icon to open drawer
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => context.go('/'),
+          icon: Image.asset(
+            'assets/images/Arrow_Circle_dms.png',
+            width: 40,
+            height: 40,
+          ),
+          onPressed: () => context.go('/?openMenu=true'),
+
         ),
-        title: const Text('FAQ'),
+        title: const  Text(
+          'FAQ',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
+        actions: [
+          const SizedBox.shrink(), // placeholder to block auto hamburger
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
