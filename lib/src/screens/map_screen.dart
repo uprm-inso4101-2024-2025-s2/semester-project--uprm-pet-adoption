@@ -217,10 +217,11 @@ class Maps extends StatelessWidget {
                           border: Border.all(
                               color: const Color.fromARGB(255, 0, 0, 0), width: 1),
                         ),
-                        child: const Icon(
-                          Icons.add,
+                        child:  IconButton(
+                          onPressed: (){},
+                          icon: Icon(Icons.add),
                           color: Color.fromARGB(255, 0, 0, 0),
-                          size: 40,
+                          // size: 40,
                         ),
                       ),
                     ),
@@ -237,10 +238,13 @@ class Maps extends StatelessWidget {
                           border: Border.all(
                               color: const Color.fromARGB(255, 0, 0, 0), width: 1),
                         ),
-                        child: const Icon(
-                          Icons.remove,
+                        child:  IconButton(
+                          onPressed: (){
+
+                          },
+                          icon:Icon(Icons.remove),
                           color: Color.fromARGB(255, 0, 0, 0),
-                          size: 40,
+                          // size: 40,
                         ),
                       ),
                     ),
