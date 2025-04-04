@@ -176,7 +176,7 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 4),
     );
   }
 
