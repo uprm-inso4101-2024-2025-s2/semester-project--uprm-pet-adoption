@@ -124,7 +124,11 @@ class Mapsfooter extends StatelessWidget {
             ),
             child: const Text(
               'DIRECTIONS',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontFamily: 'Archivo',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
