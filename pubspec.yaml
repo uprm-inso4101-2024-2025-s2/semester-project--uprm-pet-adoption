@@ -55,6 +55,9 @@ dependencies:
   supabase_flutter: ^2.8.4
   file_picker: ^9.2.1
 
+  #Health doc storage
+  firebase_storage: ^12.4.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
