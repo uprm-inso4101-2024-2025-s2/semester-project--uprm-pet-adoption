@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
+import 'package:semester_project__uprm_pet_adoption/supabase/retrieval.dart';
+import 'package:semester_project__uprm_pet_adoption/supabase/upload.dart';
+import '../services/storage_service.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -10,7 +13,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  // Controllers to handle user input
+  final ProfilePictureService profilePictureService = ProfilePictureService();
+
   final TextEditingController nameController =
       TextEditingController(text: "John Doe");
   final TextEditingController emailController =
@@ -20,16 +24,54 @@ class _ProfileState extends State<Profile> {
   final TextEditingController phoneController =
       TextEditingController(text: "+1 234 567 890");
 
+  String? profilePicUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfilePicture();
+  }
+
+  Future<void> _loadProfilePicture() async {
+    try {
+      String? url = await profilePictureService.getProfilePictureUrl();
+      if (mounted) {
+        setState(() {
+          profilePicUrl = url;
+        });
+      }
+    } catch (e) {
+      print('Error loading profile picture: $e');
+      if (mounted) {
+        setState(() {
+          profilePicUrl = null; // Explicitly set to null on error
+        });
+      }
+    }
+  }
+
+  Future<void> _uploadNewProfilePicture() async {
+    String? newFilename = await StorageService().pictureUpload();
+    if (newFilename != null) {
+      await _loadProfilePicture(); // Refresh profile picture
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('File uploaded successfully')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56.0),
         child: AppBar(
-          backgroundColor: Color(0xFFFFF581),
-          title: Align(
+          backgroundColor: const Color(0xFFFFF581),
+          title: const Align(
             alignment: Alignment.centerLeft,
-            child: const Text(
+            child: Text(
               'Profile',
               style: TextStyle(
                 fontFamily: 'Archivo',
@@ -52,70 +94,80 @@ class _ProfileState extends State<Profile> {
       ),
       body: Stack(
         children: [
-          // Background Image
           Positioned.fill(
             child: Image.asset(
               'assets/images/Login_SignUp_Background.png',
               fit: BoxFit.cover,
             ),
           ),
-
-          // Profile Image & Username Above White Box
           Align(
             alignment: Alignment.topCenter,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Editable Username
                 Padding(
-                  padding: EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(top: 10),
                   child: TextField(
                     controller: nameController,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 25,
                       fontFamily: 'Archivo',
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
-                    decoration: InputDecoration(
-                      border: InputBorder.none, // No border
-                      contentPadding: EdgeInsets.zero, // No padding
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
                     ),
                   ),
                 ),
-                SizedBox(height: 5),
-
-                // Profile Image
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.grey.shade300,
+                const SizedBox(height: 5),
+                GestureDetector(
+                  onTap: _uploadNewProfilePicture,
                   child: ClipOval(
-                    child: Image.asset(
-                      'assets/images/Account_Circle_yellow_dms.png',
-                      width: 120,
-                      height: 120,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Icon(Icons.person, size: 60, color: Colors.grey);
-                      },
+                    child: SizedBox(
+                      width: 100, // Set the width you need
+                      height: 100, // Set the height you need
+                      child: profilePicUrl != null && profilePicUrl!.isNotEmpty
+                          ? Image.network(
+                              profilePicUrl!,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child; // Image is loaded, show it
+                                } else {
+                                  return const Center(child: CircularProgressIndicator());
+                                }
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                // In case of an error, show a default image
+                                return const Image(
+                                  image: AssetImage('assets/images/Account_Circle_blue_dms.png'),
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            )
+                          : const Image(
+                              image: AssetImage('assets/images/Account_Circle_blue_dms.png'),
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                 ),
+
               ],
             ),
           ),
-
-          // White Box with Editable User Details & Logout Button
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.57,
               width: double.infinity,
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(
+                color: Colors.white, // Add this to make the container visible
+                borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(30),
                 ),
                 boxShadow: [
@@ -129,36 +181,29 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildEditableProfileField(
-                      Icons.person, "Name", nameController),
-                  SizedBox(height: 15),
-                  _buildEditableProfileField(
-                      Icons.email, "Email", emailController),
-                  SizedBox(height: 15),
-                  _buildEditableProfileField(
-                      Icons.location_on, "Location", locationController),
-                  SizedBox(height: 15),
-                  _buildEditableProfileField(
-                      Icons.phone, "Phone Number", phoneController),
-                  Spacer(), // Push logout button to bottom
-
-                  // Logout Button
+                  _buildEditableProfileField(Icons.person, "Name", nameController),
+                  const SizedBox(height: 15),
+                  _buildEditableProfileField(Icons.email, "Email", emailController),
+                  const SizedBox(height: 15),
+                  _buildEditableProfileField(Icons.location_on, "Location", locationController),
+                  const SizedBox(height: 15),
+                  _buildEditableProfileField(Icons.phone, "Phone Number", phoneController),
+                  const Spacer(),
                   Center(
                     child: SizedBox(
-                      width: double.infinity, // Makes button full width
+                      width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Color(0xFFFFF581), // logout button color
-                          padding: EdgeInsets.symmetric(vertical: 15),
+                          backgroundColor: const Color(0xFFFFF581),
+                          padding: const EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         onPressed: () {
-                          context.go('/login'); // Redirect to login page
+                          context.go('/login');
                         },
-                        child: Text(
+                        child: const Text(
                           'Logout',
                           style: TextStyle(
                             fontSize: 18,
@@ -176,33 +221,32 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(selectedIndex: 4),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
     );
   }
 
-  // Widget for Editable Profile Fields
   Widget _buildEditableProfileField(
       IconData icon, String label, TextEditingController controller) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.shade400),
         borderRadius: BorderRadius.circular(10),
-        color: Colors.grey.shade100, // Light background color
+        color: Colors.grey.shade100,
       ),
       child: Row(
         children: [
           Icon(icon, color: Colors.grey.shade700),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Expanded(
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                border: InputBorder.none, // Removes input box border
+                border: InputBorder.none,
                 hintText: label,
                 hintStyle: TextStyle(color: Colors.grey.shade600),
               ),
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
         ],
