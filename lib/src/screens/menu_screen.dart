@@ -173,7 +173,7 @@ class MenuScreen extends Drawer {
                 ),
                 selected: false,
                 //***button goes here, use onTap***
-                onTap: () {context.go('/gettoknow');},
+                onTap: () {context.go('/shelter-info');},
               ),
             ),
 
