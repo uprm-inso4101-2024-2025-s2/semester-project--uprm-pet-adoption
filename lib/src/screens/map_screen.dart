@@ -6,8 +6,6 @@ import 'package:semester_project__uprm_pet_adoption/supabase/upload.dart';
 import '../services/storage_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 
-
-
 class MapsHeader extends StatelessWidget {
   const MapsHeader({Key? key}) : super(key: key);
 
@@ -16,71 +14,128 @@ class MapsHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 50, bottom: 5),
       decoration: const BoxDecoration(
-            // Setting background image
-            image: DecorationImage(
-              image: AssetImage('images/Login_SignUp_Background.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
+        // Setting background image
+        image: DecorationImage(
+          image: AssetImage('images/Login_SignUp_Background.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-                  
-                  Align(
-                    alignment: Alignment.center,
-                    //input desired location
-                      child: TextField(
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                          hintText: "location...",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide.none,
-                          ),
-                          fillColor: const Color.fromARGB(255, 243, 243, 243),
-                          filled: true,
-                          prefixIcon: Icon(Icons.location_on,color: const Color.fromARGB(255, 131, 131, 131),),
-                          suffixIcon: IconButton(
-                              onPressed: (){
-                                //delete current location
-                        
-                              }, icon: const Icon(Icons.highlight_remove,color: const Color.fromARGB(255, 131, 131, 131),)),
-                              
-                        ),
-                      ),
-                    ),
-
-            ],
-
+        children: [
+          Align(
+            alignment: Alignment.center,
+            //input desired location
+            child: TextField(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                hintText: "location...",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                fillColor: const Color.fromARGB(255, 243, 243, 243),
+                filled: true,
+                prefixIcon: const Icon(
+                  Icons.location_on,
+                  color: Color.fromARGB(255, 131, 131, 131),
+                ),
+                suffixIcon: IconButton(
+                    onPressed: () {
+                      //delete current location
+                    },
+                    icon: const Icon(
+                      Icons.highlight_remove,
+                      color: const Color.fromARGB(255, 131, 131, 131),
+                    )),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-
-//placeholder for duration,distance and directions bottom section
 class Mapsfooter extends StatelessWidget {
   const Mapsfooter({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250, // adjust the height as needed
-    
+      height: 180,
       decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-            top: Radius.circular(30),
+        image: const DecorationImage(
+          image: AssetImage('images/Login_SignUp_Background.png'),
+          fit: BoxFit.cover,
+        ),
+        color: const Color(0xFF82B0FF),
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(30),
+        ),
+      ),
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          // Distance & Duration blocks
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: const [
+                  Icon(Icons.map_outlined, size: 32, color: Color(0xFFFFF581)),
+                  SizedBox(height: 4),
+                  Text('Distance',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white)),
+                  Text('25 km',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Column(
+                children: const [
+                  Icon(Icons.access_time_filled,
+                      size: 32, color: Color(0xFFFFF581)),
+                  SizedBox(height: 4),
+                  Text('Duration',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white)),
+                  Text('10 min',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ElevatedButton(
+            onPressed: () {
+              // Add directions logic here
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFFF581),
+              foregroundColor: Colors.black,
+              minimumSize: const Size(200, 45),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
             ),
-            image: DecorationImage(image: AssetImage('images/Login_SignUp_Background.png'),fit:BoxFit.cover)
-       ),
-      
-      
+            child: const Text(
+              'DIRECTIONS',
+              style: TextStyle(
+                fontFamily: 'Archivo',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
-    
   }
 }
-
 
 class Maps extends StatelessWidget {
   const Maps({super.key});
@@ -88,181 +143,133 @@ class Maps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Custom header using PreferredSize to control height
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: const MapsHeader(),
       ),
-
-      // Main body with background map image
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/temp_map_img.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Stack(
-          children: [
-            // Main content column
-            Column(
-              children: [
-                const SizedBox(height: 15),
-
-                // Horizontally scrollable filter buttons (e.g., Shelters, Rescues, Vet)
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(width: 10),
-                      // Shelter Button
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFF581),
-                          foregroundColor: Colors.black,
-                          minimumSize: const Size(25, 25),
-                        ),
-                        onPressed: () {
-                          // Handle "Shelters" tap
-                        },
-                        child: const Text(
-                          'Shelters',
-                          style: TextStyle(
-                            fontFamily: 'Archivo',
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      // Rescue Button
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFF581),
-                          foregroundColor: Colors.black,
-                          minimumSize: const Size(25, 25),
-                        ),
-                        onPressed: () {
-                          // Handle "Rescues" tap
-                        },
-                        child: const Text(
-                          'Rescues',
-                          style: TextStyle(
-                            fontFamily: 'Archivo',
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      // Vet Button
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFF581),
-                          foregroundColor: Colors.black,
-                          minimumSize: const Size(25, 25),
-                        ),
-                        onPressed: () {
-                          // Handle "Vet" tap
-                        },
-                        child: const Text(
-                          'Vet',
-                          style: TextStyle(
-                            fontFamily: 'Archivo',
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      // Add more buttons if needed...
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 250),
-                // Additional space to make room for floating elements/icons
-              ],
+      body: Stack(
+        children: [
+          // Background map
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/temp_map_img.png'),
+                fit: BoxFit.cover,
+              ),
             ),
+          ),
 
-            // Floating image icon and control buttons (Zoom In/Out)
-            Positioned(
-              bottom: -90,
-              right: 0,
-              child: SizedBox(
-                width: 50,
-                height: 500,
-                child: Stack(
+          // Filter buttons row
+          Column(
+            children: [
+              const SizedBox(height: 15),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
                   children: [
-                    // Location icon
-                    Positioned(
-                      top: 220,
-                      left: -20,
-                      child: Image(
-                        image: AssetImage("assets/images/map_location_icon.png"),
-                        width: 80,
-                        height: 80,
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFFF581),
+                        foregroundColor: Colors.black,
+                        minimumSize: const Size(25, 25),
                       ),
+                      onPressed: () {},
+                      child: const Text('Shelters',
+                          style:
+                              TextStyle(fontFamily: 'Archivo', fontSize: 20)),
                     ),
-
-                    // "+" (Zoom In) button
-                    Positioned(
-                      top: 310,
-                      left: 0,
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 200, 200, 200),
-                          border: Border.all(
-                              color: const Color.fromARGB(255, 0, 0, 0), width: 1),
-                        ),
-                        child:  IconButton(
-                          onPressed: (){},
-                          icon: Icon(Icons.add),
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          // size: 40,
-                        ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFFF581),
+                        foregroundColor: Colors.black,
+                        minimumSize: const Size(25, 25),
                       ),
+                      onPressed: () {},
+                      child: const Text('Rescues',
+                          style:
+                              TextStyle(fontFamily: 'Archivo', fontSize: 20)),
                     ),
-
-                    // "−" (Zoom Out) button
-                    Positioned(
-                      top: 350,
-                      left: 0,
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 201, 201, 201),
-                          border: Border.all(
-                              color: const Color.fromARGB(255, 0, 0, 0), width: 1),
-                        ),
-                        child:  IconButton(
-                          onPressed: (){
-
-                          },
-                          icon:Icon(Icons.remove),
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          // size: 40,
-                        ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFFF581),
+                        foregroundColor: Colors.black,
+                        minimumSize: const Size(25, 25),
                       ),
+                      onPressed: () {},
+                      child: const Text('Vet',
+                          style:
+                              TextStyle(fontFamily: 'Archivo', fontSize: 20)),
                     ),
+                    const SizedBox(width: 10),
                   ],
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
 
-      // Two stacked bottom sections: custom footer and bottom navigation bar
-      bottomNavigationBar: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Mapsfooter(), // Custom bottom widget (e.g., curved container)
-          BottomNavBar(selectedIndex: 0), // Main bottom navigation bar
+          // Floating location + zoom controls
+          Positioned(
+            bottom: 220,
+            right: 16,
+            child: SizedBox(
+              width: 60,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image(
+                    image:
+                        const AssetImage("assets/images/map_location_icon.png"),
+                    width: 60,
+                    height: 60,
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Zoom In
+                  Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 200, 200, 200),
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.add, size: 20),
+                      padding: EdgeInsets.zero,
+                      color: Colors.black,
+                    ),
+                  ),
+
+                  // Zoom Out
+                  Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 201, 201, 201),
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.remove, size: 20),
+                      padding: EdgeInsets.zero,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Footer
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: Mapsfooter(),
+          ),
         ],
       ),
     );
