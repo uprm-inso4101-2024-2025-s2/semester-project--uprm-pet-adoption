@@ -13,14 +13,10 @@ class _PetProfileState extends State<PetProfile> {
   final TextEditingController breedController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   
-  String selectedAge = "0";
-  String selectedAgeType = "weeks";
-  bool showOtherAgeField = false;
-  final TextEditingController otherAgeController = TextEditingController();
+  String selectedAgeCategory = 'Puppy'; // Default value
+  final List<String> ageCategories = ['Puppy (0-2 yrs)', 'Adult (3-9 yrs)', 'Elderly (10+ yrs)'];
   ImageProvider? petAvatarImage;
 
-  final List<int> ageValues = List.generate(51, (index) => index + 2); // 2-52 weeks
-  final List<String> ageTypes = ["weeks", "months", "years", "other"];
 
   @override
   Widget build(BuildContext context) {
@@ -139,9 +135,7 @@ class _PetProfileState extends State<PetProfile> {
                   Expanded(
                     child: _buildButtonWithLabel(
                       label: "Age",
-                      value: showOtherAgeField 
-                        ? otherAgeController.text 
-                        : "$selectedAge $selectedAgeType",
+                      value: selectedAgeCategory,
                       onTap: () => _showAgeSelection(context),
                       fieldScale: fieldScale,
                     ),
@@ -382,10 +376,10 @@ class _PetProfileState extends State<PetProfile> {
           ),
           // Text
           Text(
-            text.toUpperCase(),
+            text.toLowerCase(),
             style: TextStyle(
-              fontSize: 14 * fieldScale,
-              fontFamily: 'ArchivoBlack',
+              fontSize: 9 * fieldScale,
+              fontFamily: 'Archivo',
               color: Colors.black,
               fontWeight: FontWeight.bold,
               shadows: [
@@ -436,10 +430,10 @@ class _PetProfileState extends State<PetProfile> {
         return Container(
           height: 150,
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/Login_SignUp_Background.png'),
-              fit: BoxFit.cover,
-            ),
+            //image: DecorationImage(
+              //image: AssetImage('assets/images/Login_SignUp_Background.png'),
+              //fit: BoxFit.cover,
+            //),
           ),
           child: Column(
             children: [
@@ -476,110 +470,58 @@ class _PetProfileState extends State<PetProfile> {
 
   // Rest of your existing methods (_showAgeSelection, _showBreedSelection) remain the same...
   void _showAgeSelection(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          padding: EdgeInsets.all(16),
-          height: 300,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/Login_SignUp_Background.png'),
-              fit: BoxFit.cover,
+  showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Container(
+        height: 200,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Text(
+                'Select Age Category',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'ArchivoBlack',
+                  color: Colors.black,
+                ),
+              ),
             ),
-          ),
-          child: Column(
-            children: [
-              // Age type selector
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  value: selectedAgeType,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedAgeType = newValue!;
-                      showOtherAgeField = newValue == "other";
-                      if (!showOtherAgeField) {
-                        selectedAge = "2";
-                      }
-                    });
-                  },
-                  items: ageTypes.map((type) {
-                    return DropdownMenuItem<String>(
-                      value: type,
-                      child: Text(type),
-                    );
-                  }).toList(),
-                ),
-              ),
-              
-              if (showOtherAgeField)
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.8),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: TextField(
-                      controller: otherAgeController,
-                      decoration: InputDecoration(
-                        labelText: "Enter custom age",
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+            Expanded(
+              child: ListView.builder(
+                itemCount: ageCategories.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      ageCategories[index],
+                      style: TextStyle(
+                        fontFamily: 'ArchivoBlack',
+                        color: Colors.black,
                       ),
-                      keyboardType: TextInputType.text,
-                      onChanged: (value) {
-                        setState(() {});
-                      },
                     ),
-                  ),
-                )
-              else
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.8),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: ListWheelScrollView(
-                      itemExtent: 40,
-                      perspective: 0.01,
-                      diameterRatio: 1.2,
-                      onSelectedItemChanged: (index) {
-                        setState(() {
-                          selectedAge = ageValues[index].toString();
-                        });
-                      },
-                      children: ageValues.map((age) {
-                        return Center(
-                          child: Text(
-                            age.toString(),
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-              
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFFFF581),
-                ),
-                child: Text("Done", style: TextStyle(color: Colors.black)),
+                    onTap: () {
+                      setState(() {
+                        selectedAgeCategory = ageCategories[index];
+                      });
+                      Navigator.pop(context);
+                    },
+                    tileColor: selectedAgeCategory == ageCategories[index]
+                        ? Color(0xFFFFF581).withOpacity(0.3)
+                        : null,
+                  );
+                },
               ),
-            ],
-          ),
-        );
-      },
-    );
+            ),
+          ],
+        ),
+      );
+    },
+  );
   }
 
   void _showBreedSelection(BuildContext context) {
