@@ -348,11 +348,11 @@ class _PetProfileState extends State<PetProfile> {
   }
 
   Widget _buildBoneTagRow(List<String> tags, double fieldScale) {
-    return Wrap(
-      spacing: 8 * fieldScale,
-      runSpacing: 8 * fieldScale,
-      children: tags.map((tag) => _buildBoneTag(tag, fieldScale)).toList(),
-    );
+  return Wrap(
+    spacing: 8 * fieldScale,
+    runSpacing: 8 * fieldScale,
+    children: tags.map((tag) => _buildBoneTag(tag, fieldScale)).toList(),
+  );
   }
 
   Widget _buildBoneTag(String text, double fieldScale) {
@@ -361,33 +361,73 @@ class _PetProfileState extends State<PetProfile> {
     onTap: () {
       // Handle tag selection
     },
-    child: BoneTag(
-      text: text,
-      color: color,
-      scale: fieldScale,
+    child: SizedBox(
+      width: 120 * fieldScale,
+      height: 50 * fieldScale,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Colored bone shape
+          ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              color.withOpacity(0.6),
+              BlendMode.srcATop,
+            ),
+            child: Image.asset(
+              'assets/images/bone.png', // Your bone asset
+              width: 120 * fieldScale,
+              height: 50 * fieldScale,
+              fit: BoxFit.contain,
+            ),
+          ),
+          // Text
+          Text(
+            text.toUpperCase(),
+            style: TextStyle(
+              fontSize: 14 * fieldScale,
+              fontFamily: 'ArchivoBlack',
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              shadows: [
+                Shadow(
+                  color: Colors.white.withOpacity(0.7),
+                  blurRadius: 2,
+                  offset: Offset(1, 1),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     ),
   );
-  } 
-
+}
+  
 
   Color _getTagColor(String tag) {
-    switch (tag.toLowerCase()) {
-      case 'small':
-      case 'medium':
-      case 'large':
-        return Color(0xFF82B0FF); // Blue for size
-      case 'adventurous':
-      case 'chill':
-      case 'family pet':
-        return Color(0xFFFFA082); // Orange for personality
-      case 'trained':
-      case 'vaccinated':
-      case 'playful':
-        return Color(0xFFA0FF82); // Green for status
-      default:
-        return Colors.purple;
-    }
+  switch (tag.toLowerCase()) {
+    case 'small':
+      return Color(0xFFFFC0CB); // Pink
+    case 'medium':
+      return Color(0xFF00FFFF); // Cyan
+    case 'large':
+      return Color(0xFFE6E6FA); // Lavender
+    case 'adventurous':
+      return Color(0xFF006400); // Dark Green
+    case 'chill':
+      return Color(0xFFF5F5DC); // Beige
+    case 'family pet':
+      return Color(0xFFFF7F50); // Coral
+    case 'trained':
+      return Color(0xFF800080); // Purple
+    case 'vaccinated':
+      return Color(0xFFFFA500); // Orange
+    case 'playful':
+      return Color(0xFFFF00FF); // Fuchsia
+    default:
+      return Colors.grey; // Fallback color
   }
+}
 
   void _showImagePicker(BuildContext context) {
     showModalBottomSheet(
@@ -635,11 +675,17 @@ class BoneTag extends StatelessWidget {
             BlendMode.srcATop,
           ),
           child: Image.asset(
-            'assets/images/SignUpbutton.png',
+            'assets/images/dog_bone.png',
             width: 100 * scale,
             height: 40 * scale,
             fit: BoxFit.contain,
           ),
+          //child: Image.asset(
+           // 'assets/images/SignUpbutton.png',
+           // width: 100 * scale,
+           /// height: 40 * scale,
+           // fit: BoxFit.contain,
+         // ),
         ),
         // Text on top of the bone
         Padding(
