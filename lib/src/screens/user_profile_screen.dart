@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 import 'package:semester_project__uprm_pet_adoption/supabase/retrieval.dart';
 import 'package:semester_project__uprm_pet_adoption/supabase/upload.dart';
 import '../services/storage_service.dart';
+
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -14,15 +17,16 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final ProfilePictureService profilePictureService = ProfilePictureService();
+  final AuthService authService = AuthService();
+  
+   // Controllers to handle user input
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
-  final TextEditingController nameController =
-      TextEditingController(text: "John Doe");
-  final TextEditingController emailController =
-      TextEditingController(text: "johndoe@example.com");
-  final TextEditingController locationController =
-      TextEditingController(text: "New York, USA");
-  final TextEditingController phoneController =
-      TextEditingController(text: "+1 234 567 890");
+  final FocusNode locationFocusNode = FocusNode();
+  final FocusNode phoneFocusNode = FocusNode();
 
   String? profilePicUrl;
 
@@ -30,8 +34,44 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     _loadProfilePicture();
+    _initializeUserData();
+
+    locationFocusNode.addListener(() {
+      if (!locationFocusNode.hasFocus) {
+        updateUserField('Location', locationController.text);
+      }
+    });
+
+    phoneFocusNode.addListener(() {
+      if (!phoneFocusNode.hasFocus) {
+        updateUserField('Phone_number', phoneController.text);
+      }
+    });
   }
 
+  void _initializeUserData() async {
+    final firstName = await authService.getUserFirstName();
+    final lastName = await authService.getUserLastName();
+    final email = await authService.getUserEmail();
+    final location = await authService.getUserLocation();
+    final phoneNumber = await authService.getUserPhoneNumber();
+
+    setState(() {
+      nameController.text = '${firstName ?? ''} ${lastName ?? ''}'.trim();
+      emailController.text = email ?? "";
+      locationController.text = location ?? "";
+      phoneController.text = phoneNumber ?? "";
+    });
+  }
+
+  Future<void> updateUserField(String fieldName, String newValue) async {
+    final userDoc = await AuthService().getUserDoc();
+
+    if (userDoc != null && userDoc is DocumentSnapshot) {
+      await userDoc.reference.update({fieldName: newValue});
+    }
+  }
+  
   Future<void> _loadProfilePicture() async {
     try {
       String? url = await profilePictureService.getProfilePictureUrl();
@@ -60,6 +100,21 @@ class _ProfileState extends State<Profile> {
         );
       }
     }
+  }
+  
+  @override
+  void dispose() {
+    // Disposing controllers to prevent memory leaks
+
+    nameController.dispose();
+    emailController.dispose();
+    locationController.dispose();
+    phoneController.dispose();
+
+    locationFocusNode.dispose();
+    phoneFocusNode.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -181,13 +236,13 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildEditableProfileField(Icons.person, "Name", nameController),
+                  _buildNormalTextField(Icons.person, "Name", nameController),
                   const SizedBox(height: 15),
-                  _buildEditableProfileField(Icons.email, "Email", emailController),
+                  _buildNormalTextField(Icons.email, "Email", emailController),
                   const SizedBox(height: 15),
-                  _buildEditableProfileField(Icons.location_on, "Location", locationController),
+                  _buildEditableProfileField(Icons.location_on, "Location", locationController, locationFocusNode),
                   const SizedBox(height: 15),
-                  _buildEditableProfileField(Icons.phone, "Phone Number", phoneController),
+                  _buildEditableProfileField(Icons.phone, "Phone Number", phoneController, phoneFocusNode),
                   const Spacer(),
                   Center(
                     child: SizedBox(
@@ -225,7 +280,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _buildEditableProfileField(
+  Widget _buildNormalTextField(
       IconData icon, String label, TextEditingController controller) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -241,6 +296,37 @@ class _ProfileState extends State<Profile> {
           Expanded(
             child: TextField(
               controller: controller,
+              readOnly: true,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: label,
+                hintStyle: TextStyle(color: Colors.grey.shade600),
+              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEditableProfileField(
+      IconData icon, String label, TextEditingController controller, FocusNode focusNode) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade400),
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.grey.shade100,
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.grey.shade700),
+          const SizedBox(width: 10),
+          Expanded(
+            child: TextField(
+              controller: controller,
+              focusNode: focusNode,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: label,
