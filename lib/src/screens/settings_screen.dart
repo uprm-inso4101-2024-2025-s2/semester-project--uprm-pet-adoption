@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
-
-
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
@@ -13,29 +11,24 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = false;
 
-  // Colors per your design
-  final Color _backgroundColor = const Color(0xFFFFF581);  // Overall background
-  final Color _tileColor = const Color(0xFFF2F2F2);        // Light gray tile background
-  final Color _dividerColor = const Color(0xFFE0E0E0);      // Divider between tiles
-  final Color _pastelBlueIcon = const Color(0xFF82C3FA);    // Icon color
-  final Color _bottomBarColor = Colors.black;               // Bottom nav background
-  final Color _bottomBarIconColor = const Color(0xFFFFF581);// Bottom nav icon color
+  final Color _backgroundColor = const Color(0xFFFFF581);
+  final Color _tileColor = const Color(0xFFF2F2F2);
+  final Color _dividerColor = const Color(0xFFE0E0E0);
+  final Color _pastelBlueIcon = const Color(0xFF82C3FA);
+  final Color _bottomBarColor = Colors.black;
+  final Color _bottomBarIconColor = const Color(0xFFFFF581);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       backgroundColor: _backgroundColor,
-
-      // Top AppBar with updated font style for "Settings"
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            // Go back to Home screen
-            context.go('/');
+            context.go('/'); // Ruta al home
           },
         ),
         centerTitle: true,
@@ -43,42 +36,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           'Settings',
           style: TextStyle(
             fontSize: 32,
-            // Match the style used for "MENU" (e.g., 'Archivo' font, no bold)
             fontFamily: 'Archivo',
             color: Colors.black,
           ),
-
-      appBar: AppBar(title: const Text("Settings")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "App Settings",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20), // Spacing between text and button
-            ElevatedButton(
-              onPressed: () {
-                context.go('/menu'); // Return to the menu screen for the moment
-              },
-              child: const Text("Return"),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                context.go('/chat'); // Go to chat screen
-              },
-              child: const Text("Message"),
-            ),
-          ],
-
         ),
       ),
-
       body: Column(
         children: [
-          // Search Bar
+          // Barra de búsqueda
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Container(
@@ -104,52 +69,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
 
-          // Expanded List of Settings
+          // Lista de ajustes
           Expanded(
             child: ListView(
               children: [
-                // 1) General
-                _buildSettingsTile(
-                  icon: Icons.settings,
-                  label: 'General',
-                  onTap: () {},
-                ),
-                // 2) Notifications Toggle
-                _buildToggleTile(
-                  icon: Icons.notifications,
-                  label: 'Notifications',
-                ),
-                // 3) Privacy & Security
-                _buildSettingsTile(
-                  icon: Icons.lock,
-                  label: 'Privacy & Security',
-                  onTap: () {},
-                ),
-                // 4) Terms & Conditions
-                _buildSettingsTile(
-                  icon: Icons.article,
-                  label: 'Terms & Conditions',
-                  onTap: () {},
-                ),
-                // 5) Contacts
-                _buildSettingsTile(
-                  icon: Icons.contacts,
-                  label: 'Contacts',
-                  onTap: () {},
-                ),
-                // 6) Recent Activity
-                _buildSettingsTile(
-                  icon: Icons.history,
-                  label: 'Recent Activity',
-                  onTap: () {},
-                ),
+                _buildSettingsTile(icon: Icons.settings, label: 'General'),
+                _buildToggleTile(icon: Icons.notifications, label: 'Notifications'),
+                _buildSettingsTile(icon: Icons.lock, label: 'Privacy & Security'),
+                _buildSettingsTile(icon: Icons.article, label: 'Terms & Conditions'),
+                _buildSettingsTile(icon: Icons.contacts, label: 'Contacts'),
+                _buildSettingsTile(icon: Icons.history, label: 'Recent Activity'),
               ],
             ),
           ),
         ],
       ),
-
-      // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: _bottomBarColor,
         selectedItemColor: _bottomBarIconColor,
@@ -179,7 +113,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  // Standard Settings Tile
   Widget _buildSettingsTile({
     required IconData icon,
     required String label,
@@ -192,11 +125,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: ListTile(
             leading: Icon(icon, color: _pastelBlueIcon, size: 28),
             title: Text(label, style: const TextStyle(fontSize: 16)),
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.black,
-              size: 18,
-            ),
+            trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black, size: 18),
             onTap: onTap,
           ),
         ),
@@ -205,7 +134,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  // Notifications Toggle Tile
   Widget _buildToggleTile({
     required IconData icon,
     required String label,

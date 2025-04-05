@@ -187,15 +187,15 @@ class MenuScreen extends Drawer {
             color: const Color.fromRGBO(244, 233, 107, 1),
             child: ListTile(
               leading: Container(
-                width: 20,
+                width: 25,
                 height: 70,
                 color: const Color.fromRGBO(198, 187, 60, 1),
+                  child: Icon(Icons.settings)
               ),
               title: const Text(
-              'SETTINGS',
+              'Settings',
                 style: TextStyle(
                   fontFamily: 'Archivo',
-                  fontWeight: FontWeight.bold,
 
            
                 ),
