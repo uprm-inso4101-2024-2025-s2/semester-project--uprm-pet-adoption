@@ -188,27 +188,50 @@ class MenuScreen extends Drawer {
             color: const Color.fromRGBO(244, 233, 107, 1),
             child: ListTile(
               leading: Container(
-                width: 25,
-                height: 70,
-                color: const Color.fromRGBO(198, 187, 60, 1),
-                  child: Icon(Icons.settings)
-              ),
-              title: const Text(
-              'Settings',
+                  width: 25,
+                  height: 70,
+                  color: const Color.fromRGBO(198, 187, 60, 1),
+                  child: Icon(Icons.settings),
+          ),
+                title: const Text(
+                  'Settings',
                 style: TextStyle(
                   fontFamily: 'Archivo',
+                ),
+              ),
+              selected: false,
+              onTap: () {
+              context.go('/settings');
+          },
+            ),
+          ),
+            const SizedBox(height: 8),
 
-           
-
+            // Box 7 (empty)
+            Material(
+              color: const Color.fromRGBO(244, 233, 107, 1),
+              child: ListTile(
+                leading: Container(
+                    width: 25,
+                    height: 70,
+                    color: Color.fromRGBO(198, 187, 60, 1),
+                    child: Icon(Icons.privacy_tip_outlined)
+                ),
+                title: const Text(
+                  'Privacy Policy', //***name of button widget goes here***
+                  style: TextStyle(
+                    fontFamily: 'Archivo',
+                  ),
                 ),
                 selected: false,
-                //***button goes here, use onTap***
-                onTap: () {context.go('/settings');},
+                onTap: () {context.go('/privacy');},
               ),
             ),
+
+            // Spacer
             SizedBox(
-              height: MediaQuery.sizeOf(context).height * .5 - 100,
-            ),
+              height: 8,
+),
 
             // Logout icon
             SizedBox(
