@@ -151,6 +151,87 @@ class AuthService{
       );
     }
   }
+
+  // Specific user Doc
+  Future<Object?> getUserDoc() async {
+    // Get the current user
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Fetch the user's document from Firestore
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(user.uid).get();
+
+      if (userDoc.exists) {
+        // Return userDoc which can be used to access specific
+        // user data
+        return userDoc;
+      }
+    }
+
+    return null; // Return null if no file is found
+  }
+
+  // Fetch User First Name
+  Future<String?> getUserFirstName() async {
+    final userDoc = await getUserDoc();
+
+    if (userDoc != null && userDoc is DocumentSnapshot) {
+      final data = userDoc.data() as Map<String, dynamic>;
+      return data['First_name'] as String?;
+    }
+
+    return null;
+  }
+
+  // Fetch User Last Name
+  Future<String?> getUserLastName() async {
+    final userDoc = await getUserDoc();
+
+    if (userDoc != null && userDoc is DocumentSnapshot) {
+      final data = userDoc.data() as Map<String, dynamic>;
+      return data['Last_name'] as String?;
+    }
+
+    return null;
+  }
+
+  // Fetch User Location
+  Future<String?> getUserLocation() async {
+    final userDoc = await getUserDoc();
+
+    if (userDoc != null && userDoc is DocumentSnapshot) {
+      final data = userDoc.data() as Map<String, dynamic>;
+      return data['Location'] as String?;
+    }
+
+    return null;
+  }
+
+  // Fetch User Phone number
+  Future<String?> getUserPhoneNumber() async {
+    final userDoc = await getUserDoc();
+
+    if (userDoc != null && userDoc is DocumentSnapshot) {
+      final data = userDoc.data() as Map<String, dynamic>;
+      return data['Phone_number'] as String?;
+    }
+
+    return null;
+  }
+
+  // Fetch User email
+  Future<String?> getUserEmail() async {
+    final userDoc = await getUserDoc();
+
+    if (userDoc != null && userDoc is DocumentSnapshot) {
+      final data = userDoc.data() as Map<String, dynamic>;
+      return data['email'] as String?;
+    }
+
+    return null;
+  }
+
   // This feauture is implemented but not used anywhere due to front end not being available at time of development
   // TODO: Implement sign in when front end is available
   
