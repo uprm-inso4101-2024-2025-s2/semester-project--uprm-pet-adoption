@@ -33,7 +33,6 @@ class MenuScreen extends Drawer {
                       // Back arrow -> Goes to Home screen
                       IconButton(
                         onPressed: () {
-                          // Navigate to Home
                           context.go('/');
                         },
                         icon: const Icon(Icons.arrow_back),
@@ -62,7 +61,7 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 40.0),
 
-            // Box 1 (empty)
+            // Box 1: Account
             Material(
               child: InkWell(
                 onTap: () {
@@ -70,14 +69,17 @@ class MenuScreen extends Drawer {
                 },
                 child: ListTile(
                   leading: Container(
-                      width: 25,
-                      height: 70,
-                      color: Color.fromRGBO(198, 187, 60, 1),
-                      child: Icon(Icons.person_2_rounded,color:Colors.black)
+                    width: 25,
+                    height: 70,
+                    color: const Color.fromRGBO(198, 187, 60, 1),
+                    child: const Icon(
+                      Icons.person_2_rounded,
+                      color: Colors.black,
+                    ),
                   ),
                   tileColor: const Color.fromRGBO(244, 233, 107, 1),
                   title: const Text(
-                    'Account', //***name of button widget goes here***
+                    'Account',
                     style: TextStyle(
                       fontFamily: 'Archivo',
                     ),
@@ -88,38 +90,19 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 2 (empty)
-            // Material(
-            //   color: const Color.fromRGBO(244, 233, 107, 1),
-            //   child: ListTile(
-            //     leading: Container(
-            //       width: 25,
-            //       height: 70,
-            //       color: const Color.fromRGBO(198, 187, 60, 1),
-            //     ),
-            //     title: const Text(
-            //       '',
-            //       style: TextStyle(fontFamily: 'Archivo'),
-            //     ),
-            //     selected: false,
-            //   ),
-            // ),
-            // const SizedBox(height: 8),
-
-            // 3) FAQ Box -> "FAQ"
+            // Box 3: FAQ
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: InkWell(
                 onTap: () {
-                  // Navigate to FAQ screen
                   context.go('/faq');
                 },
                 child: ListTile(
                   leading: Container(
-                      width: 25,
-                      height: 70,
-                      color: const Color.fromRGBO(198, 187, 60, 1),
-                      child: Icon(Icons.question_mark_sharp)
+                    width: 25,
+                    height: 70,
+                    color: const Color.fromRGBO(198, 187, 60, 1),
+                    child: const Icon(Icons.question_mark_sharp),
                   ),
                   title: const Text(
                     'FAQ',
@@ -131,107 +114,80 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 4 (empty)
+            // Box 4: About Us
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: ListTile(
                 leading: Container(
-                    width: 25,
-                    height: 70,
-                    color: Color.fromRGBO(198, 187, 60, 1),
-                    child: Icon(Icons.info_outlined)
-                ),
-                title: const Text(
-                  'About Us', //***name of button widget goes here***
-                  style: TextStyle(
-                    fontFamily: 'Archivo',
-                  ),
-                ),
-                selected: false,
-                // ***button goes here*** onTap
-                onTap: () {context.go('/about_us');},
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            // Box 5 (empty)
-            Material(
-              color: Color.fromRGBO(244, 233, 107, 1),
-              child: ListTile(
-                leading: Container(
-                    width: 25,
-                    height: 70,
-                    color: Color.fromRGBO(198, 187, 60, 1),
-                    child: Icon(Icons.house_sharp,color:Colors.black)
-                ),
-                //name of tag
-                title: const Text(
-                  'Shelters', //***name of button widget goes here***
-                  style: TextStyle(
-                    fontFamily: 'Archivo',
-                  ),
-                ),
-                selected: false,
-                //***button goes here, use onTap***
-                onTap: () {context.go('/shelter-info');},
-              ),
-            ),
-
-            // Spacer
-            SizedBox(
-              height: 8,
-            ),
-
-
-            // SETTINGS
-          Material(
-            color: const Color.fromRGBO(244, 233, 107, 1),
-            child: ListTile(
-              leading: Container(
                   width: 25,
                   height: 70,
                   color: const Color.fromRGBO(198, 187, 60, 1),
-                  child: Icon(Icons.settings),
-          ),
-                title: const Text(
-                  'Settings',
-                style: TextStyle(
-                  fontFamily: 'Archivo',
-                ),
-              ),
-              selected: false,
-              onTap: () {
-              context.go('/settings');
-          },
-            ),
-          ),
-            const SizedBox(height: 8),
-
-            // Box 7 (empty)
-            Material(
-              color: const Color.fromRGBO(244, 233, 107, 1),
-              child: ListTile(
-                leading: Container(
-                    width: 25,
-                    height: 70,
-                    color: Color.fromRGBO(198, 187, 60, 1),
-                    child: Icon(Icons.privacy_tip_outlined)
+                  child: const Icon(Icons.info_outlined),
                 ),
                 title: const Text(
-                  'Privacy Policy', //***name of button widget goes here***
+                  'About Us',
                   style: TextStyle(
                     fontFamily: 'Archivo',
                   ),
                 ),
                 selected: false,
-                onTap: () {context.go('/privacy');},
+                onTap: () {
+                  context.go('/about_us');
+                },
               ),
             ),
+            const SizedBox(height: 8),
 
-            // Spacer
-            SizedBox(
-              height: 8,
-),
+            // Box 5: Shelters
+            Material(
+              color: const Color.fromRGBO(244, 233, 107, 1),
+              child: ListTile(
+                leading: Container(
+                  width: 25,
+                  height: 70,
+                  color: const Color.fromRGBO(198, 187, 60, 1),
+                  child: const Icon(
+                    Icons.house_sharp,
+                    color: Colors.black,
+                  ),
+                ),
+                title: const Text(
+                  'Shelters',
+                  style: TextStyle(
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+                selected: false,
+                onTap: () {
+                  context.go('/shelter-info');
+                },
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Box 6: Settings
+            Material(
+              color: const Color.fromRGBO(244, 233, 107, 1),
+              child: ListTile(
+                leading: Container(
+                  width: 25,
+                  height: 70,
+                  color: const Color.fromRGBO(198, 187, 60, 1),
+                  child: const Icon(Icons.settings),
+                ),
+                title: const Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+                selected: false,
+                onTap: () {
+                  context.go('/settings');
+                },
+              ),
+            ),
+            const SizedBox(height: 8),
 
             // Logout icon
             SizedBox(
@@ -248,8 +204,6 @@ class MenuScreen extends Drawer {
           ],
         ),
       ),
-
-
     );
   }
 }
