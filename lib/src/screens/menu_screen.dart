@@ -181,20 +181,25 @@ class MenuScreen extends Drawer {
             SizedBox(
               height: 8,
             ),
-            Material(
-              color: Color.fromRGBO(244, 233, 107, 1),
-              child: ListTile(
-                leading: Container(
-                  width: 25,
-                  height: 70,
-                  color: Color.fromRGBO(198, 187, 60, 1),
-                  child: Icon(Icons.settings,color:Colors.black),
-                ),
-                title: const Text(
-                  'Settings', //***name of button widget goes here***
-                  style: TextStyle(
-                    fontFamily: 'Archivo',
-                  ),
+
+
+            // SETTINGS
+          Material(
+            color: const Color.fromRGBO(244, 233, 107, 1),
+            child: ListTile(
+              leading: Container(
+                width: 25,
+                height: 70,
+                color: const Color.fromRGBO(198, 187, 60, 1),
+                  child: Icon(Icons.settings)
+              ),
+              title: const Text(
+              'Settings',
+                style: TextStyle(
+                  fontFamily: 'Archivo',
+
+           
+
                 ),
                 selected: false,
                 //***button goes here, use onTap***
