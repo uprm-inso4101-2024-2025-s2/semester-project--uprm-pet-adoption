@@ -23,6 +23,10 @@ class _SearchState extends State<Search> {
     'Small',
     'Adopted',
     'Available'
+        'Adventurous',
+    'Chill',
+    'Playful',
+    ''
   ];
 
   void _showFilterPopup() {
