@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
+
+
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
@@ -22,6 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: _backgroundColor,
 
       // Top AppBar with updated font style for "Settings"
@@ -44,6 +47,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
             fontFamily: 'Archivo',
             color: Colors.black,
           ),
+
+      appBar: AppBar(title: const Text("Settings")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "App Settings",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20), // Spacing between text and button
+            ElevatedButton(
+              onPressed: () {
+                context.go('/menu'); // Return to the menu screen for the moment
+              },
+              child: const Text("Return"),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {
+                context.go('/chat'); // Go to chat screen
+              },
+              child: const Text("Message"),
+            ),
+          ],
+
         ),
       ),
 
