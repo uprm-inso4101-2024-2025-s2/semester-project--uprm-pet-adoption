@@ -22,8 +22,8 @@ class _SearchState extends State<Search> {
     'Medium',
     'Small',
     'Adopted',
-    'Available'
-        'Adventurous',
+    'Available',
+    'Adventurous',
     'Chill',
     'Playful',
     ''
