@@ -28,7 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            context.go('/'); // Ruta al home
+            context.go('/'); // Navigate to Home screen
           },
         ),
         centerTitle: true,
@@ -43,7 +43,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: Column(
         children: [
-          // Barra de búsqueda
+          // Search Bar
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Container(
@@ -68,8 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
-
-          // Lista de ajustes
+          // List of Settings Options
           Expanded(
             child: ListView(
               children: [

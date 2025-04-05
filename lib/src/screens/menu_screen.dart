@@ -182,6 +182,7 @@ class MenuScreen extends Drawer {
               height: 8,
             ),
 
+
             // SETTINGS
           Material(
             color: const Color.fromRGBO(244, 233, 107, 1),
@@ -198,14 +199,11 @@ class MenuScreen extends Drawer {
                   fontFamily: 'Archivo',
 
            
+
                 ),
-              ),
                 selected: false,
-
-                onTap: () {
-                  context.go('/settings'); 
-                  },
-
+                //***button goes here, use onTap***
+                onTap: () {context.go('/settings');},
               ),
             ),
             SizedBox(

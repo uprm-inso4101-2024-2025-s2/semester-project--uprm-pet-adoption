@@ -24,6 +24,7 @@ import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_verification_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/shelter_info_screen.dart';
+import '../screens/petProfile_screen.dart' as petProfile;
 
 
 
@@ -374,6 +375,21 @@ final GoRouter appRouter = GoRouter(
       ),
     ),
 
+    GoRoute(
+      path: '/petProfile',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const petProfile.PetProfile(), // Ensure PetProfile is defined in petProfile_screen.dart
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
 
 
   ],
