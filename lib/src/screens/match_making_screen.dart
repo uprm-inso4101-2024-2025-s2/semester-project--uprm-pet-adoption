@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// MatchMakingScreen:
 /// Displays a placeholder layout for the future matching logic.
@@ -15,10 +16,11 @@ class MatchMakingScreen extends StatelessWidget {
       ),
 
       // Placeholder body for future matching content
-      body: const Center(
-        child: Text(
-          "Match Making Placeholder",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: Center(
+        child: TextButton(
+          onPressed: (){ context.go('/petProfile');},
+          style: ButtonStyle(textStyle: MaterialStateProperty.all(TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
+          child: Text('Pet Profile Temp button'),
         ),
       ),
     );
