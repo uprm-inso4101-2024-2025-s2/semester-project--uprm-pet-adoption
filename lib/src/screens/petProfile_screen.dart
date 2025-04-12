@@ -29,8 +29,8 @@ class _PetProfileState extends State<PetProfile> {
           'New Pet Profile',
           style: TextStyle(
             fontSize: 24 * fieldScale,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'ArchivoBlack',
+            // fontWeight: FontWeight.bold,
+            fontFamily: 'Archivo',
             color: Colors.black,
           ),
         ),
@@ -58,11 +58,11 @@ class _PetProfileState extends State<PetProfile> {
                 child: Stack(
                   children: [
                     CircleAvatar(
-                      radius: 40 * fieldScale,
+                      radius: 65 * fieldScale,
                       backgroundColor: Colors.white.withOpacity(0.8),
-                      backgroundImage: petAvatarImage ?? AssetImage('assets/images/default_pet_avatar.png'),
+                      // backgroundImage: petAvatarImage ?? AssetImage('assets/images/default_pet_avatar.png'),
                       child: petAvatarImage == null 
-                          ? Icon(Icons.pets, size: 30 * fieldScale, color: Colors.grey)
+                          ? Icon(Icons.pets, size: 50 * fieldScale, color: Colors.grey)
                           : null,
                     ),
                     Positioned(
@@ -74,7 +74,7 @@ class _PetProfileState extends State<PetProfile> {
                           color: Color(0xFFFFF581),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.camera_alt, size: 16 * fieldScale, color: Colors.black),
+                        child: Icon(Icons.camera_alt, size: 24 * fieldScale, color: Colors.black),
                       ),
                     ),
                   ],
@@ -92,8 +92,8 @@ class _PetProfileState extends State<PetProfile> {
                       "Name of Pet",
                       style: TextStyle(
                         fontSize: 16 * fieldScale, 
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'ArchivoBlack',
+                        // fontWeight: FontWeight.bold,
+                        fontFamily: 'Archivo',
                         color: Colors.black,
                       ),
                     ),
@@ -108,8 +108,8 @@ class _PetProfileState extends State<PetProfile> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18 * fieldScale, 
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'ArchivoBlack',
+                          // fontWeight: FontWeight.bold,
+                          // fontFamily: 'Archivo',
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -134,7 +134,7 @@ class _PetProfileState extends State<PetProfile> {
                   // Age Button
                   Expanded(
                     child: _buildButtonWithLabel(
-                      label: "Age",
+                      label: 'Age',
                       value: selectedAgeCategory,
                       onTap: () => _showAgeSelection(context),
                       fieldScale: fieldScale,
@@ -160,7 +160,7 @@ class _PetProfileState extends State<PetProfile> {
                 style: TextStyle(
                   fontSize: 16 * fieldScale, 
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'ArchivoBlack',
+                  fontFamily: 'Archivo',
                   color: Colors.black,
                 ),
               ),
@@ -174,7 +174,7 @@ class _PetProfileState extends State<PetProfile> {
                   controller: descriptionController,
                   maxLines: 3,
                   style: TextStyle(
-                    fontFamily: 'ArchivoBlack',
+                    // fontFamily: 'ArchivoBlack',
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
@@ -193,7 +193,7 @@ class _PetProfileState extends State<PetProfile> {
                 style: TextStyle(
                   fontSize: 16 * fieldScale, 
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'ArchivoBlack',
+                  fontFamily: 'Archivo',
                   color: Colors.black,
                 ),
               ),
@@ -235,7 +235,7 @@ class _PetProfileState extends State<PetProfile> {
                 style: TextStyle(
                   fontSize: 16 * fieldScale, 
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'ArchivoBlack',
+                  fontFamily: 'Archivo',
                   color: Colors.black,
                 ),
               ),
@@ -275,7 +275,7 @@ class _PetProfileState extends State<PetProfile> {
                     "Complete Registration",
                     style: TextStyle(
                       fontSize: 16 * fieldScale,
-                      fontFamily: 'ArchivoBlack',
+                      fontFamily: 'Archivo',
                       color: Colors.black,
                     ),
                   ),
@@ -301,7 +301,7 @@ class _PetProfileState extends State<PetProfile> {
           label,
           style: TextStyle(
             fontSize: 14 * fieldScale, 
-            fontFamily: 'ArchivoBlack',
+            fontFamily: 'Archivo',
             color: Colors.black,
           ),
         ),
@@ -325,7 +325,7 @@ class _PetProfileState extends State<PetProfile> {
                   value,
                   style: TextStyle(
                     fontSize: 14 * fieldScale,
-                    fontFamily: 'ArchivoBlack',
+                    // fontFamily: 'Archivo',
                     color: Colors.black,
                   ),
                 ),
@@ -441,7 +441,7 @@ class _PetProfileState extends State<PetProfile> {
                 leading: Icon(Icons.photo_library, color: Colors.black),
                 title: Text('Choose from Gallery', 
                   style: TextStyle(
-                    fontFamily: 'ArchivoBlack',
+                    // fontFamily: 'ArchivoBlack',
                     color: Colors.black,
                   ),
                 ),
@@ -453,7 +453,7 @@ class _PetProfileState extends State<PetProfile> {
                 leading: Icon(Icons.camera_alt, color: Colors.black),
                 title: Text('Take a Photo', 
                   style: TextStyle(
-                    fontFamily: 'ArchivoBlack',
+                    // fontFamily: 'ArchivoBlack',
                     color: Colors.black,
                   ),
                 ),
