@@ -28,6 +28,7 @@ class _PetProfileState extends State<PetProfile> {
     final fieldScale = screenHeight < 700 ? 0.8 : 1.0; // Scale factor for smaller screens
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           'New Pet Profile',
