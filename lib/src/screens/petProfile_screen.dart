@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
 
 class PetProfile extends StatefulWidget {
@@ -20,6 +21,8 @@ class _PetProfileState extends State<PetProfile> {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("petProfile_screen");
+
     final screenHeight = MediaQuery.of(context).size.height;
     final fieldScale = screenHeight < 700 ? 0.8 : 1.0; // Scale factor for smaller screens
 

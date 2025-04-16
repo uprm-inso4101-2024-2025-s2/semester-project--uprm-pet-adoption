@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
 
 // This file contains the Menu Screen class. Everything that shows up in the menu screen is managed here.
@@ -11,6 +12,8 @@ class MenuScreen extends Drawer {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("menu_screen");
+
     return Container(
       // Set the width of the drawer
       width: MediaQuery.sizeOf(context).width * 0.55, // Adjust as desired
