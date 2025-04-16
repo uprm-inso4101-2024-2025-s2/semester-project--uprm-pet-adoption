@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'menu_screen.dart'; // Make sure this import exists for MenuScreen
 
 // Data model for a single FAQ
@@ -93,6 +93,8 @@ class _FAQScreenState extends State<FAQ_Screen> {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("FAQ_screen");
+
     // Combine both sections
     final sections = [
       FAQSection(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
 
 
@@ -136,6 +137,7 @@ class _PetTipsState extends State<PetTips> {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("pet_tips_screen");
 
     const mainYellow = Color(0xFFFFF200);
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
 /// favorites:
 /// Displays a placeholder layout for the future favorites page.
@@ -7,6 +8,8 @@ class Favorites extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("favorites_screen");
+
     return Scaffold(
       //AppBar is a prebuilt widget in Flutter
       appBar: AppBar(title: const Text('Favorites Screen')),
