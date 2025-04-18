@@ -1,3 +1,13 @@
+/// Map screen with filterable markers for shelters, pet stores, and vets.
+///
+/// This file defines a [Maps] widget that displays a Google Map centered on UPRM,
+/// allowing users to search locations and toggle visibility of three categories of markers:
+/// - Shelters (static, predefined locations)
+/// - Nearby pet stores (fetched via Google Places API)
+/// - Nearby veterinary clinics (fetched via Google Places API)
+///
+/// It also animates the map zoom when filters are applied.
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -9,8 +19,10 @@ import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 import 'dart:async';
 import 'package:semester_project__uprm_pet_adoption/src/screens/utils.dart';
 
-const API_KEY = "AIzaSyBcV8dRIngCERq1s-Opezvj8BhV8Z-kzvU";
+/// Google API key for Maps and Places services
+const API_KEY = "AIzaSyC5XNlXQjKStB1e4bsnf-4i7bHQKuv_-I4";
 
+/// Map of current dynamic markers shown on the map
 Map<MarkerId, Marker> markers = <MarkerId, Marker>{
   MarkerId("Villa Michelle"): Marker(
       infoWindow: InfoWindow(
@@ -50,6 +62,7 @@ Map<MarkerId, Marker> markers = <MarkerId, Marker>{
       position: LatLng(18.457367604371182, -65.9849927854507)),
 };
 
+/// Static markers that are only shown when the 'Our Shelters' filter is active
 final Map<MarkerId, Marker> staticShelterMarkers = <MarkerId, Marker>{
   MarkerId("Villa Michelle"): Marker(
       infoWindow: InfoWindow(
@@ -89,6 +102,7 @@ final Map<MarkerId, Marker> staticShelterMarkers = <MarkerId, Marker>{
       position: LatLng(18.457367604371182, -65.9849927854507)),
 };
 
+/// Map screen widget that encapsulates the map and filter logic.
 class Maps extends StatefulWidget {
   const Maps({super.key});
 
@@ -96,45 +110,72 @@ class Maps extends StatefulWidget {
   State<Maps> createState() => _MapScreenState();
 }
 
+/// State for [Maps], managing map controller, search, filters, and marker updates.
 class _MapScreenState extends State<Maps> {
-  // Choose a valid center coordinate (e.g. UPRM)
+  /// Initial center of the map (UPRM)
   static const LatLng _center = LatLng(18.2109, -67.1409);
 
-  // Use a Completer to manage the GoogleMapController
+  /// Controller to manipulate Google Map camera
   final Completer<GoogleMapController> _mapController = Completer();
+
+  /// Text controller for the search input field.
   final TextEditingController _searchController = TextEditingController();
+
+  /// Last known user position or search target.
   LatLng position = const LatLng(0, 0);
+
+  /// Places returned from the Places API for pet stores and vets.
   List<Place> places = [];
+
+  /// Index of currently selected place
   int currentPlace = 0;
 
+  /// Filter toggles for each category of markers
   bool showVets = false;
   bool showPetStores = false;
   bool showShelters = false;
 
+  @override
+  void initState() {
+    super.initState();
+    // Perform an initial search to center on UPRM and load markers
+    search("University of Puerto Rico Mayaguez");
+  }
+
+  /// Performs geocoding for [address], recenters map, and updates markers.
   Future<void> search(String address) async {
     final controller = await _mapController.future;
     final location = await getLatLngFromAddress(address, API_KEY);
     if (location != null) {
+      // Animate camera to the new location
       controller.animateCamera(CameraUpdate.newLatLng(location));
       // call add location to markers map function
       addLocation(address, location);
       position = location;
+      // Update markers according to current filter state
       await updateNearbyMarkers();
     }
   }
 
+  /// Clears and repopulates [markers] based on filter toggles:
+  /// - Always shows the "self" location marker.
+  /// - Adds [staticShelterMarkers] if [showShelters] is true.
+  /// - Fetches nearby pet stores and vets when their filters are on.
   Future<void> updateNearbyMarkers() async {
     markers.clear();
-    addLocation("You", position);
+    addLocation("You", position); // add current position marker
 
+    // Define types of places to search for
     List<String> types = [];
     if (showVets) types.add("veterinary_care");
     if (showPetStores) types.add("pet_store");
 
+    // Conditionally include static shelter markers
     if (showShelters) {
       markers.addAll(staticShelterMarkers);
     }
 
+    // Add markers for each selected type
     for (String type in types) {
       final results = await getNearbyPlaces(position, 5000, [type], API_KEY);
       for (var place in results) {
@@ -147,10 +188,11 @@ class _MapScreenState extends State<Maps> {
         markers[markerId] = marker;
       }
     }
-
+    // Trigger a rebuild to update the map UI
     setState(() {});
   }
 
+  /// Adds or updates the marker at [location] with title [address].
   void addLocation(String address, LatLng location) {
     setState(() {
       markers[MarkerId("self")] =
@@ -158,12 +200,7 @@ class _MapScreenState extends State<Maps> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    search("University of Puerto Rico Mayaguez");
-  }
-
+  /// Initializes the map controller when the map is created.
   void _onMapCreated(GoogleMapController controller) {
     _mapController.complete(controller);
   }
@@ -173,7 +210,7 @@ class _MapScreenState extends State<Maps> {
     controller.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: position, // wherever you last searched or centered
+          target: position, 
           zoom: 12.0,
         ),
       ),
@@ -249,7 +286,7 @@ class _MapScreenState extends State<Maps> {
                         showShelters ?Colors.black : const Color(0xFFFFF581),
                     foregroundColor: showShelters ? Colors.white:Colors.black,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 8), // tighter padding
+                    horizontal: 12, vertical: 8), // tighter padding
                     minimumSize: const Size(0, 0),
                   ),
                   onPressed: () {
