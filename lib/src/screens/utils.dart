@@ -30,3 +30,37 @@ Future<LatLng?> getLatLngFromAddress(String address, String apiKey) async {
     return null;
   }
 }
+class Place {
+  final String name;
+  final LatLng location;
+
+  Place({required this.name, required this.location});
+}
+
+Future<List<Place>> getNearbyPlaces(
+  LatLng location,
+  int radius,
+  List<String> types,
+  String apiKey,
+) async {
+  final typeParam = types.join("|");
+  final url =
+      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=$radius&type=$typeParam&key=$apiKey';
+
+  final response = await http.get(Uri.parse(url));
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    final results = data["results"] as List;
+
+    return results.map((place) {
+      final name = place["name"];
+      final lat = place["geometry"]["location"]["lat"];
+      final lng = place["geometry"]["location"]["lng"];
+      return Place(name: name, location: LatLng(lat, lng));
+    }).toList();
+  } else {
+    print("Failed to fetch places: ${response.body}");
+    return [];
+  }
+}
