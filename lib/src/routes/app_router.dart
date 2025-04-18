@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/FAQ_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/aboutUs.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/settings_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/chat_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/dms_screen.dart';
@@ -35,11 +36,11 @@ final GoRouter appRouter = GoRouter(
     final container = ProviderScope.containerOf(context);
     final isLoggedIn = container.read(authProvider);
 
-    if (!isLoggedIn && state.matchedLocation == '/' ||
-        !isLoggedIn && state.matchedLocation == 'menu') {
-      return '/auth'; // get unauthenticated users back to start screen (authentication screen)
-    }
-    return null;
+    // if (!isLoggedIn && state.matchedLocation == '/' ||
+    //     !isLoggedIn && state.matchedLocation == 'menu') {
+    //   return '/auth'; // get unauthenticated users back to start screen (authentication screen)
+    // }
+    // return null;
   },
   routes: [
     //Route for home screen
@@ -390,7 +391,21 @@ final GoRouter appRouter = GoRouter(
         },
       ),
     ),
-
+    GoRoute(
+      path: '/about_us',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const AboutUsScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
 
   ],
 );
