@@ -246,8 +246,8 @@ class _MapScreenState extends State<Maps> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
-                        showShelters ? Colors.black : const Color(0xFFFFF581),
-                    foregroundColor: showShelters ? Colors.white : Colors.black,
+                        showShelters ?Colors.black : const Color(0xFFFFF581),
+                    foregroundColor: showShelters ? Colors.white:Colors.black,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 8), // tighter padding
                     minimumSize: const Size(0, 0),
@@ -266,7 +266,7 @@ class _MapScreenState extends State<Maps> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
-                        showPetStores ? Colors.black : const Color(0xFFFFF581),
+                        showPetStores ? Colors.black: const Color(0xFFFFF581),
                     foregroundColor:
                         showPetStores ? Colors.white : Colors.black,
                     padding: const EdgeInsets.symmetric(
@@ -287,7 +287,7 @@ class _MapScreenState extends State<Maps> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
-                        showVets ? Colors.black : const Color(0xFFFFF581),
+                        showVets ?Colors.black : const Color(0xFFFFF581),
                     foregroundColor: showVets ? Colors.white : Colors.black,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 8), // tighter padding
