@@ -1,201 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart'; // Import for navigation
 
-// Main Screen
-class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80), // height for Appbar
-        child: const ChatHeader(), // use the custom ChatHeader widget
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          textDirection: TextDirection.ltr,
-          children: [
-            const SizedBox(
-                height: 10), // adds space between header and messages
-            Container(
-              width: MediaQuery.of(context).size.width * 0.95,
-              padding: const EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.horizontal(),
-                shape: BoxShape.rectangle,
-              ),
-              child: TextButton.icon(
-                onPressed: () {
-                  context.go('/dms'); // Navigate to Messages screen
-                },
-                label: Text(
-                  "message",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Archivo',
-                    color: Colors.black,
-                  ),
-                ),
-                icon: CircleAvatar(
-                  foregroundColor: Color(0xFF82B0FF),
-                  backgroundColor: Color(0xFF82B0FF),
-                  radius: 20,
-                  /*child: Image.asset(
-                  'icons/Icon-192.png',
-                  fit: BoxFit.cover,
-                  )*/
-                ),
-                iconAlignment: IconAlignment.start,
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.95,
-              padding: const EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.horizontal(),
-                shape: BoxShape.rectangle,
-              ),
-              child: TextButton.icon(
-                onPressed: () {
-                  context.go('/dms'); // Navigate to Messages screen
-                },
-                label: Text(
-                  "message",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Archivo',
-                    color: Colors.black,
-                  ),
-                ),
-                icon: CircleAvatar(
-                  foregroundColor: Color(0xFF82B0FF),
-                  backgroundColor: Color(0xFF82B0FF),
-                  radius: 20,
-                  /*child: Image.asset(
-                  'icons/Icon-192.png',
-                  fit: BoxFit.cover,
-                  )*/
-                ),
-                iconAlignment: IconAlignment.start,
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.95,
-              padding: const EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.horizontal(),
-                shape: BoxShape.rectangle,
-              ),
-              child: TextButton.icon(
-                onPressed: () {
-                  context.go('/dms'); // Navigate to Messages screen
-                },
-                label: Text(
-                  "message",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Archivo',
-                    color: Colors.black,
-                  ),
-                ),
-                icon: CircleAvatar(
-                  foregroundColor: Color(0xFF82B0FF),
-                  backgroundColor: Color(0xFF82B0FF),
-                  radius: 20,
-                  /*child: Image.asset(
-                  'icons/Icon-192.png',
-                  fit: BoxFit.cover,
-                  )*/
-                ),
-                iconAlignment: IconAlignment.start,
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.95,
-              padding: const EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.horizontal(),
-                shape: BoxShape.rectangle,
-              ),
-              child: TextButton.icon(
-                onPressed: () {
-                  context.go('/dms'); // Navigate to Messages screen
-                },
-                label: Text(
-                  "message",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Archivo',
-                    color: Colors.black,
-                  ),
-                ),
-                icon: CircleAvatar(
-                  foregroundColor: Color(0xFF82B0FF),
-                  backgroundColor: Color(0xFF82B0FF),
-                  radius: 20,
-                  /*child: Image.asset(
-                  'icons/Icon-192.png',
-                  fit: BoxFit.cover,
-                  )*/
-                ),
-                iconAlignment: IconAlignment.start,
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.95,
-              padding: const EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.horizontal(),
-                shape: BoxShape.rectangle,
-              ),
-              child: TextButton.icon(
-                onPressed: () {
-                  context.go('/dms'); // Navigate to Messages screen
-                },
-                label: Text(
-                  "message",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Archivo',
-                    color: Colors.black,
-                  ),
-                ),
-                icon: CircleAvatar(
-                  foregroundColor: Color(0xFF82B0FF),
-                  backgroundColor: Color(0xFF82B0FF),
-                  radius: 20,
-                  /*child: Image.asset(
-                  'icons/Icon-192.png',
-                  fit: BoxFit.cover,
-                  )*/
-                ),
-                iconAlignment: IconAlignment.start,
-              ),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: const BottomNavBar(selectedIndex: 1),
-    );
-  }
-}
-
-// Header Widget - Contains "Messages" title and "Add User" button
+// Custom ChatHeader widget
 class ChatHeader extends StatelessWidget {
-  const ChatHeader({super.key});
+  const ChatHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -240,11 +51,375 @@ class ChatHeader extends StatelessWidget {
     );
   }
 }
+// Main Screen
+class ChatScreen extends StatelessWidget {
+  const ChatScreen({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80), // height for Appbar
+        child: const ChatHeader(), // use the custom ChatHeader widget
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          textDirection: TextDirection.ltr,
+          children: [
+            //Create the container for chat widgets
+            InkWell(
+              onTap: () {
+                context.go('/dms');
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                padding: const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.horizontal(),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Row(
+                  children: [
+                    // Profile icon
+                    CircleAvatar(
+                        foregroundColor: Color(0xFF82B0FF),
+                        backgroundColor: Color(0xFF82B0FF),
+                        radius: 20,
+                        child: Icon(
+                          Icons.person_2_sharp,
+                          color: Colors.black,
+                        )
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //Chat name
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 6,),
+                                //Button with message preview
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
+                                )
+                              ]
+                          ),
+                        )
+                    ),
+                    // Message time (temporary time added)
+                    Text("11:59 am", style: TextStyle(fontSize : 15)),
+                  ],
+                ),
+              ),
+            ),
+            // Add more chat containers
+            InkWell(
+              onTap: () {
+                context.go('/dms');
+              },
+              child:  Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                padding: const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.horizontal(),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                        foregroundColor: Color(0xFF82B0FF),
+                        backgroundColor: Color(0xFF82B0FF),
+                        radius: 20,
+                        child: Icon(
+                          Icons.person_2_sharp,
+                          color: Colors.black,
+                        )
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 6,),
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
+                                )
+                              ]
+                          ),
+                        )
+                    ),
+                    Text("12:00 pm", style: TextStyle(fontSize : 15)),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                context.go('/dms');
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                padding: const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.horizontal(),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                        foregroundColor: Color(0xFF82B0FF),
+                        backgroundColor: Color(0xFF82B0FF),
+                        radius: 20,
+                        child: Icon(
+                          Icons.person_2_sharp,
+                          color: Colors.black,
+                        )
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 6,),
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
+                                )
+                              ]
+                          ),
+                        )
+                    ),
+                    Text("4:57 pm", style: TextStyle(fontSize : 15)),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                context.go('/dms');
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                padding: const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.horizontal(),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                        foregroundColor: Color(0xFF82B0FF),
+                        backgroundColor: Color(0xFF82B0FF),
+                        radius: 20,
+                        child: Icon(
+                          Icons.person_2_sharp,
+                          color: Colors.black,
+                        )
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 6,),
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
+                                )
+                              ]
+                          ),
+                        )
+                    ),
+                    Text("5:00 pm", style: TextStyle(fontSize : 15)),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                context.go('/dms');
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                padding: const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.horizontal(),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                        foregroundColor: Color(0xFF82B0FF),
+                        backgroundColor: Color(0xFF82B0FF),
+                        radius: 20,
+                        child: Icon(
+                          Icons.person_2_sharp,
+                          color: Colors.black,
+                        )
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 6,),
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
+                                )
+                              ]
+                          ),
+                        )
+                    ),
+                    Text("Yesterday", style: TextStyle(fontSize : 15)),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                context.go('/dms');
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                padding: const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.horizontal(),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                        foregroundColor: Color(0xFF82B0FF),
+                        backgroundColor: Color(0xFF82B0FF),
+                        radius: 20,
+                        child: Icon(
+                          Icons.person_2_sharp,
+                          color: Colors.black,
+                        )
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Name",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Archivo',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 6,),
+                                Text(
+                                    "Message preview",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'Archivo',
+                                    )
+                                )
+                              ]
+                          ),
+                        )
+                    ),
+                    Text("Yesterday", style: TextStyle(fontSize : 15)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 1),
+    );
+  }
+}
 // Add User Popup - Allows adding a new user by entering a username
 void _showAddUserDialog(BuildContext context) {
   TextEditingController usernameController =
-      TextEditingController(); // Controller for input field
+  TextEditingController(); // Controller for input field
 
   showDialog(
     context: context,

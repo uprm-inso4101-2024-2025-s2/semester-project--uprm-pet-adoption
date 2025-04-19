@@ -33,7 +33,6 @@ class MenuScreen extends Drawer {
                       // Back arrow -> Goes to Home screen
                       IconButton(
                         onPressed: () {
-                          // Navigate to Home
                           context.go('/');
                         },
                         icon: const Icon(Icons.arrow_back),
@@ -62,19 +61,28 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 40.0),
 
-            // Box 1 (empty)
+            // Box 1: Account
             Material(
               child: InkWell(
+                onTap: () {
+                  context.go('/profile');
+                },
                 child: ListTile(
                   leading: Container(
-                    width: 20,
+                    width: 25,
                     height: 70,
                     color: const Color.fromRGBO(198, 187, 60, 1),
+                    child: const Icon(
+                      Icons.person_2_rounded,
+                      color: Colors.black,
+                    ),
                   ),
                   tileColor: const Color.fromRGBO(244, 233, 107, 1),
                   title: const Text(
-                    '',
-                    style: TextStyle(fontFamily: 'Archivo'),
+                    'Account',
+                    style: TextStyle(
+                      fontFamily: 'Archivo',
+                    ),
                   ),
                   selected: false,
                 ),
@@ -82,37 +90,19 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 2 (empty)
-            Material(
-              color: const Color.fromRGBO(244, 233, 107, 1),
-              child: ListTile(
-                leading: Container(
-                  width: 20,
-                  height: 70,
-                  color: const Color.fromRGBO(198, 187, 60, 1),
-                ),
-                title: const Text(
-                  '',
-                  style: TextStyle(fontFamily: 'Archivo'),
-                ),
-                selected: false,
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            // 3) FAQ Box -> "FAQ"
+            // Box 3: FAQ
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: InkWell(
                 onTap: () {
-                  // Navigate to FAQ screen
                   context.go('/faq');
                 },
                 child: ListTile(
                   leading: Container(
-                    width: 20,
+                    width: 25,
                     height: 70,
                     color: const Color.fromRGBO(198, 187, 60, 1),
+                    child: const Icon(Icons.question_mark_sharp),
                   ),
                   title: const Text(
                     'FAQ',
@@ -124,46 +114,80 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 4 (empty)
+            // Box 4: About Us
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: ListTile(
                 leading: Container(
-                  width: 20,
+                  width: 25,
                   height: 70,
-                  color: Color.fromRGBO(198, 187, 60, 1),
+                  color: const Color.fromRGBO(198, 187, 60, 1),
+                  child: const Icon(Icons.info_outlined),
                 ),
                 title: const Text(
-                  '',
-                  style: TextStyle(fontFamily: 'Archivo'),
+                  'About Us',
+                  style: TextStyle(
+                    fontFamily: 'Archivo',
+                  ),
                 ),
                 selected: false,
+                onTap: () {
+                  context.go('/about_us');
+                },
               ),
             ),
             const SizedBox(height: 8),
 
-            // Box 5 (empty)
+            // Box 5: Shelters
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: ListTile(
                 leading: Container(
-                  width: 20,
+                  width: 25,
                   height: 70,
-                  color: Color.fromRGBO(198, 187, 60, 1),
+                  color: const Color.fromRGBO(198, 187, 60, 1),
+                  child: const Icon(
+                    Icons.house_sharp,
+                    color: Colors.black,
+                  ),
                 ),
                 title: const Text(
-                  '',
-                  style: TextStyle(fontFamily: 'Archivo'),
+                  'Shelters',
+                  style: TextStyle(
+                    fontFamily: 'Archivo',
+                  ),
                 ),
                 selected: false,
+                onTap: () {
+                  context.go('/shelter-info');
+                },
               ),
             ),
             const SizedBox(height: 8),
 
-            // Spacer
-            SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.5 - 100,
+            // Box 6: Settings
+            Material(
+              color: const Color.fromRGBO(244, 233, 107, 1),
+              child: ListTile(
+                leading: Container(
+                  width: 25,
+                  height: 70,
+                  color: const Color.fromRGBO(198, 187, 60, 1),
+                  child: const Icon(Icons.settings),
+                ),
+                title: const Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontFamily: 'Archivo',
+                  ),
+                ),
+                selected: false,
+                onTap: () {
+                  context.go('/settings');
+                },
+              ),
             ),
+            const SizedBox(height: 8),
 
             // Logout icon
             SizedBox(

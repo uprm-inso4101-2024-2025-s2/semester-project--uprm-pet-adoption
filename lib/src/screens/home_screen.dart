@@ -16,105 +16,105 @@ import 'menu_screen.dart';
 class PetStackNotifier extends StateNotifier<List<PetCard>> {
   PetStackNotifier() : super(_initialPets());
   static List<PetCard> _initialPets() => [
-        PetCard(
+    PetCard(
 
-                        petName: "Ronnie",
-                        petBreed: "Labrador",
-                        petAge: "Puppy",
-                        petImages: [
-                          "assets/images/temp_dog_img.jpg",
-                          "assets/images/temp_dog_img2.jpg",
-                        ],
-                        petDescription:
-                            "My name is Ronnie and I am looking for a loving home!",
-                        petTags: ["Labrador", "Puppy"],
-                        isFavorite: false,
-                        onFavoriteToggle: () {
-                          print("Favorite toggled!");
-                        },
-                        onAdopt: () {
-                          print("Adoption started!");
-                        },
-                        onAccept: () {
-                          print("Pet Accepted!");
-                        },
-                        onReject: () {
-                          print("Pet Rejected!");
-                        },
-                      ),
-          PetCard(
-            petName: "Luna",
-            petBreed: "Golden Retriever",
-            petAge: "Young Adult",
-            petImages: [
-              "assets/images/pet_placeholder.png",
+      petName: "Ronnie",
+      petBreed: "Labrador",
+      petAge: "Puppy",
+      petImages: [
+        "assets/images/temp_dog_img.jpg",
+        "assets/images/temp_dog_img2.jpg",
+      ],
+      petDescription:
+      "My name is Ronnie and I am looking for a loving home!",
+      petTags: ["Labrador", "Puppy"],
+      isFavorite: false,
+      onFavoriteToggle: () {
+        print("Favorite toggled!");
+      },
+      onAdopt: () {
+        print("Adoption started!");
+      },
+      onAccept: () {
+        print("Pet Accepted!");
+      },
+      onReject: () {
+        print("Pet Rejected!");
+      },
+    ),
+    PetCard(
+      petName: "Luna",
+      petBreed: "Golden Retriever",
+      petAge: "Young Adult",
+      petImages: [
+        "assets/images/pet_placeholder.png",
 
-            ],
-            petDescription: "Hi, I'm Luna! I'm a playful and friendly dog who loves belly rubs.",
-            petTags: ["Golden Retriever", "Young Adult"],
-            isFavorite: true,
-            onFavoriteToggle: () {
-              print("Luna favorite toggled!");
-            },
-            onAdopt: () {
-              print("Adoption started for Luna!");
-            },
-            onAccept: () {
-              print("Luna Accepted!");
-            },
-            onReject: () {
-              print("Luna Rejected!");
-            },
-          ),
-          PetCard(
-            petName: "Ronnie",
-                        petBreed: "Labrador",
-                        petAge: "Puppy",
-                        petImages: [
-                          "assets/images/temp_dog_img.jpg",
-                          "assets/images/temp_dog_img2.jpg",
-                        ],
-                        petDescription: "My name is Ronnie and I am looking for a loving home!",
-                        petTags: ["Labrador", "Puppy"],
-                        isFavorite: false,
-                        onFavoriteToggle: () {
-                          print("Favorite toggled!");
-                        },
-                        onAdopt: () {
-                          print("Adoption started!");
-                        },
-                        onAccept: () {
-                          print("Pet Accepted!");
-                        },
-                        onReject: () {
-                          print("Pet Rejected!");
-                        },
-          ),
-          PetCard(
-            petName: "Luna",
-            petBreed: "Golden Retriever",
-            petAge: "Young Adult",
-            petImages: [
-              "assets/images/pet_placeholder.png",
-              "assets/images/temp_dog_img.jpg",
-            ],
-            petDescription: "Hi, I'm Luna! I'm a playful and friendly dog who loves belly rubs.",
-            petTags: ["Golden Retriever", "Young Adult"],
-            isFavorite: true,
-            onFavoriteToggle: () {
-              print("Luna favorite toggled!");
-            },
-            onAdopt: () {
-              print("Adoption started for Luna!");
-            },
-            onAccept: () {
-              print("Luna Accepted!");
-            },
-            onReject: () {
-              print("Luna Rejected!");
-            },
-          ),
-      ];
+      ],
+      petDescription: "Hi, I'm Luna! I'm a playful and friendly dog who loves belly rubs.",
+      petTags: ["Golden Retriever", "Young Adult"],
+      isFavorite: true,
+      onFavoriteToggle: () {
+        print("Luna favorite toggled!");
+      },
+      onAdopt: () {
+        print("Adoption started for Luna!");
+      },
+      onAccept: () {
+        print("Luna Accepted!");
+      },
+      onReject: () {
+        print("Luna Rejected!");
+      },
+    ),
+    PetCard(
+      petName: "Ronnie",
+      petBreed: "Labrador",
+      petAge: "Puppy",
+      petImages: [
+        "assets/images/temp_dog_img.jpg",
+        "assets/images/temp_dog_img2.jpg",
+      ],
+      petDescription: "My name is Ronnie and I am looking for a loving home!",
+      petTags: ["Labrador", "Puppy"],
+      isFavorite: false,
+      onFavoriteToggle: () {
+        print("Favorite toggled!");
+      },
+      onAdopt: () {
+        print("Adoption started!");
+      },
+      onAccept: () {
+        print("Pet Accepted!");
+      },
+      onReject: () {
+        print("Pet Rejected!");
+      },
+    ),
+    PetCard(
+      petName: "Luna",
+      petBreed: "Golden Retriever",
+      petAge: "Young Adult",
+      petImages: [
+        "assets/images/pet_placeholder.png",
+        "assets/images/temp_dog_img.jpg",
+      ],
+      petDescription: "Hi, I'm Luna! I'm a playful and friendly dog who loves belly rubs.",
+      petTags: ["Golden Retriever", "Young Adult"],
+      isFavorite: true,
+      onFavoriteToggle: () {
+        print("Luna favorite toggled!");
+      },
+      onAdopt: () {
+        print("Adoption started for Luna!");
+      },
+      onAccept: () {
+        print("Luna Accepted!");
+      },
+      onReject: () {
+        print("Luna Rejected!");
+      },
+    ),
+  ];
 
   void removeTopPet() {
     if (state.isNotEmpty) {
@@ -126,7 +126,7 @@ class PetStackNotifier extends StateNotifier<List<PetCard>> {
 }
 
 final petStackProvider =
-    StateNotifierProvider<PetStackNotifier, List<PetCard>>((ref) {
+StateNotifierProvider<PetStackNotifier, List<PetCard>>((ref) {
   return PetStackNotifier();
 });
 final hasLoggedScreenViewProvider = StateProvider<bool>((ref) => false);
@@ -154,93 +154,93 @@ class HomeScreen extends ConsumerWidget {
 
       body: SafeArea(
         child: Container(
-        // Background
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/Login_SignUp_Background.png'),
-            fit: BoxFit.cover,
+          // Background
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/Login_SignUp_Background.png'),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
 
-        // Main layout: Column with header, middle content, and footer
-        child: Column(
-          children: [
-            // Middle content centered in remaining space
-            Expanded(
-              child: Center(
-                child: Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  padding: const EdgeInsets.all(10),
-                  // color: Colors.white.withOpacity(0.4),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 15),
-                      // AnimatedSwitcher to switch between cards
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 5),
+          // Main layout: Column with header, middle content, and footer
+          child: Column(
+            children: [
+              // Middle content centered in remaining space
+              Expanded(
+                child: Center(
+                  child: Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.all(10),
+                    // color: Colors.white.withOpacity(0.4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 15),
+                        // AnimatedSwitcher to switch between cards
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 5),
 
-                        child: currentPet != null
-                            ? PetCard(
-                                key: ValueKey(currentPet.petName), // 👈 THIS is important!
-                                petName: currentPet.petName,
-                                petBreed: currentPet.petBreed,
-                                petAge: currentPet.petAge,
-                                petImages: currentPet.petImages,
-                                petDescription: currentPet.petDescription,
-                                petTags: currentPet.petTags,
-                                isFavorite: currentPet.isFavorite,
-                                onFavoriteToggle: () {
+                          child: currentPet != null
+                              ? PetCard(
+                            key: ValueKey(currentPet.petName), // 👈 THIS is important!
+                            petName: currentPet.petName,
+                            petBreed: currentPet.petBreed,
+                            petAge: currentPet.petAge,
+                            petImages: currentPet.petImages,
+                            petDescription: currentPet.petDescription,
+                            petTags: currentPet.petTags,
+                            isFavorite: currentPet.isFavorite,
+                            onFavoriteToggle: () {
 
-                                  print("${currentPet.petName} favorite toggled: ${currentPet.isFavorite}");
-                                  ref.invalidate(petCardIndexProvider); // Force rebuild if needed
-                                },
-                                onAdopt: () {
-                                  print("Adoption started for ${currentPet.petName}!");
-                                },
-                                onAccept: () {
+                              print("${currentPet.petName} favorite toggled: ${currentPet.isFavorite}");
+                              ref.invalidate(petCardIndexProvider); // Force rebuild if needed
+                            },
+                            onAdopt: () {
+                              print("Adoption started for ${currentPet.petName}!");
+                            },
+                            onAccept: () {
 
-                                  print("${currentPet.petName} Accepted!");
-                                  ref.read(petStackProvider.notifier).removeTopPet();
-
+                              print("${currentPet.petName} Accepted!");
+                              ref.read(petStackProvider.notifier).removeTopPet();
 
 
-                                },
-                                onReject: () {
 
-                                  print("${currentPet.petName} Rejected!");
+                            },
+                            onReject: () {
 
-                                   ref.read(petStackProvider.notifier).removeTopPet();
-                                   //ref.read(petCardIndexProvider.notifier).state++;
+                              print("${currentPet.petName} Rejected!");
+
+                              ref.read(petStackProvider.notifier).removeTopPet();
+                              //ref.read(petCardIndexProvider.notifier).state++;
 
 
-                                },
-                              )
-                            : const Text("No more pets to show!",style: TextStyle(fontSize: 20,),),
-                      ),
-                      const SizedBox(height: 30),
-                      TextButton(
-                        onPressed: () => context.go('/matchmaking'),
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          backgroundColor: Colors.transparent,
+                            },
+                          )
+                              : const Text("No more pets to show!",style: TextStyle(fontSize: 20,),),
                         ),
-                        child: Image.asset(
-                          'assets/images/Find_Pawfect_Match_button.png',
-                          width: 300,
-                          height: 120,
-                          fit: BoxFit.contain,
+                        const SizedBox(height: 30),
+                        TextButton(
+                          onPressed: () => context.go('/matchmaking'),
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          child: Image.asset(
+                            'assets/images/Find_Pawfect_Match_button.png',
+                            width: 300,
+                            height: 120,
+                            fit: BoxFit.contain,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
 
 
         ),
@@ -250,8 +250,3 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
-
-
-
-
-

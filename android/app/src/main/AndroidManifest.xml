@@ -3,6 +3,11 @@
         android:label="semester_project__uprm_pet_adoption"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        
+        <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyC5XNlXQjKStB1e4bsnf-4i7bHQKuv_-I4" />
+        
         <activity
             android:name=".MainActivity"
             android:exported="true"
