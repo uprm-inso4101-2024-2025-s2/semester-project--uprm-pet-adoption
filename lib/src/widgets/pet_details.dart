@@ -254,35 +254,40 @@ class _PetDetailsState extends State<PetDetails> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                
+                // Icon(Icons.home, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.message, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.search_rounded, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.location_on, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.person, color: Colors.amberAccent, size: 40),
+
               
                 IconButton(
                   onPressed: () => context.go('/'), 
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.home,size:40 ),
                   color: Colors.amberAccent,
                   
                 ),
                 IconButton(
                   onPressed: () => context.go('/chat'), 
-                  icon: Icon( Icons.message,),
+                  icon: Icon( Icons.message,size:40 ),
                   color: Colors.amberAccent,
                   
                 ),
                 IconButton(
                   onPressed: () => context.go('/petProfile'), 
-                  icon: Icon( Icons.add_circle_outline),
+                  icon: Icon( Icons.add_circle_outline,size:40 ),
                   color: Colors.amberAccent,
                   
                 ),
                 IconButton(
                   onPressed: () => context.go('/map'), 
-                  icon: Icon( Icons.location_on),
+                  icon: Icon( Icons.location_on,size:40 ),
                   color: Colors.amberAccent,
                   
                 ),
                 IconButton(
                   onPressed: () => context.go('/profile'), 
-                  icon: Icon( Icons.person),
+                  icon: Icon( Icons.person,size:40 ),
                   color: Colors.amberAccent,
                   
                 ),
@@ -467,12 +472,43 @@ class _PetDetailsState extends State<PetDetails> {
             color: Colors.black,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                Icon(Icons.home, color: Colors.amberAccent, size: 40),
-                Icon(Icons.message, color: Colors.amberAccent, size: 40),
-                Icon(Icons.search_rounded, color: Colors.amberAccent, size: 40),
-                Icon(Icons.location_on, color: Colors.amberAccent, size: 40),
-                Icon(Icons.person, color: Colors.amberAccent, size: 40),
+              children:  [
+                // Icon(Icons.home, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.message, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.search_rounded, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.location_on, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.person, color: Colors.amberAccent, size: 40),
+                IconButton(
+                  onPressed: () => context.go('/'), 
+                  icon: Icon(Icons.home,size:40 ),
+                  color: Colors.amberAccent,
+                  
+                ),
+                IconButton(
+                  onPressed: () => context.go('/chat'), 
+                  icon: Icon( Icons.message,size:40 ),
+                  color: Colors.amberAccent,
+                  
+                ),
+                IconButton(
+                  onPressed: () => context.go('/petProfile'), 
+                  icon: Icon( Icons.add_circle_outline,size:40 ),
+                  color: Colors.amberAccent,
+                  
+                ),
+                IconButton(
+                  onPressed: () => context.go('/map'), 
+                  icon: Icon( Icons.location_on,size:40 ),
+                  color: Colors.amberAccent,
+                  
+                ),
+                IconButton(
+                  onPressed: () => context.go('/profile'), 
+                  icon: Icon( Icons.person),
+                  color: Colors.amberAccent,
+                  
+                ),
+                
               ],
             ),
           ),
