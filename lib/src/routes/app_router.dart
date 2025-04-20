@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/FAQ_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/Pet_details_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/settings_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/chat_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/dms_screen.dart';
@@ -25,6 +26,7 @@ import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/shelter_info_screen.dart';
 import '../screens/petProfile_screen.dart' as petProfile;
+import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_details.dart';
 
 
 
@@ -256,7 +258,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/matchmaking',
       pageBuilder: (context, state) => CustomTransitionPage(
-        child: const MatchMakingScreen(),
+        child:  MatchMakingScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
@@ -390,7 +392,13 @@ final GoRouter appRouter = GoRouter(
         },
       ),
     ),
-
+    GoRoute(
+      path: '/petDetails',
+      builder: (context, state) {
+        final pet = state.extra as Map<String, dynamic>;
+        return PetDetailsScreen(pet: pet);
+      },
+    ),
 
   ],
 );

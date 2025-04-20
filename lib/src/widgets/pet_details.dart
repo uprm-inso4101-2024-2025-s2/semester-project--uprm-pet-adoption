@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// PetDetails Widget
 /// -----------------
@@ -87,7 +93,7 @@ class _PetDetailsState extends State<PetDetails> {
           transitionBuilder: (widget, animation) {
             return ScaleTransition(scale: animation, child: widget);
           },
-          child: _showBack ? _buildBackView() : _buildFrontView(),
+          child: _showBack ?  _buildFrontView():_buildBackView(),
         ),
       ),
     );
@@ -248,31 +254,39 @@ class _PetDetailsState extends State<PetDetails> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Icon(
-                  Icons.home,
+                
+              
+                IconButton(
+                  onPressed: () => context.go('/'), 
+                  icon: Icon(Icons.home),
                   color: Colors.amberAccent,
-                  size: 40,
+                  
                 ),
-                Icon(
-                  Icons.message,
+                IconButton(
+                  onPressed: () => context.go('/chat'), 
+                  icon: Icon( Icons.message,),
                   color: Colors.amberAccent,
-                  size: 40,
+                  
                 ),
-                Icon(
-                  Icons.search_rounded,
+                IconButton(
+                  onPressed: () => context.go('/petProfile'), 
+                  icon: Icon( Icons.add_circle_outline),
                   color: Colors.amberAccent,
-                  size: 40,
+                  
                 ),
-                Icon(
-                  Icons.location_on,
+                IconButton(
+                  onPressed: () => context.go('/map'), 
+                  icon: Icon( Icons.location_on),
                   color: Colors.amberAccent,
-                  size: 40,
+                  
                 ),
-                Icon(
-                  Icons.person,
+                IconButton(
+                  onPressed: () => context.go('/profile'), 
+                  icon: Icon( Icons.person),
                   color: Colors.amberAccent,
-                  size: 40,
-                )
+                  
+                ),
+                
               ],
             ),
           ),
@@ -337,45 +351,47 @@ class _PetDetailsState extends State<PetDetails> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Image.asset(
-                              'assets/images/pet_placeholder.png',
+                              widget.petImage,
                               height: 200,
                               width: 120,
                               fit: BoxFit.cover,
                             ),
                           ),
                           const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.petName,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black)),
-                              Text("${widget.petAge} years old",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
-                              Text(widget.petLocation,
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(widget.petName,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                                Text("${widget.petAge} years old",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                                Text(widget.petLocation,
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
 
-                              const SizedBox(
-                                  height: 8), // Space between sections
+                                const SizedBox(
+                                    height: 8), // Space between sections
 
-                              Text("Sex: ${widget.petSex}",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
-                              Text("Weight: ${widget.petWeight} kg",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
-                              Text("Height: ${widget.petHeight} cm",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
-                              Text("Distance: ${widget.petDistance} km away",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
-                            ],
-                          ),
+                                Text("Sex: ${widget.petSex}",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                                Text("Weight: ${widget.petWeight} kg",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                                Text("Height: ${widget.petHeight} cm",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                                Text("Distance: ${widget.petDistance} km away",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                              ],
+                            ),
+                      ),
                         ],
                       ),
                       const SizedBox(height: 15),
