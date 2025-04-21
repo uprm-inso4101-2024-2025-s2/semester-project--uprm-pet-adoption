@@ -18,7 +18,7 @@ class DMScreen extends StatelessWidget {
           decoration: const BoxDecoration(
             // Setting background image
             image: DecorationImage(
-              image: AssetImage('images/Login_SignUp_Background.png'),
+              image: AssetImage('assets/images/Login_SignUp_Background.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -313,7 +313,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                   Row(
                     //buttons to open camera
                     children: [
-                      IconButton(onPressed: (){_openCamera();}, icon: Image.asset("images/Camera_button_dms.png",height: 40,width: 40,),padding: EdgeInsets.zero), // or replace with Image.asset(...)
+                      IconButton(onPressed: (){_openCamera();}, icon: Image.asset("assets/images/Camera_button_dms.png",height: 40,width: 40,),padding: EdgeInsets.zero), // or replace with Image.asset(...)
                       SizedBox(width: 8.0),
                       IconButton(onPressed: (){_openCamera();},icon:Text("Camera",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16))),
                     ],
@@ -323,7 +323,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                   SizedBox(height: 1),
                   Row(
                     children: [
-                      IconButton(onPressed: (){_openGallery();}, icon: Image.asset("images/Documents_button_dms.png",height: 35,width: 35,),padding: EdgeInsets.zero), // or replace with Image.asset(...)
+                      IconButton(onPressed: (){_openGallery();}, icon: Image.asset("assets/images/Documents_button_dms.png",height: 35,width: 35,),padding: EdgeInsets.zero), // or replace with Image.asset(...)
                       SizedBox(width: 8),
                       IconButton(onPressed: (){_openGallery();},icon:Text("Documents",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15))),
                     ],
@@ -394,7 +394,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                           filled: true,
                           prefixIcon: IconButton(
                             icon: Image.asset(
-                              'images/plus_circle_icon.png',
+                              'assets/images/plus_circle_icon.png',
                               height: 35,
                               width: 35,
                             ),
