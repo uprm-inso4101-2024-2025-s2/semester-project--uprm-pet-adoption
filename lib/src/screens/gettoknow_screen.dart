@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart'; // Import for navigation
+
 
 class GettoknowScreen extends StatelessWidget {
   const GettoknowScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("gettoknow_screen");
+
     return Scaffold(
       appBar: AppBar(title: const Text("Get to Know")),
       body: Center(
