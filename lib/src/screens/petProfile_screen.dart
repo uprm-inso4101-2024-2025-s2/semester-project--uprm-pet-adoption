@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
+import '../widgets.dart';
 
 class PetProfile extends StatefulWidget {
   const PetProfile({super.key});
@@ -12,25 +14,31 @@ class _PetProfileState extends State<PetProfile> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController breedController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  
-  String selectedAgeCategory = 'Puppy'; // Default value
-  final List<String> ageCategories = ['Puppy (0-2 yrs)', 'Adult (3-9 yrs)', 'Elderly (10+ yrs)'];
-  ImageProvider? petAvatarImage;
 
+  String selectedAgeCategory = 'Puppy'; // Default value
+  final List<String> ageCategories = [
+    'Puppy (0-2 yrs)',
+    'Adult (3-9 yrs)',
+    'Elderly (10+ yrs)'
+  ];
+  ImageProvider? petAvatarImage;
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("petProfile_screen");
+
     final screenHeight = MediaQuery.of(context).size.height;
     final fieldScale = screenHeight < 700 ? 0.8 : 1.0; // Scale factor for smaller screens
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           'New Pet Profile',
           style: TextStyle(
             fontSize: 24 * fieldScale,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'ArchivoBlack',
+            // fontWeight: FontWeight.bold,
+            fontFamily: 'Archivo',
             color: Colors.black,
           ),
         ),
@@ -58,11 +66,12 @@ class _PetProfileState extends State<PetProfile> {
                 child: Stack(
                   children: [
                     CircleAvatar(
-                      radius: 40 * fieldScale,
+                      radius: 65 * fieldScale,
                       backgroundColor: Colors.white.withOpacity(0.8),
-                      backgroundImage: petAvatarImage ?? AssetImage('assets/images/default_pet_avatar.png'),
-                      child: petAvatarImage == null 
-                          ? Icon(Icons.pets, size: 30 * fieldScale, color: Colors.grey)
+                      // backgroundImage: petAvatarImage ?? AssetImage('assets/images/default_pet_avatar.png'),
+                      child: petAvatarImage == null
+                          ? Icon(Icons.pets,
+                              size: 50 * fieldScale, color: Colors.grey)
                           : null,
                     ),
                     Positioned(
@@ -74,14 +83,15 @@ class _PetProfileState extends State<PetProfile> {
                           color: Color(0xFFFFF581),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.camera_alt, size: 16 * fieldScale, color: Colors.black),
+                        child: Icon(Icons.camera_alt,
+                            size: 24 * fieldScale, color: Colors.black),
                       ),
                     ),
                   ],
                 ),
               ),
               SizedBox(height: 12 * fieldScale),
-              
+
               // Name of Pet section
               Container(
                 width: double.infinity,
@@ -91,9 +101,9 @@ class _PetProfileState extends State<PetProfile> {
                     Text(
                       "Name of Pet",
                       style: TextStyle(
-                        fontSize: 16 * fieldScale, 
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'ArchivoBlack',
+                        fontSize: 16 * fieldScale,
+                        // fontWeight: FontWeight.bold,
+                        fontFamily: 'Archivo',
                         color: Colors.black,
                       ),
                     ),
@@ -107,9 +117,9 @@ class _PetProfileState extends State<PetProfile> {
                         controller: nameController,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 18 * fieldScale, 
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'ArchivoBlack',
+                          fontSize: 18 * fieldScale,
+                          // fontWeight: FontWeight.bold,
+                          // fontFamily: 'Archivo',
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
@@ -117,7 +127,7 @@ class _PetProfileState extends State<PetProfile> {
                           hintStyle: TextStyle(color: Colors.black54),
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
-                            horizontal: 12 * fieldScale, 
+                            horizontal: 12 * fieldScale,
                             vertical: 8 * fieldScale,
                           ),
                         ),
@@ -127,14 +137,14 @@ class _PetProfileState extends State<PetProfile> {
                 ),
               ),
               SizedBox(height: 16 * fieldScale),
-              
+
               // Age and Breed buttons
               Row(
                 children: [
                   // Age Button
                   Expanded(
                     child: _buildButtonWithLabel(
-                      label: "Age",
+                      label: 'Age',
                       value: selectedAgeCategory,
                       onTap: () => _showAgeSelection(context),
                       fieldScale: fieldScale,
@@ -145,7 +155,9 @@ class _PetProfileState extends State<PetProfile> {
                   Expanded(
                     child: _buildButtonWithLabel(
                       label: "Breed",
-                      value: breedController.text.isEmpty ? "Select" : breedController.text,
+                      value: breedController.text.isEmpty
+                          ? "Select"
+                          : breedController.text,
                       onTap: () => _showBreedSelection(context),
                       fieldScale: fieldScale,
                     ),
@@ -153,14 +165,14 @@ class _PetProfileState extends State<PetProfile> {
                 ],
               ),
               SizedBox(height: 20 * fieldScale),
-              
+
               // Description section
               Text(
                 "Description",
                 style: TextStyle(
-                  fontSize: 16 * fieldScale, 
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'ArchivoBlack',
+                  fontSize: 16 * fieldScale,
+                  // fontWeight: FontWeight.bold,
+                  fontFamily: 'Archivo',
                   color: Colors.black,
                 ),
               ),
@@ -174,7 +186,7 @@ class _PetProfileState extends State<PetProfile> {
                   controller: descriptionController,
                   maxLines: 3,
                   style: TextStyle(
-                    fontFamily: 'ArchivoBlack',
+                    // fontFamily: 'ArchivoBlack',
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
@@ -185,74 +197,42 @@ class _PetProfileState extends State<PetProfile> {
                   ),
                 ),
               ),
-              SizedBox(height: 20 * fieldScale),
-              
+              SizedBox(height: 15 * fieldScale),
+
               // Health Documents section
-              Text(
-                "Health Documents",
-                style: TextStyle(
-                  fontSize: 16 * fieldScale, 
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'ArchivoBlack',
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(height: 8 * fieldScale),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: EdgeInsets.all(8 * fieldScale),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.add, size: 24 * fieldScale, color: Colors.black),
-                      onPressed: () {},
-                    ),
-                    SizedBox(width: 8 * fieldScale),
-                    Expanded(
-                      child: LinearProgressIndicator(
-                        value: 0.7,
-                        backgroundColor: Colors.grey[300],
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                      ),
-                    ),
-                    SizedBox(width: 8 * fieldScale),
-                    Text("70%", style: TextStyle(
-                      fontSize: 14 * fieldScale,
-                      fontFamily: 'ArchivoBlack',
-                      color: Colors.black,
-                    )),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20 * fieldScale),
-              
+              SizedBox(height: 20),
+              Text("Health Documents",
+                  style: TextStyle(
+                      fontSize: 16 * fieldScale, fontFamily: 'Archivo')),
+              HealthDocumentsUploader(),
+
+              SizedBox(height: 30 * fieldScale),
+
               // Tags section
               Text(
                 "Choose the best tags to describe the pet",
                 style: TextStyle(
-                  fontSize: 16 * fieldScale, 
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'ArchivoBlack',
+                  fontSize: 15 * fieldScale,
+                  fontFamily: 'Archivo',
                   color: Colors.black,
                 ),
               ),
               SizedBox(height: 12 * fieldScale),
-              
+
               // Size tags
               _buildBoneTagRow(["small", "medium", "large"], fieldScale),
               SizedBox(height: 12 * fieldScale),
-              
+
               // Personality tags
-              _buildBoneTagRow(["adventurous", "chill", "family pet"], fieldScale),
+              _buildBoneTagRow(
+                  ["adventurous", "chill", "family pet"], fieldScale),
               SizedBox(height: 12 * fieldScale),
-              
+
               // Status tags
-              _buildBoneTagRow(["trained", "vaccinated", "playful"], fieldScale),
+              _buildBoneTagRow(
+                  ["trained", "vaccinated", "playful"], fieldScale),
               SizedBox(height: 24 * fieldScale),
-              
+
               // Complete Registration button
               Container(
                 width: double.infinity,
@@ -275,7 +255,7 @@ class _PetProfileState extends State<PetProfile> {
                     "Complete Registration",
                     style: TextStyle(
                       fontSize: 16 * fieldScale,
-                      fontFamily: 'ArchivoBlack',
+                      fontFamily: 'Archivo',
                       color: Colors.black,
                     ),
                   ),
@@ -300,8 +280,8 @@ class _PetProfileState extends State<PetProfile> {
         Text(
           label,
           style: TextStyle(
-            fontSize: 14 * fieldScale, 
-            fontFamily: 'ArchivoBlack',
+            fontSize: 14 * fieldScale,
+            fontFamily: 'Archivo',
             color: Colors.black,
           ),
         ),
@@ -325,12 +305,13 @@ class _PetProfileState extends State<PetProfile> {
                   value,
                   style: TextStyle(
                     fontSize: 14 * fieldScale,
-                    fontFamily: 'ArchivoBlack',
+                    // fontFamily: 'Archivo',
                     color: Colors.black,
                   ),
                 ),
-                Icon(Icons.arrow_drop_down, 
-                  size: 20 * fieldScale, 
+                Icon(
+                  Icons.arrow_drop_down,
+                  size: 20 * fieldScale,
                   color: Colors.black,
                 ),
               ],
@@ -342,86 +323,89 @@ class _PetProfileState extends State<PetProfile> {
   }
 
   Widget _buildBoneTagRow(List<String> tags, double fieldScale) {
-  return Wrap(
-    spacing: 8 * fieldScale,
-    runSpacing: 8 * fieldScale,
-    children: tags.map((tag) => _buildBoneTag(tag, fieldScale)).toList(),
-  );
+    return Wrap(
+      spacing: 8 * fieldScale,
+      runSpacing: 8 * fieldScale,
+      children: tags.map((tag) => _buildBoneTag(tag, fieldScale)).toList(),
+    );
   }
 
   Widget _buildBoneTag(String text, double fieldScale) {
-  final color = _getTagColor(text);
-  return GestureDetector(
-    onTap: () {
-      // Handle tag selection
-    },
-    child: SizedBox(
-      width: 120 * fieldScale,
-      height: 50 * fieldScale,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Colored bone shape
-          ColorFiltered(
-            colorFilter: ColorFilter.mode(
-              color.withOpacity(0.6),
-              BlendMode.srcATop,
+    final color = _getTagColor(text);
+    final boneWidth = 113;
+    final boneHeight = 50;
+    return GestureDetector(
+      onTap: () {
+        // Handle tag selection
+      },
+      child: SizedBox(
+        width: boneWidth * fieldScale,
+        height: boneHeight * fieldScale,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Colored bone shape
+
+            ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                color.withOpacity(0.6),
+                BlendMode.srcATop,
+              ),
+              child: Image.asset(
+                'assets/images/bone.png', // Your bone asset
+                width: boneWidth * fieldScale,
+                height: boneHeight * fieldScale,
+                fit: BoxFit.contain,
+                // color: Color(0xFFFFC0CB),
+              ),
             ),
-            child: Image.asset(
-              'assets/images/bone.png', // Your bone asset
-              width: 120 * fieldScale,
-              height: 50 * fieldScale,
-              fit: BoxFit.contain,
+            // Text
+            Text(
+              text.toLowerCase(),
+              style: TextStyle(
+                fontSize: 12 * fieldScale,
+                fontFamily: 'Archivo',
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                // shadows: [
+                //   Shadow(
+                //     color: Colors.white.withOpacity(0.7),
+                //     blurRadius: 2,
+                //     offset: Offset(1, 1),
+                //   ),
+                // ],
+              ),
             ),
-          ),
-          // Text
-          Text(
-            text.toLowerCase(),
-            style: TextStyle(
-              fontSize: 9 * fieldScale,
-              fontFamily: 'Archivo',
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(
-                  color: Colors.white.withOpacity(0.7),
-                  blurRadius: 2,
-                  offset: Offset(1, 1),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
-  
+    );
+  }
 
   Color _getTagColor(String tag) {
-  switch (tag.toLowerCase()) {
-    case 'small':
-      return Color(0xFFFFC0CB); // Pink
-    case 'medium':
-      return Color(0xFF00FFFF); // Cyan
-    case 'large':
-      return Color(0xFFE6E6FA); // Lavender
-    case 'adventurous':
-      return Color(0xFF006400); // Dark Green
-    case 'chill':
-      return Color(0xFFF5F5DC); // Beige
-    case 'family pet':
-      return Color(0xFFFF7F50); // Coral
-    case 'trained':
-      return Color(0xFF800080); // Purple
-    case 'vaccinated':
-      return Color(0xFFFFA500); // Orange
-    case 'playful':
-      return Color(0xFFFF00FF); // Fuchsia
-    default:
-      return Colors.grey; // Fallback color
+    switch (tag.toLowerCase()) {
+      case 'small':
+        return Color(0xFFFFC0CB); // Pink
+      case 'medium':
+        return Color(0xFF00FFFF); // Cyan
+      case 'large':
+        return Color(0xFFE6E6FA); // Lavender
+      case 'adventurous':
+        return Color(0xFF006400); // Dark Green
+      case 'chill':
+        return Color(0xFFF5F5DC); // Beige
+      case 'family pet':
+        return Color(0xFFFF7F50); // Coral
+      case 'trained':
+        return Color(0xFF800080); // Purple
+      case 'vaccinated':
+        return Color(0xFFFFA500); // Orange
+      case 'playful':
+        return Color(0xFFFF00FF); // Fuchsia
+      default:
+        return Colors.grey; // Fallback color
+    }
   }
-}
 
   void _showImagePicker(BuildContext context) {
     showModalBottomSheet(
@@ -430,18 +414,19 @@ class _PetProfileState extends State<PetProfile> {
         return Container(
           height: 150,
           decoration: BoxDecoration(
-            //image: DecorationImage(
+              //image: DecorationImage(
               //image: AssetImage('assets/images/Login_SignUp_Background.png'),
               //fit: BoxFit.cover,
-            //),
-          ),
+              //),
+              ),
           child: Column(
             children: [
               ListTile(
                 leading: Icon(Icons.photo_library, color: Colors.black),
-                title: Text('Choose from Gallery', 
+                title: Text(
+                  'Choose from Gallery',
                   style: TextStyle(
-                    fontFamily: 'ArchivoBlack',
+                    // fontFamily: 'ArchivoBlack',
                     color: Colors.black,
                   ),
                 ),
@@ -451,9 +436,10 @@ class _PetProfileState extends State<PetProfile> {
               ),
               ListTile(
                 leading: Icon(Icons.camera_alt, color: Colors.black),
-                title: Text('Take a Photo', 
+                title: Text(
+                  'Take a Photo',
                   style: TextStyle(
-                    fontFamily: 'ArchivoBlack',
+                    // fontFamily: 'ArchivoBlack',
                     color: Colors.black,
                   ),
                 ),
@@ -470,66 +456,72 @@ class _PetProfileState extends State<PetProfile> {
 
   // Rest of your existing methods (_showAgeSelection, _showBreedSelection) remain the same...
   void _showAgeSelection(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (context) {
-      return Container(
-        height: 200,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'Select Age Category',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'ArchivoBlack',
-                  color: Colors.black,
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'Select Age Category',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'ArchivoBlack',
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: ageCategories.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(
-                      ageCategories[index],
-                      style: TextStyle(
-                        fontFamily: 'ArchivoBlack',
-                        color: Colors.black,
+              Expanded(
+                child: ListView.builder(
+                  itemCount: ageCategories.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        ageCategories[index],
+                        style: TextStyle(
+                          fontFamily: 'ArchivoBlack',
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        selectedAgeCategory = ageCategories[index];
-                      });
-                      Navigator.pop(context);
-                    },
-                    tileColor: selectedAgeCategory == ageCategories[index]
-                        ? Color(0xFFFFF581).withOpacity(0.3)
-                        : null,
-                  );
-                },
+                      onTap: () {
+                        setState(() {
+                          selectedAgeCategory = ageCategories[index];
+                        });
+                        Navigator.pop(context);
+                      },
+                      tileColor: selectedAgeCategory == ageCategories[index]
+                          ? Color(0xFFFFF581).withOpacity(0.3)
+                          : null,
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
+            ],
+          ),
+        );
+      },
+    );
   }
 
   void _showBreedSelection(BuildContext context) {
     final commonBreeds = [
-      "Labrador Retriever", "German Shepherd", "Golden Retriever",
-      "Bulldog", "Beagle", "Poodle", "Rottweiler", "Other"
+      "Labrador Retriever",
+      "German Shepherd",
+      "Golden Retriever",
+      "Bulldog",
+      "Beagle",
+      "Poodle",
+      "Rottweiler",
+      "Other"
     ];
-    
+
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -593,56 +585,3 @@ class _PetProfileState extends State<PetProfile> {
   }
 }
 
-class BoneTag extends StatelessWidget {
-  final String text;
-  final Color color;
-  final double scale;
-
-  const BoneTag({
-    required this.text,
-    required this.color,
-    required this.scale,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        // Dog bone image with color overlay
-        ColorFiltered(
-          colorFilter: ColorFilter.mode(
-            color.withOpacity(0.3),
-            BlendMode.srcATop,
-          ),
-          child: Image.asset(
-            'assets/images/dog_bone.png',
-            width: 100 * scale,
-            height: 40 * scale,
-            fit: BoxFit.contain,
-          ),
-          //child: Image.asset(
-           // 'assets/images/SignUpbutton.png',
-           // width: 100 * scale,
-           /// height: 40 * scale,
-           // fit: BoxFit.contain,
-         // ),
-        ),
-        // Text on top of the bone
-        Padding(
-          padding: EdgeInsets.only(bottom: 4 * scale),
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 12 * scale,
-              fontFamily: 'ArchivoBlack',
-              color: color,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}

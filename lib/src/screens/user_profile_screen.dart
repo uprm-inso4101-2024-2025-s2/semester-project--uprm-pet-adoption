@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 import 'package:semester_project__uprm_pet_adoption/supabase/retrieval.dart';
 import 'package:semester_project__uprm_pet_adoption/supabase/upload.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import '../services/storage_service.dart';
 
 class Profile extends StatefulWidget {
@@ -30,6 +31,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     _loadProfilePicture();
+    AnalyticsService().logScreenView("user_profile_screen");
   }
 
   Future<void> _loadProfilePicture() async {

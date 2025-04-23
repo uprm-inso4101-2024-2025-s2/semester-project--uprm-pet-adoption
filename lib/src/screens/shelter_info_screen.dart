@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
 
 class ShelterInfoScreen extends StatelessWidget {
@@ -6,6 +7,8 @@ class ShelterInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("shelter_info_screen");
+    
     final List<Map<String, String>> shelters = [
       {
         'name': 'Hope For Rescue',

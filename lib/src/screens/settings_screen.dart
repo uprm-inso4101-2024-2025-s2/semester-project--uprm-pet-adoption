@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -20,6 +21,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("settings_screen");
+    
     return Scaffold(
       backgroundColor: _backgroundColor,
       appBar: AppBar(
