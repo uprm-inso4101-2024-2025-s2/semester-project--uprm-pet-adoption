@@ -1,10 +1,15 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:semester_project__uprm_pet_adoption/supabase/upload.dart';
 import '../widgets.dart';
 
+
 class PetProfile extends StatefulWidget {
-  const PetProfile({super.key});
+  const PetProfile({Key? key}) : super(key: key);
 
   @override
   _PetProfileState createState() => _PetProfileState();
@@ -15,20 +20,147 @@ class _PetProfileState extends State<PetProfile> {
   final TextEditingController breedController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-  String selectedAgeCategory = 'Puppy'; // Default value
+
+  Uint8List? _imageBytes;
+  String? _localImagePath;
+  String selectedAgeCategory = 'Puppy (0-2 yrs)';
+  
   final List<String> ageCategories = [
     'Puppy (0-2 yrs)',
     'Adult (3-9 yrs)',
-    'Elderly (10+ yrs)'
+    'Elderly (10+ yrs)',
   ];
-  ImageProvider? petAvatarImage;
+
+  File? _selectedImage;
+  String? imageUrl;
+  bool _isUploading = false;
+  final List<String> selectedTags = [];
+
+  Future<void> _uploadNewPetProfilePicture() async {
+    if (_isUploading) return;
+    
+    setState(() => _isUploading = true);
+    
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        requestFullMetadata: false, // Important for iOS
+        maxWidth: 1080, // Optional: limit image size
+        maxHeight: 1080, // Optional: limit image size
+        imageQuality: 85, // Optional: reduce quality for smaller files
+      );
+      
+      if (pickedFile != null) {
+        
+        final bytes = await pickedFile.readAsBytes();
+       
+        // Platform-specific handling
+        if (kIsWeb) {
+          setState(() {
+            _imageBytes = bytes;
+            _localImagePath = null;
+          });
+        } else {
+          setState(() { 
+            _localImagePath = pickedFile.path;
+            _imageBytes = null;
+          });
+        }
+
+        // Upload the bytes directly
+        String? fileName = await StorageService().petPictureUpload(fileBytes: bytes);
+        
+        if (fileName != null && mounted) {
+          setState(() {
+            imageUrl = getSupabaseImageUrl(fileName);
+            
+          });
+          
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Profile picture updated successfully')),
+          );
+        }
+      }
+    } catch (e, stackTrace) {
+      print('Full error details: $e\n$stackTrace');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString().split('\n').first}')),
+        );
+        setState(() {
+          _imageBytes = null;
+          _localImagePath = null;
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _isUploading = false);
+    }
+  }
+
+  String getSupabaseImageUrl(String fileName) {
+    return 'https://csrsmxmhiqwcalunugzf.supabase.co/storage/v1/object/public/uploads/$fileName';
+  }
+
+  Widget _buildProfileImage() {
+    if (_isUploading) {
+      return const Center(child: CircularProgressIndicator());
+    }  // Web platform - use memory image
+    if (kIsWeb && _imageBytes != null) {
+      return ClipOval(
+        child: Image.memory(
+          _imageBytes!,
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+    // Mobile platform - use file image
+    else if (!kIsWeb && _localImagePath != null) {
+      return ClipOval(
+        child: Image.file(
+          File(_localImagePath!),
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+    // Show uploaded image from URL
+    else if (imageUrl != null) {
+      return ClipOval(
+        child: Image.network(
+          imageUrl!,
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+    // Default image
+    else {
+      return _buildDefaultImage();
+    }
+  }
+
+  Widget _buildDefaultImage() {
+    return ClipOval(
+      child: Image.asset(
+        'assets/images/Account_Circle_blue_dms.png',
+        width: 100,
+        height: 100,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     AnalyticsService().logScreenView("petProfile_screen");
 
     final screenHeight = MediaQuery.of(context).size.height;
-    final fieldScale = screenHeight < 700 ? 0.8 : 1.0; // Scale factor for smaller screens
+    final fieldScale = screenHeight < 700 ? 0.8 : 1.0;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -42,14 +174,14 @@ class _PetProfileState extends State<PetProfile> {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Color(0xFFFFF581),
+        backgroundColor: const Color(0xFFFFF581),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => context.go('/'),
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/Login_SignUp_Background.png'),
             fit: BoxFit.cover,
@@ -60,88 +192,44 @@ class _PetProfileState extends State<PetProfile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Profile Avatar
-              GestureDetector(
-                onTap: () => _showImagePicker(context),
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 65 * fieldScale,
-                      backgroundColor: Colors.white.withOpacity(0.8),
-                      // backgroundImage: petAvatarImage ?? AssetImage('assets/images/default_pet_avatar.png'),
-                      child: petAvatarImage == null
-                          ? Icon(Icons.pets,
-                              size: 50 * fieldScale, color: Colors.grey)
-                          : null,
+
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: _uploadNewPetProfilePicture,
+                    child: ClipOval(
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: _buildProfileImage(),
+                      ),
                     ),
+                  ),
+                  if (!_isUploading)
                     Positioned(
                       bottom: 0,
                       right: 0,
                       child: Container(
                         padding: EdgeInsets.all(4 * fieldScale),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Color(0xFFFFF581),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(Icons.camera_alt,
-                            size: 24 * fieldScale, color: Colors.black),
+
+                            size: 16 * fieldScale, color: Colors.black),
                       ),
                     ),
-                  ],
-                ),
+                ],
               ),
               SizedBox(height: 12 * fieldScale),
 
-              // Name of Pet section
-              Container(
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Name of Pet",
-                      style: TextStyle(
-                        fontSize: 16 * fieldScale,
-                        // fontWeight: FontWeight.bold,
-                        fontFamily: 'Archivo',
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(height: 4 * fieldScale),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: TextField(
-                        controller: nameController,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18 * fieldScale,
-                          // fontWeight: FontWeight.bold,
-                          // fontFamily: 'Archivo',
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: "Enter pet name",
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 12 * fieldScale,
-                            vertical: 8 * fieldScale,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _buildTextInput("Name of Pet", "Enter pet name", nameController, fieldScale),
               SizedBox(height: 16 * fieldScale),
 
-              // Age and Breed buttons
               Row(
                 children: [
-                  // Age Button
                   Expanded(
                     child: _buildButtonWithLabel(
                       label: 'Age',
@@ -151,7 +239,6 @@ class _PetProfileState extends State<PetProfile> {
                     ),
                   ),
                   SizedBox(width: 12 * fieldScale),
-                  // Breed Button
                   Expanded(
                     child: _buildButtonWithLabel(
                       label: "Breed",
@@ -166,97 +253,94 @@ class _PetProfileState extends State<PetProfile> {
               ),
               SizedBox(height: 20 * fieldScale),
 
-              // Description section
+              _buildTextInput("Description", "Enter pet description",
+                  descriptionController, fieldScale, maxLines: 3),
+              SizedBox(height: 20 * fieldScale),
               Text(
-                "Description",
+                "Health Documents",
                 style: TextStyle(
                   fontSize: 16 * fieldScale,
-                  // fontWeight: FontWeight.bold,
-                  fontFamily: 'Archivo',
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'ArchivoBlack',
                   color: Colors.black,
                 ),
               ),
-              Divider(color: Colors.black),
+              SizedBox(height: 8 * fieldScale),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                child: TextField(
-                  controller: descriptionController,
-                  maxLines: 3,
-                  style: TextStyle(
-                    // fontFamily: 'ArchivoBlack',
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "Enter pet description",
-                    hintStyle: TextStyle(color: Colors.black54),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(12 * fieldScale),
-                  ),
+                padding: EdgeInsets.all(8 * fieldScale),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.add, size: 24 * fieldScale),
+                      onPressed: () {
+                        // Add upload PDF functionality here
+                      },
+                    ),
+                    SizedBox(width: 8 * fieldScale),
+                    const Expanded(
+                      child: LinearProgressIndicator(
+                        value: 0.7,
+                        backgroundColor: Colors.grey,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                      ),
+                    ),
+                    SizedBox(width: 8 * fieldScale),
+                    Text("70%",
+                        style: TextStyle(
+                          fontSize: 14 * fieldScale,
+                          fontFamily: 'ArchivoBlack',
+                          color: Colors.black,
+                        )),
+                  ],
                 ),
               ),
-              SizedBox(height: 15 * fieldScale),
-
-              // Health Documents section
-              SizedBox(height: 20),
-              Text("Health Documents",
-                  style: TextStyle(
-                      fontSize: 16 * fieldScale, fontFamily: 'Archivo')),
-              HealthDocumentsUploader(),
-
-              SizedBox(height: 30 * fieldScale),
-
-              // Tags section
+              SizedBox(height: 20 * fieldScale),
               Text(
                 "Choose the best tags to describe the pet",
                 style: TextStyle(
-                  fontSize: 15 * fieldScale,
-                  fontFamily: 'Archivo',
+                  fontSize: 16 * fieldScale,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'ArchivoBlack',
                   color: Colors.black,
                 ),
               ),
+              
               SizedBox(height: 12 * fieldScale),
-
-              // Size tags
               _buildBoneTagRow(["small", "medium", "large"], fieldScale),
               SizedBox(height: 12 * fieldScale),
-
-              // Personality tags
-              _buildBoneTagRow(
-                  ["adventurous", "chill", "family pet"], fieldScale),
+              _buildBoneTagRow(["adventurous", "chill", "family pet"], fieldScale),
               SizedBox(height: 12 * fieldScale),
-
-              // Status tags
-              _buildBoneTagRow(
-                  ["trained", "vaccinated", "playful"], fieldScale),
+              _buildBoneTagRow(["trained", "vaccinated", "playful"], fieldScale),
               SizedBox(height: 24 * fieldScale),
+              SizedBox(
 
-              // Complete Registration button
-              Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 40 * fieldScale),
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Handle registration completion
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFFF581),
-                    padding: EdgeInsets.symmetric(
-                      vertical: 14 * fieldScale,
-                      horizontal: 24 * fieldScale,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40 * fieldScale),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Submit logic here
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFFF581),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 14 * fieldScale,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Text(
-                    "Complete Registration",
-                    style: TextStyle(
-                      fontSize: 16 * fieldScale,
-                      fontFamily: 'Archivo',
-                      color: Colors.black,
+                    child: Text(
+                      "Complete Registration",
+                      style: TextStyle(
+                        fontSize: 16 * fieldScale,
+                        fontFamily: 'ArchivoBlack',
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
@@ -264,6 +348,51 @@ class _PetProfileState extends State<PetProfile> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextInput(String label, String hint, TextEditingController controller,
+      double scale, {int maxLines = 1}) {
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 16 * scale,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'ArchivoBlack',
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 4 * scale),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: TextField(
+              controller: controller,
+              maxLines: maxLines,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 18 * scale,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'ArchivoBlack',
+                color: Colors.black,
+              ),
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: const TextStyle(color: Colors.black54),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(12 * scale),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -281,7 +410,9 @@ class _PetProfileState extends State<PetProfile> {
           label,
           style: TextStyle(
             fontSize: 14 * fieldScale,
-            fontFamily: 'Archivo',
+
+            fontFamily: 'ArchivoBlack',
+
             color: Colors.black,
           ),
         ),
@@ -309,11 +440,9 @@ class _PetProfileState extends State<PetProfile> {
                     color: Colors.black,
                   ),
                 ),
-                Icon(
-                  Icons.arrow_drop_down,
-                  size: 20 * fieldScale,
-                  color: Colors.black,
-                ),
+
+                Icon(Icons.arrow_drop_down, size: 20 * fieldScale),
+
               ],
             ),
           ),
@@ -332,48 +461,51 @@ class _PetProfileState extends State<PetProfile> {
 
   Widget _buildBoneTag(String text, double fieldScale) {
     final color = _getTagColor(text);
-    final boneWidth = 113;
-    final boneHeight = 50;
+
     return GestureDetector(
       onTap: () {
-        // Handle tag selection
+        setState(() {
+          if (selectedTags.contains(text)) {
+            selectedTags.remove(text);
+          } else {
+            selectedTags.add(text);
+          }
+        });
       },
       child: SizedBox(
-        width: boneWidth * fieldScale,
-        height: boneHeight * fieldScale,
+        width: 120 * fieldScale,
+        height: 50 * fieldScale,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // Colored bone shape
-
             ColorFiltered(
               colorFilter: ColorFilter.mode(
-                color.withOpacity(0.6),
+                selectedTags.contains(text) 
+                  ? color.withOpacity(0.9)
+                  : color.withOpacity(0.6),
                 BlendMode.srcATop,
               ),
               child: Image.asset(
-                'assets/images/bone.png', // Your bone asset
-                width: boneWidth * fieldScale,
-                height: boneHeight * fieldScale,
+                'assets/images/bone.png',
+                width: 120 * fieldScale,
+                height: 50 * fieldScale,
                 fit: BoxFit.contain,
-                // color: Color(0xFFFFC0CB),
               ),
             ),
-            // Text
             Text(
               text.toLowerCase(),
               style: TextStyle(
-                fontSize: 12 * fieldScale,
+                fontSize: 9 * fieldScale,
                 fontFamily: 'Archivo',
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                // shadows: [
-                //   Shadow(
-                //     color: Colors.white.withOpacity(0.7),
-                //     blurRadius: 2,
-                //     offset: Offset(1, 1),
-                //   ),
-                // ],
+                shadows: [
+                  Shadow(
+                    color: Colors.white.withOpacity(0.7),
+                    blurRadius: 2,
+                    offset: const Offset(1, 1),
+                  )
+                ]
               ),
             ),
           ],
@@ -404,48 +536,57 @@ class _PetProfileState extends State<PetProfile> {
         return Color(0xFFFF00FF); // Fuchsia
       default:
         return Colors.grey; // Fallback color
+
     }
   }
 
-  void _showImagePicker(BuildContext context) {
+  void _showAgeSelection(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
         return Container(
-          height: 150,
+          height: 200,
           decoration: BoxDecoration(
-              //image: DecorationImage(
-              //image: AssetImage('assets/images/Login_SignUp_Background.png'),
-              //fit: BoxFit.cover,
-              //),
-              ),
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
           child: Column(
             children: [
-              ListTile(
-                leading: Icon(Icons.photo_library, color: Colors.black),
-                title: Text(
-                  'Choose from Gallery',
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'Select Age Category',
                   style: TextStyle(
-                    // fontFamily: 'ArchivoBlack',
+                    fontSize: 18,
+                    fontFamily: 'ArchivoBlack',
                     color: Colors.black,
                   ),
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
               ),
-              ListTile(
-                leading: Icon(Icons.camera_alt, color: Colors.black),
-                title: Text(
-                  'Take a Photo',
-                  style: TextStyle(
-                    // fontFamily: 'ArchivoBlack',
-                    color: Colors.black,
-                  ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: ageCategories.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        ageCategories[index],
+                        style: TextStyle(
+                          fontFamily: 'ArchivoBlack',
+                          color: Colors.black,
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          selectedAgeCategory = ageCategories[index];
+                        });
+                        Navigator.pop(context);
+                      },
+                      tileColor: selectedAgeCategory == ageCategories[index]
+                          ? Color(0xFFFFF581).withOpacity(0.3)
+                          : null,
+                    );
+                  },
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
               ),
             ],
           ),
@@ -453,6 +594,7 @@ class _PetProfileState extends State<PetProfile> {
       },
     );
   }
+
 
   // Rest of your existing methods (_showAgeSelection, _showBreedSelection) remain the same...
   void _showAgeSelection(BuildContext context) {
@@ -509,6 +651,7 @@ class _PetProfileState extends State<PetProfile> {
       },
     );
   }
+
 
   void _showBreedSelection(BuildContext context) {
     final commonBreeds = [
