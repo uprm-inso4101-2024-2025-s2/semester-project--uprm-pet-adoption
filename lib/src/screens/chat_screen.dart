@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart'; // Import for navigation
 
 // Custom ChatHeader widget
@@ -10,6 +11,8 @@ class ChatHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("chat_screen");
+
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 40, bottom: 5),
       color: const Color(0xFFFFF581), // Yellow background

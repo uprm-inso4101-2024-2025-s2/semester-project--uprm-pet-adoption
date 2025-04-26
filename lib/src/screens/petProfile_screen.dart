@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:semester_project__uprm_pet_adoption/supabase/upload.dart';
+import '../widgets.dart';
+
 
 class PetProfile extends StatefulWidget {
   const PetProfile({Key? key}) : super(key: key);
@@ -17,12 +20,11 @@ class _PetProfileState extends State<PetProfile> {
   final TextEditingController breedController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
+
   Uint8List? _imageBytes;
   String? _localImagePath;
-
-
-
   String selectedAgeCategory = 'Puppy (0-2 yrs)';
+  
   final List<String> ageCategories = [
     'Puppy (0-2 yrs)',
     'Adult (3-9 yrs)',
@@ -155,17 +157,20 @@ class _PetProfileState extends State<PetProfile> {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("petProfile_screen");
+
     final screenHeight = MediaQuery.of(context).size.height;
     final fieldScale = screenHeight < 700 ? 0.8 : 1.0;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           'New Pet Profile',
           style: TextStyle(
             fontSize: 24 * fieldScale,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'ArchivoBlack',
+            // fontWeight: FontWeight.bold,
+            fontFamily: 'Archivo',
             color: Colors.black,
           ),
         ),
@@ -187,6 +192,7 @@ class _PetProfileState extends State<PetProfile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -211,19 +217,22 @@ class _PetProfileState extends State<PetProfile> {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(Icons.camera_alt,
+
                             size: 16 * fieldScale, color: Colors.black),
                       ),
                     ),
                 ],
               ),
               SizedBox(height: 12 * fieldScale),
+
               _buildTextInput("Name of Pet", "Enter pet name", nameController, fieldScale),
               SizedBox(height: 16 * fieldScale),
+
               Row(
                 children: [
                   Expanded(
                     child: _buildButtonWithLabel(
-                      label: "Age",
+                      label: 'Age',
                       value: selectedAgeCategory,
                       onTap: () => _showAgeSelection(context),
                       fieldScale: fieldScale,
@@ -243,6 +252,7 @@ class _PetProfileState extends State<PetProfile> {
                 ],
               ),
               SizedBox(height: 20 * fieldScale),
+
               _buildTextInput("Description", "Enter pet description",
                   descriptionController, fieldScale, maxLines: 3),
               SizedBox(height: 20 * fieldScale),
@@ -298,6 +308,7 @@ class _PetProfileState extends State<PetProfile> {
                   color: Colors.black,
                 ),
               ),
+              
               SizedBox(height: 12 * fieldScale),
               _buildBoneTagRow(["small", "medium", "large"], fieldScale),
               SizedBox(height: 12 * fieldScale),
@@ -306,6 +317,7 @@ class _PetProfileState extends State<PetProfile> {
               _buildBoneTagRow(["trained", "vaccinated", "playful"], fieldScale),
               SizedBox(height: 24 * fieldScale),
               SizedBox(
+
                 width: double.infinity,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40 * fieldScale),
@@ -398,7 +410,9 @@ class _PetProfileState extends State<PetProfile> {
           label,
           style: TextStyle(
             fontSize: 14 * fieldScale,
+
             fontFamily: 'ArchivoBlack',
+
             color: Colors.black,
           ),
         ),
@@ -422,11 +436,13 @@ class _PetProfileState extends State<PetProfile> {
                   value,
                   style: TextStyle(
                     fontSize: 14 * fieldScale,
-                    fontFamily: 'ArchivoBlack',
+                    // fontFamily: 'Archivo',
                     color: Colors.black,
                   ),
                 ),
+
                 Icon(Icons.arrow_drop_down, size: 20 * fieldScale),
+
               ],
             ),
           ),
@@ -445,6 +461,7 @@ class _PetProfileState extends State<PetProfile> {
 
   Widget _buildBoneTag(String text, double fieldScale) {
     final color = _getTagColor(text);
+
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -488,7 +505,7 @@ class _PetProfileState extends State<PetProfile> {
                     blurRadius: 2,
                     offset: const Offset(1, 1),
                   )
-                ],
+                ]
               ),
             ),
           ],
@@ -500,25 +517,26 @@ class _PetProfileState extends State<PetProfile> {
   Color _getTagColor(String tag) {
     switch (tag.toLowerCase()) {
       case 'small':
-        return const Color(0xFFFFC0CB);
+        return Color(0xFFFFC0CB); // Pink
       case 'medium':
-        return const Color(0xFF00FFFF);
+        return Color(0xFF00FFFF); // Cyan
       case 'large':
-        return const Color(0xFFE6E6FA);
+        return Color(0xFFE6E6FA); // Lavender
       case 'adventurous':
-        return const Color(0xFF006400);
+        return Color(0xFF006400); // Dark Green
       case 'chill':
-        return const Color(0xFFF5F5DC);
+        return Color(0xFFF5F5DC); // Beige
       case 'family pet':
-        return const Color(0xFFFF7F50);
+        return Color(0xFFFF7F50); // Coral
       case 'trained':
-        return const Color(0xFF800080);
+        return Color(0xFF800080); // Purple
       case 'vaccinated':
-        return const Color(0xFFFFA500);
+        return Color(0xFFFFA500); // Orange
       case 'playful':
-        return const Color(0xFFFF00FF);
+        return Color(0xFFFF00FF); // Fuchsia
       default:
-        return Colors.grey;
+        return Colors.grey; // Fallback color
+
     }
   }
 
@@ -577,12 +595,76 @@ class _PetProfileState extends State<PetProfile> {
     );
   }
 
+
+  // Rest of your existing methods (_showAgeSelection, _showBreedSelection) remain the same...
+  void _showAgeSelection(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'Select Age Category',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'ArchivoBlack',
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: ageCategories.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        ageCategories[index],
+                        style: TextStyle(
+                          fontFamily: 'ArchivoBlack',
+                          color: Colors.black,
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          selectedAgeCategory = ageCategories[index];
+                        });
+                        Navigator.pop(context);
+                      },
+                      tileColor: selectedAgeCategory == ageCategories[index]
+                          ? Color(0xFFFFF581).withOpacity(0.3)
+                          : null,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
   void _showBreedSelection(BuildContext context) {
     final commonBreeds = [
-      "Labrador Retriever", "German Shepherd", "Golden Retriever",
-      "Bulldog", "Beagle", "Poodle", "Rottweiler", "Other"
+      "Labrador Retriever",
+      "German Shepherd",
+      "Golden Retriever",
+      "Bulldog",
+      "Beagle",
+      "Poodle",
+      "Rottweiler",
+      "Other"
     ];
-    
+
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -645,3 +727,4 @@ class _PetProfileState extends State<PetProfile> {
     );
   }
 }
+
