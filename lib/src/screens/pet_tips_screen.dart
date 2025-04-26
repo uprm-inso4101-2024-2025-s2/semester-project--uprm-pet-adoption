@@ -137,7 +137,7 @@ class _PetTipsState extends State<PetTips> {
   @override
   Widget build(BuildContext context) {
 
-    const mainYellow = Color(0xFFFFF200);
+    const mainYellow = Color(0xFFFFF581);
 
     final displayedItems = _filterItems(_allItems);
 
@@ -148,7 +148,7 @@ class _PetTipsState extends State<PetTips> {
     return Scaffold(
       // Large "Pet Tips" text
       appBar: AppBar(
-        backgroundColor: mainYellow,
+        backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
         leading: IconButton(
           icon: Image.asset(
             'assets/images/Arrow_Circle_dms.png',
@@ -289,7 +289,7 @@ class _PetTipsState extends State<PetTips> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF200),
+        color: const Color.fromRGBO(255, 244,129, 1),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.black, width: 2),
       ),
@@ -316,7 +316,7 @@ class _PetTipsState extends State<PetTips> {
                       height: 120,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: const Color.fromRGBO(255, 255, 255, 1),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: Colors.black, width: 2),
                       ),
@@ -367,7 +367,7 @@ class _PetTipsState extends State<PetTips> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFB3D9FF), 
+        color: const Color.fromRGBO(130, 176, 255, 1), 
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.black, width: 2),
       ),
@@ -421,12 +421,12 @@ class _PetTipsState extends State<PetTips> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                // "Read more ->"  bottom
+                // "Read more ->"  botton 
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     ),
                     onPressed: () {
@@ -435,7 +435,7 @@ class _PetTipsState extends State<PetTips> {
                     child: const Text(
                       'Read more  ->',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Color.fromRGBO(130, 176, 255, 1),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
