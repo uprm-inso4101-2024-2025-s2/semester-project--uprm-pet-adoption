@@ -168,6 +168,30 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
+            // Box 6: Success Stories Screen
+            Material(
+              color: const Color.fromRGBO(244, 233, 107, 1),
+              child: InkWell(
+                onTap: () {
+                  context.go('/success-stories');
+                },
+                child: ListTile(
+                  leading: Container(
+                    width: 25,
+                    height: 70,
+                    color: const Color.fromRGBO(198, 187, 60, 1),
+                    child: const Icon(Icons.star, color: Colors.black),
+                  ),
+                  title: const Text(
+                    'Success Stories',
+                    style: TextStyle(fontFamily: 'Archivo'),
+                  ),
+                  selected: false,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+
             // Box 6: Settings
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
