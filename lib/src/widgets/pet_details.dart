@@ -93,7 +93,7 @@ class _PetDetailsState extends State<PetDetails> {
           transitionBuilder: (widget, animation) {
             return ScaleTransition(scale: animation, child: widget);
           },
-          child: _showBack ?  _buildFrontView():_buildBackView(),
+          child: _showBack ?  _buildBackView():_buildFrontView(),
         ),
       ),
     );
