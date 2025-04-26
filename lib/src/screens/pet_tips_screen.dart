@@ -162,6 +162,7 @@ class _PetTipsState extends State<PetTips> {
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
+            fontFamily: 'Archivo',
             color: Colors.black,
           ),
         ),
@@ -258,6 +259,7 @@ class _PetTipsState extends State<PetTips> {
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
+                            fontFamily: 'Archivo',
                             color: Colors.black,
                           ),
                         ),
@@ -437,6 +439,7 @@ class _PetTipsState extends State<PetTips> {
                       style: TextStyle(
                         color: Color.fromRGBO(130, 176, 255, 1),
                         fontWeight: FontWeight.bold,
+                        fontFamily: 'Archivo',
                       ),
                     ),
                   ),
