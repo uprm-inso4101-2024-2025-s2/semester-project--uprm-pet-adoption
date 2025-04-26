@@ -25,9 +25,8 @@ import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_verification_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/shelter_info_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/success_stories_screen.dart';
 import '../screens/petProfile_screen.dart' as petProfile;
-
-
 
 //This file contains the routes for all screens. It also manages transitions between screens.
 
@@ -48,7 +47,7 @@ final GoRouter appRouter = GoRouter(
       path: '/',
       //Page with custom transition functionality. This is part of the Go Router library.
       pageBuilder: (context, state) => CustomTransitionPage(
-        child:  HomeScreen(),
+        child: HomeScreen(),
         //In Flutter's GoRouter, the transitionsBuilder function controls how a new screen
         // appears and how the current screen disappears during navigation.
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -62,7 +61,7 @@ final GoRouter appRouter = GoRouter(
               end: Offset.zero, // Ends at normal position
             ).animate(animation),
             child:
-            child, //The child represents the screen (widget) that is being transitioned into.
+                child, //The child represents the screen (widget) that is being transitioned into.
           );
         },
       ),
@@ -169,7 +168,6 @@ final GoRouter appRouter = GoRouter(
         },
       ),
     ),
-
 
     //Route for menu screen
     GoRoute(
@@ -348,7 +346,8 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/settings',
       pageBuilder: (context, state) => CustomTransitionPage(
-        child: const SettingsScreen(), // Replace with your actual settings screen widget
+        child:
+            const SettingsScreen(), // Replace with your actual settings screen widget
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
@@ -379,7 +378,8 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/petProfile',
       pageBuilder: (context, state) => CustomTransitionPage(
-        child: const petProfile.PetProfile(), // Ensure PetProfile is defined in petProfile_screen.dart
+        child: const petProfile
+            .PetProfile(), // Ensure PetProfile is defined in petProfile_screen.dart
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
@@ -408,5 +408,21 @@ final GoRouter appRouter = GoRouter(
       ),
     ),
 
+    // Route for success stories screen
+    GoRoute(
+      path: '/success-stories',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const SuccessStoriesScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
   ],
 );
