@@ -595,64 +595,6 @@ class _PetProfileState extends State<PetProfile> {
     );
   }
 
-
-  // Rest of your existing methods (_showAgeSelection, _showBreedSelection) remain the same...
-  void _showAgeSelection(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          height: 200,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  'Select Age Category',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'ArchivoBlack',
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: ageCategories.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                        ageCategories[index],
-                        style: TextStyle(
-                          fontFamily: 'ArchivoBlack',
-                          color: Colors.black,
-                        ),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          selectedAgeCategory = ageCategories[index];
-                        });
-                        Navigator.pop(context);
-                      },
-                      tileColor: selectedAgeCategory == ageCategories[index]
-                          ? Color(0xFFFFF581).withOpacity(0.3)
-                          : null,
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-
   void _showBreedSelection(BuildContext context) {
     final commonBreeds = [
       "Labrador Retriever",
