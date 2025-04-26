@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:semester_project__uprm_pet_adoption/supabase/upload.dart';
 
 class ProfilePictureService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -33,3 +34,4 @@ class ProfilePictureService {
     return 'https://csrsmxmhiqwcalunugzf.supabase.co/storage/v1/object/public/uploads/$fileName';
   }
 }
+

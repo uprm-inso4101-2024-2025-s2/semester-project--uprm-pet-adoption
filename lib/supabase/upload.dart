@@ -66,6 +66,35 @@ class StorageService {
     return null;
   }
 
+  Future<String?> petPictureUpload({required Uint8List fileBytes}) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      print('No user is currently logged in');
+      return null;
+    }
+
+    if (fileBytes.lengthInBytes > maxFileSize) {
+      print('File size exceeds limit');
+      return null;
+    }
+
+    try {
+      String fileName = '${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      await supabase.storage.from('uploads').uploadBinary(fileName, fileBytes);
+      // await _firestore.collection('pets').doc(user.uid).update({
+      //   'Pet_picture': fileName,
+      // });
+
+      print('File uploaded and Firestore updated successfully: $fileName');
+      return fileName;
+    } catch (e) {
+      print('Error uploading file: $e');
+      return null;
+    }
+  }
+
+
   Future<String?> generalFileUpload() async {
     // This function allows for either image or PDFs (example usage: uploading a vaccine document as either a photo or a PDF)
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -100,4 +129,6 @@ class StorageService {
 
     return null;
   }
+
+  
 }
