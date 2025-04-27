@@ -358,6 +358,7 @@ class _PetProfileState extends State<PetProfile> {
           ),
         ),
       ),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
     );
   }
 
