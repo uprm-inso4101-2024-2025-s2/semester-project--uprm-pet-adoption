@@ -16,7 +16,7 @@ class MenuScreen extends Drawer {
 
     return Container(
       // Set the width of the drawer
-      width: MediaQuery.sizeOf(context).width * 0.55, // Adjust as desired
+      width: MediaQuery.sizeOf(context).width * 0.65, // Adjust as desired
       child: Drawer(
         backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
         child: ListView(
@@ -184,6 +184,8 @@ class MenuScreen extends Drawer {
                   ),
                   title: const Text(
                     'Success Stories',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                     style: TextStyle(fontFamily: 'Archivo'),
                   ),
                   selected: false,
@@ -192,7 +194,7 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 6: Settings
+            // Box 7: Settings
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: ListTile(
