@@ -210,13 +210,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               text: "Create Account",
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  AuthService().signup(
+                                  authService.signUp(
                                       email: emailController.text,
                                       password: passwordController.text,
                                       firstName: firstNameController.text,
-                                      lastName: lastNameController.text,
-                                      phoneNumber: ''
-                                  );
+                                      lastName: lastNameController.text
+                                    );
                                   context.go('/gettoknow');
                                   AnalyticsService().addSignUp();
                                 }
