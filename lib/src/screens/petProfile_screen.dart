@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
+import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:semester_project__uprm_pet_adoption/supabase/upload.dart';
 import '../widgets.dart';
-
 
 class PetProfile extends StatefulWidget {
   const PetProfile({Key? key}) : super(key: key);
@@ -16,15 +16,17 @@ class PetProfile extends StatefulWidget {
 }
 
 class _PetProfileState extends State<PetProfile> {
+  final AuthService authService = AuthService();
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController breedController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-
+  String? petPictureFileName;
   Uint8List? _imageBytes;
   String? _localImagePath;
   String selectedAgeCategory = 'Puppy (0-2 yrs)';
-  
+
   final List<String> ageCategories = [
     'Puppy (0-2 yrs)',
     'Adult (3-9 yrs)',
@@ -38,9 +40,9 @@ class _PetProfileState extends State<PetProfile> {
 
   Future<void> _uploadNewPetProfilePicture() async {
     if (_isUploading) return;
-    
+
     setState(() => _isUploading = true);
-    
+
     try {
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(
@@ -50,11 +52,10 @@ class _PetProfileState extends State<PetProfile> {
         maxHeight: 1080, // Optional: limit image size
         imageQuality: 85, // Optional: reduce quality for smaller files
       );
-      
+
       if (pickedFile != null) {
-        
         final bytes = await pickedFile.readAsBytes();
-       
+
         // Platform-specific handling
         if (kIsWeb) {
           setState(() {
@@ -62,23 +63,26 @@ class _PetProfileState extends State<PetProfile> {
             _localImagePath = null;
           });
         } else {
-          setState(() { 
+          setState(() {
             _localImagePath = pickedFile.path;
             _imageBytes = null;
           });
         }
 
         // Upload the bytes directly
-        String? fileName = await StorageService().petPictureUpload(fileBytes: bytes);
-        
+        String? fileName =
+            await StorageService().petPictureUpload(fileBytes: bytes);
+
         if (fileName != null && mounted) {
           setState(() {
             imageUrl = getSupabaseImageUrl(fileName);
-            
+            petPictureFileName = fileName; 
+
           });
-          
+
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile picture updated successfully')),
+            const SnackBar(
+                content: Text('Profile picture updated successfully')),
           );
         }
       }
@@ -105,7 +109,7 @@ class _PetProfileState extends State<PetProfile> {
   Widget _buildProfileImage() {
     if (_isUploading) {
       return const Center(child: CircularProgressIndicator());
-    }  // Web platform - use memory image
+    } // Web platform - use memory image
     if (kIsWeb && _imageBytes != null) {
       return ClipOval(
         child: Image.memory(
@@ -192,7 +196,6 @@ class _PetProfileState extends State<PetProfile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -217,17 +220,14 @@ class _PetProfileState extends State<PetProfile> {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(Icons.camera_alt,
-
                             size: 16 * fieldScale, color: Colors.black),
                       ),
                     ),
                 ],
               ),
               SizedBox(height: 12 * fieldScale),
-
               _buildTextInput("Name of Pet", "Enter pet name", nameController, fieldScale),
               SizedBox(height: 16 * fieldScale),
-
               Row(
                 children: [
                   Expanded(
@@ -252,7 +252,6 @@ class _PetProfileState extends State<PetProfile> {
                 ],
               ),
               SizedBox(height: 20 * fieldScale),
-
               _buildTextInput("Description", "Enter pet description",
                   descriptionController, fieldScale, maxLines: 3),
               SizedBox(height: 20 * fieldScale),
@@ -308,7 +307,6 @@ class _PetProfileState extends State<PetProfile> {
                   color: Colors.black,
                 ),
               ),
-              
               SizedBox(height: 12 * fieldScale),
               _buildBoneTagRow(["small", "medium", "large"], fieldScale),
               SizedBox(height: 12 * fieldScale),
@@ -317,13 +315,24 @@ class _PetProfileState extends State<PetProfile> {
               _buildBoneTagRow(["trained", "vaccinated", "playful"], fieldScale),
               SizedBox(height: 24 * fieldScale),
               SizedBox(
-
                 width: double.infinity,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40 * fieldScale),
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Submit logic here
+                    onPressed: () async {
+                      //Register pets with available information
+                      await authService.petsSignUp(
+                        medicalDocument: 'fileName For medicalDocument',
+                        petPicture: petPictureFileName ?? 'fileName For petPicture',
+                        petAge: selectedAgeCategory,
+                        petBreed: breedController.text,
+                        petDescription: descriptionController.text,
+                        petName: nameController.text,
+                        petShelter: '',
+                        petTags: selectedTags.join(', '),
+                      );
+                      context.go('/');
+                      AnalyticsService().addPetsSignUp();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFFF581),
@@ -353,7 +362,7 @@ class _PetProfileState extends State<PetProfile> {
   }
 
   Widget _buildTextInput(String label, String hint, TextEditingController controller,
-      double scale, {int maxLines = 1}) {
+   double scale, {int maxLines = 1}) {
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -410,9 +419,7 @@ class _PetProfileState extends State<PetProfile> {
           label,
           style: TextStyle(
             fontSize: 14 * fieldScale,
-
             fontFamily: 'ArchivoBlack',
-
             color: Colors.black,
           ),
         ),
@@ -440,9 +447,7 @@ class _PetProfileState extends State<PetProfile> {
                     color: Colors.black,
                   ),
                 ),
-
                 Icon(Icons.arrow_drop_down, size: 20 * fieldScale),
-
               ],
             ),
           ),
@@ -480,9 +485,9 @@ class _PetProfileState extends State<PetProfile> {
           children: [
             ColorFiltered(
               colorFilter: ColorFilter.mode(
-                selectedTags.contains(text) 
-                  ? color.withOpacity(0.9)
-                  : color.withOpacity(0.6),
+                selectedTags.contains(text)
+                    ? color.withOpacity(0.9)
+                    : color.withOpacity(0.6),
                 BlendMode.srcATop,
               ),
               child: Image.asset(
@@ -495,18 +500,18 @@ class _PetProfileState extends State<PetProfile> {
             Text(
               text.toLowerCase(),
               style: TextStyle(
-                fontSize: 9 * fieldScale,
-                fontFamily: 'Archivo',
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                shadows: [
-                  Shadow(
-                    color: Colors.white.withOpacity(0.7),
-                    blurRadius: 2,
-                    offset: const Offset(1, 1),
-                  )
-                ]
-              ),
+                  fontSize: 9 * fieldScale,
+                  fontFamily: 'Archivo',
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      color: Colors.white.withOpacity(0.7),
+                      blurRadius: 2,
+                      offset: const Offset(1, 1),
+                    )
+                  ]
+                ),
             ),
           ],
         ),
@@ -536,7 +541,6 @@ class _PetProfileState extends State<PetProfile> {
         return Color(0xFFFF00FF); // Fuchsia
       default:
         return Colors.grey; // Fallback color
-
     }
   }
 
@@ -669,4 +673,3 @@ class _PetProfileState extends State<PetProfile> {
     );
   }
 }
-

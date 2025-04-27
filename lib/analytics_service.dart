@@ -7,6 +7,10 @@ class AnalyticsService {
     await _instance.logEvent(name: "new_signup");
   }
 
+  Future <void> addPetsSignUp() async {
+    await _instance.logEvent(name: "new_pet_signup");
+  }
+
   Future<void> addLogIn() async {
     await _instance.logEvent(name: "new_login");
   }

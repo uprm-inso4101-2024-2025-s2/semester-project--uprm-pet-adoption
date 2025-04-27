@@ -165,9 +165,8 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
         return;
       }
 
-      // Directly set isLoggedIn to true                       Note: This is temprorary, as proper validation to set this to true
-      //                                                             will be done once the data base is set up.
-      ref.read(authProvider.notifier).state= await AuthService().signin(
+      // Directly set isLoggedIn to true
+      ref.read(authProvider.notifier).state= await AuthService().signIn(
         email: email,
         password: password,
         );
@@ -296,13 +295,6 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                         // Function in charge of validating every input before logging in
                         handleLogin();
                       },
-                      // onPressed: () async { 
-                      //   //Trigger login process through authentication provider                 //Note: this code works with firebase
-                      //   await ref.read(authProvider.notifier).login(                            //once it has been worked on, this will
-                      //     userId: usernameController.text,                                      //be uncommented and modified
-                      //     password: passwordController.text,
-                      //   );
-                      // },
                       child: const Text(
                         'Log In',
                         style: TextStyle(fontFamily: 'Archivo', fontSize: 20, fontWeight: FontWeight.bold),

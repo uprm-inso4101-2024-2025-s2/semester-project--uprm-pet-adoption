@@ -18,8 +18,8 @@ class ProfilePictureService {
           .get();
 
       if (userDoc.exists) {
-        // Get the file name from the 'Profile_picture' field
-        String fileName = userDoc['Profile_picture'];
+        // Get the file name from the 'profilePicture' field
+        String fileName = userDoc['profilePicture'];
 
         // Construct the Supabase Storage URL
         return getSupabaseImageUrl(fileName);

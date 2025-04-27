@@ -22,7 +22,7 @@ class StorageService {
 
     // Fetch the previous file name from Firestore
     DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
-    String? previousFileName = userDoc['Profile_picture'];
+    String? previousFileName = userDoc['profilePicture'];
 
     // Pick an image from the user's gallery
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -51,7 +51,7 @@ class StorageService {
 
         // Update Firestore with the new file name
         await _firestore.collection('users').doc(user.uid).update({
-          'Profile_picture': fileName,
+          'profilePicture': fileName,
         });
 
         print('File uploaded and Firestore updated successfully: $fileName');
@@ -83,7 +83,7 @@ class StorageService {
       String fileName = '${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
       await supabase.storage.from('uploads').uploadBinary(fileName, fileBytes);
       // await _firestore.collection('pets').doc(user.uid).update({
-      //   'Pet_picture': fileName,
+      //   'petPicture': fileName,
       // });
 
       print('File uploaded and Firestore updated successfully: $fileName');
