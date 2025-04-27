@@ -180,8 +180,8 @@ class _PetProfileState extends State<PetProfile> {
         ),
         backgroundColor: const Color(0xFFFFF581),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => context.go('/'),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => context.go('/matchmaking'),
         ),
       ),
       body: Container(
