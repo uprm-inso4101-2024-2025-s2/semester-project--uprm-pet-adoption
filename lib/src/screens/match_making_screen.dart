@@ -155,7 +155,7 @@ final petCardIndexProvider = StateNotifierProvider<MatchStackNotifier, List<PetC
           flexibleSpace: Column(
             mainAxisAlignment: MainAxisAlignment.end, // Align content to bottom
             children: [
-                    SizedBox(
+                SizedBox(
                 width: 200,
                 height: 100, // final visible area
                 child: Stack(
