@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/pet_article.dart';
 
 
 class PetTips extends StatefulWidget {
@@ -376,89 +377,84 @@ class _PetTipsState extends State<PetTips> {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
-           
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                
-                _ArrowLabel(
-                  label: item.title,
-                  backgroundColor: Colors.white,
-                  textColor: Colors.black,
-                  arrowSide: ArrowSide.left,
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // The image container
-                    Container(
-                      width: 120,
-                      height: 120,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.black, width: 2),
-                      ),
-                      child: Image.asset(
-                        item.imagePath,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    // Bullets
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: item.bulletPoints.map(
-                          (bp) => _BulletText(
-                            text: bp,
-                            alignCenter: false,
-                          ),
-                        ).toList(),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                // "Read more ->"  botton 
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    ),
-                    onPressed: () {
-                      
-                    },
-                    child: const Text(
-                      'Read more  ->',
-                      style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Archivo',
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Favorite heart icon
-          Positioned(
-            top: 8,
-            right: 8,
-            child: GestureDetector(
-              onTap: onFavoriteToggle,
-              child: Icon(
-                isFavorited ? Icons.favorite : Icons.favorite_border,
-                color: isFavorited ? Colors.red : Colors.black,
-                size: 28,
-              ),
-            ),
+           padding: const EdgeInsets.all(16),
+         
+           child: Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+              
+               _ArrowLabel(
+                 label: item.title,
+                 backgroundColor: Colors.white,
+                 textColor: Colors.black,
+                 arrowSide: ArrowSide.left,
+               ),
+               const SizedBox(height: 12),
+               Row(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                   // The image container
+                   Container(
+                     width: 120,
+                     height: 120,
+                     clipBehavior: Clip.antiAlias,
+                     decoration: BoxDecoration(
+                       color: Colors.white,
+                       borderRadius: BorderRadius.circular(12),
+                       border: Border.all(color: Colors.black, width: 2),
+                     ),
+                     child: Image.asset(
+                       item.imagePath,
+                       fit: BoxFit.cover,
+                     ),
+                   ),
+                   const SizedBox(width: 16),
+                   // Bullets
+                   Expanded(
+                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: item.bulletPoints.map(
+                         (bp) => _BulletText(
+                           text: bp,
+                           alignCenter: false,
+                         ),
+                       ).toList(),
+                     ),
+                   ),
+                 ],
+               ),
+               const SizedBox(height: 12),
+               // "Read more ->"  botton
+               Align(
+                 alignment: Alignment.centerRight,
+                 child: TextButton(
+                   style: TextButton.styleFrom(
+                     backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
+                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                   ),
+                   onPressed: () {
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(
+                         builder: (context) => PetArticle(
+                           title: item.title,
+                           bulletPoints: item.bulletPoints,
+                           imagePath: item.imagePath,
+                         ),
+                       ),
+                     );
+                   },
+                   child: const Text("Read More"),
+                  //   style: TextStyle(
+                  //      color: Color.fromRGBO(0, 0, 0, 1),
+                  //      fontWeight: FontWeight.bold,
+                  //      fontFamily: 'Archivo',
+                  //    ),
+                  //  ),
+                 
+               ),)]
+               
+           ),
           ),
         ],
       ),
