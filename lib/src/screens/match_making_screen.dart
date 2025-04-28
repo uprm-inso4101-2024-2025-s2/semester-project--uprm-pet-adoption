@@ -143,8 +143,8 @@ final petCardIndexProvider = StateNotifierProvider<MatchStackNotifier, List<PetC
 
   @override
   Widget build(BuildContext context, WidgetRef ref){
-final pets = ref.watch(petCardIndexProvider);
-final currentPet = ref.watch(petCardIndexProvider.notifier).currentPet;
+  final pets = ref.watch(petCardIndexProvider);
+  final currentPet = ref.watch(petCardIndexProvider.notifier).currentPet;
 
  
     return Scaffold(
@@ -242,12 +242,13 @@ final currentPet = ref.watch(petCardIndexProvider.notifier).currentPet;
                                     },
                                     onAccept: () {
                                       print("${currentPet.petName} Accepted!");
-                                      ref.read(petStackProvider.notifier).removeTopPet();
+                                      ref.read(petCardIndexProvider.notifier).removeTopPet(); // Correct
                                     },
                                     onReject: () {
                                       print("${currentPet.petName} Rejected!");
-                                      ref.read(petStackProvider.notifier).removeTopPet();
+                                      ref.read(petCardIndexProvider.notifier).removeTopPet(); // Correct
                                     },
+
                                   ),
                                 )
                               : const Text(

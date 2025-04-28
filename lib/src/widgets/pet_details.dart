@@ -130,7 +130,7 @@ class _PetDetailsState extends State<PetDetails> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: Image.asset(
-                  'assets/images/pet_placeholder.png',
+                 widget.petImage,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -313,7 +313,7 @@ class _PetDetailsState extends State<PetDetails> {
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 98, 154, 250),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15,vertical:0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
