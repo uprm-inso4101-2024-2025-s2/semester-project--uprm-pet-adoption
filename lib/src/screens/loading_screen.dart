@@ -39,15 +39,24 @@ class _LoadingScreenState extends ConsumerState<LoadingScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 30),
-                child: Text(
-                  'Loading',
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'Archivo',
-                  ),
+                    const Text(
+        'Creating',
+        style: TextStyle(
+          fontSize: 40,
+          fontWeight: FontWeight.w900,
+          fontFamily: 'Archivo',
+        ),
+      ),
+      // Second part of the text - Account
+      const Padding(
+        padding: EdgeInsets.only(top: 10), // Small space between Creating and Account
+        child: Text(
+          'Account',
+          style: TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Archivo',
+          ),
                 ),
               ),
               Container(
