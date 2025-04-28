@@ -437,7 +437,7 @@ class _PetTipsState extends State<PetTips> {
                     child: const Text(
                       'Read more  ->',
                       style: TextStyle(
-                        color: Color.fromRGBO(130, 176, 255, 1),
+                        color: Color.fromRGBO(0, 0, 0, 1),
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Archivo',
                       ),
