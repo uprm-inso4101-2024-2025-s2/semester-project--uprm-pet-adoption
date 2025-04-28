@@ -75,6 +75,7 @@ class _PetTipsState extends State<PetTips> {
       bulletPoints: [
         'House training a shelter dog requires consistency, supervision and positive reinforcement.',
         'Establishing a feeding and potty break routine helps predict when your dog needs to go out, while supervision and containment reduce accidents.',
+        'Take your dog out first thing in the morning, after meals, naps, and playtime. Use a leash or confined space, like a playpen or crate, when you’re unable to supervise closely.'
       ],
       itemType: _ItemType.article,
     ),
@@ -350,7 +351,7 @@ class _PetTipsState extends State<PetTips> {
             child: GestureDetector(
               onTap: onFavoriteToggle,
               child: Icon(
-                isFavorited ? Icons.favorite : Icons.favorite_border,
+                isFavorited ? Icons.bookmark : Icons.bookmark_add,
                 color: isFavorited ? Colors.red : Colors.black,
                 size: 28,
               ),
