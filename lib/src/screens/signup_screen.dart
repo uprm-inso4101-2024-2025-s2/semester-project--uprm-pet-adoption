@@ -218,16 +218,26 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               text: "Create Account",
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  _showLoadingScreen(context);
-                                  
-                                  await authService.signUp(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      firstName: firstNameController.text,
-                                      lastName: lastNameController.text
+                                  AuthService().signup(
+                                    email: emailController.text, 
+                                    password: passwordController.text, firstName: '', lastName: '', phoneNumber: ''
+                                    
+
                                     );
-                                  Navigator.of(context).pop();
-                                  context.go('/gettoknow');
+                                  //Create user with signup inputs
+                                  User user = User(
+                                      First_name: firstNameController.text,
+                                      Last_name: lastNameController.text,
+                                      Location: "",
+                                      Password: passwordController.text,
+                                      Pet: "",
+                                      Pet_picture: 0,
+                                      Phone_number: "000000000",
+                                      Profile_picture: 0,
+                                      email: emailController.text);
+                                  //Add user to database
+                                  _databaseService.addUser(user);
+                                  context.go('/gettoknowyou');
                                   AnalyticsService().addSignUp();
                                 }
                               })
