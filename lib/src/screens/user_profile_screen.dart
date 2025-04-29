@@ -39,13 +39,13 @@ class _ProfileState extends State<Profile> {
 
     locationFocusNode.addListener(() {
       if (!locationFocusNode.hasFocus) {
-        updateUserField('Location', locationController.text);
+        updateUserField('location', locationController.text);
       }
     });
 
     phoneFocusNode.addListener(() {
       if (!phoneFocusNode.hasFocus) {
-        updateUserField('Phone_number', phoneController.text);
+        updateUserField('phoneNumber', phoneController.text);
       }
     });
   }

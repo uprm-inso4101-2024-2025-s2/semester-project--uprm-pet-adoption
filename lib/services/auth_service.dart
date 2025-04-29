@@ -5,25 +5,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthService{
-
+class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> signup({
-
-    required String email,
-    required String password,
+  Future<void> signUp({
     required String firstName,
     required String lastName,
-    required String phoneNumber,
-
-  })async {
-
-    try{
-
+    required String password,
+    required String email,
+  }) async {
+    try {
       // Create the user in Firebase Authentication
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -32,47 +27,42 @@ class AuthService{
       String uid = userCredential.user!.uid;
 
       await _firestore.collection('users').doc(uid).set({
-        'First_name': firstName,
-        'Last_name': lastName,
-        'Location': '', // Initialize with an empty string
-        'Password': password, // Note: Storing passwords in Firestore is not recommended
-        'Pet': '', // Initialize with an empty string
-        'Pet_picture': '', // Initialize with an empty string
-        'Phone_number': phoneNumber,
-        'Profile_picture': '', // Initialize with an empty string
+        'firstName': firstName,
+        'lastName': lastName,
+        'location': '', // Initialize with an empty string
+        'password': password, // Note: Storing passwords in Firestore is not recommended
+        'pet': '', // Initialize with an empty string
+        'phoneNumber': '', // Initialize with an empty string
+        'profilePicture': '', // Initialize with an empty string
         'email': email,
-        'created_at': FieldValue.serverTimestamp(), // Optional: Add a timestamp
+        'createdAt': FieldValue.serverTimestamp(), // Optional: Add a timestamp
       });
-        
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       String message = '';
-      if(e.code == 'weak-password') {
+      if (e.code == 'weak-password') {
         message = 'The passwoprd provided is too weak.';
-      } else if(e.code == 'email-already-in-use'){
+      } else if (e.code == 'email-already-in-use') {
         message = 'An account already exists with that email.';
       }
 
       Fluttertoast.showToast(
-       msg: message,
-       toastLength: Toast.LENGTH_LONG,
-       gravity: ToastGravity.SNACKBAR,
-       backgroundColor: Colors.black54,
-       textColor: Colors.white,
-       fontSize: 14.0,
+        msg: message,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.SNACKBAR,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        fontSize: 14.0,
       );
-    }
-    catch(e){
+    } catch (e) {
       print('Error during signup: $e');
     }
   }
-  
-  Future<bool> signin({
+
+  Future<bool> signIn({
     required String email,
     required String password,
-  })async {
-
-    try{
-
+  }) async {
+    try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -82,48 +72,111 @@ class AuthService{
       String uid = userCredential.user!.uid;
 
       // Check if the user's document exists in Firestore
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(uid).get();
 
       if (!userDoc.exists) {
         // If the document doesn't exist, create it
         await _firestore.collection('users').doc(uid).set({
-          'First_name': '', // Initialize with an empty string
-          'Last_name': '', // Initialize with an empty string
-          'Location': '', // Initialize with an empty string
-          'Password': password, // Note: Storing passwords in Firestore is not recommended
-          'Pet': '', // Initialize with an empty string
-          'Pet_picture': '', // Initialize with an empty string
-          'Phone_number': '', // Initialize with an empty string
-          'Profile_picture': '', // Initialize with an empty string
+          'firstName': '', // Initialize with an empty string
+          'lastName': '', // Initialize with an empty string
+          'location': '', // Initialize with an empty string
+          'password': password, // Note: Storing passwords in Firestore is not recommended
+          'pet': '', // Initialize with an empty string
+          'phoneNumber': '', // Initialize with an empty string
+          'profilePicture': '', // Initialize with an empty string
           'email': email,
-          'created_at': FieldValue.serverTimestamp(), // Optional: Add a timestamp
+          'createdAt':
+              FieldValue.serverTimestamp(), // Optional: Add a timestamp
         });
       }
 
       return true;
-
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       String message = '';
-      if(e.code == 'user-not-found') {
+      if (e.code == 'user-not-found') {
         message = 'No user found for that email.';
-      } else if(e.code == 'wrong-password'){
+      } else if (e.code == 'wrong-password') {
         message = 'wrong password provided for that user';
       }
       Fluttertoast.showToast(
-       msg: message,
-       toastLength: Toast.LENGTH_LONG,
-       gravity: ToastGravity.SNACKBAR,
-       backgroundColor: Colors.black54,
-       textColor: Colors.white,
-       fontSize: 14.0,
+        msg: message,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.SNACKBAR,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        fontSize: 14.0,
       );
       return false;
-    }
-    catch(e){
+    } catch (e) {
       return false;
     }
   }
-    Future<void> resetPassword({required String email}) async {
+
+  Future<void> petsSignUp({
+    required String medicalDocument,
+    required String petPicture,
+    required String petAge,
+    required String petBreed,
+    required String petDescription,
+    required String petName,
+    required String petShelter,
+    required String petTags,
+  }) async {
+    try {
+      // Get the currently signed-in user
+      User? currentUser = _auth.currentUser;
+
+      if (currentUser == null) {
+        Fluttertoast.showToast(
+          msg: 'You must be signed in to register a pet.',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          fontSize: 14.0,
+        );
+        return;
+      }
+
+      // Get the user's UID
+      String uid = currentUser.uid;
+
+      await _firestore.collection('pets').add({
+        'medicalDocument': medicalDocument,
+        'petPicture': petPicture,
+        'petAge': petAge, // contains one of 3 options (Puppy, Adult, Elderly)
+        'petBreed': petBreed, // contains the breed of the pet either from the selection or option other
+        'petDescription': petDescription, // description and details that user gives of the pet
+        'petName': petName, // created pets name
+        'petOwner': uid, // the user who registered this pet
+        'petShelter': petShelter, // the shelter that registered this pet
+        'petTags': petTags, //specific tags chosen from the new pet profile screen
+        'createdAt': FieldValue.serverTimestamp(), // Optional: Add a timestamp
+      });
+
+      Fluttertoast.showToast(
+        msg: 'Pet registered successfully!',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.SNACKBAR,
+        backgroundColor: Colors.green[600],
+        textColor: Colors.white,
+        fontSize: 14.0,
+      );
+    } catch (e) {
+      print('Error during pet registration: $e');
+      Fluttertoast.showToast(
+        msg: 'Something was went wrong while registering the pet.',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.SNACKBAR,
+        backgroundColor: Colors.red[600],
+        textColor: Colors.white,
+        fontSize: 14.0,
+      );
+    }
+  }
+
+  Future<void> resetPassword({required String email}) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       Fluttertoast.showToast(
@@ -151,7 +204,7 @@ class AuthService{
       );
     }
   }
-  
+
   // Specific user Doc
   Future<Object?> getUserDoc() async {
     // Get the current user
@@ -178,7 +231,7 @@ class AuthService{
 
     if (userDoc != null && userDoc is DocumentSnapshot) {
       final data = userDoc.data() as Map<String, dynamic>;
-      return data['First_name'] as String?;
+      return data['firstName'] as String?;
     }
 
     return null;
@@ -190,7 +243,7 @@ class AuthService{
 
     if (userDoc != null && userDoc is DocumentSnapshot) {
       final data = userDoc.data() as Map<String, dynamic>;
-      return data['Last_name'] as String?;
+      return data['lastName'] as String?;
     }
 
     return null;
@@ -202,7 +255,7 @@ class AuthService{
 
     if (userDoc != null && userDoc is DocumentSnapshot) {
       final data = userDoc.data() as Map<String, dynamic>;
-      return data['Location'] as String?;
+      return data['location'] as String?;
     }
 
     return null;
@@ -214,7 +267,7 @@ class AuthService{
 
     if (userDoc != null && userDoc is DocumentSnapshot) {
       final data = userDoc.data() as Map<String, dynamic>;
-      return data['Phone_number'] as String?;
+      return data['phoneNumber'] as String?;
     }
 
     return null;
@@ -234,21 +287,21 @@ class AuthService{
 
   // This feauture is implemented but not used anywhere due to front end not being available at time of development
   // TODO: Implement sign in when front end is available
-  
+
   Future<UserCredential> signInWithGoogle() async {
-  // Trigger the authentication flow
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-  // Obtain the auth details from the request
-  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-  // Create a new credential
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
 
-  // Once signed in, return the UserCredential
-  return await FirebaseAuth.instance.signInWithCredential(credential);
-}
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 }

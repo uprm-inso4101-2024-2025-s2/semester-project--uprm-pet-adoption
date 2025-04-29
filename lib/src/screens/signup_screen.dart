@@ -9,6 +9,7 @@ import 'package:semester_project__uprm_pet_adoption/src/screens/gettoknow_screen
 import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
 import 'package:semester_project__uprm_pet_adoption/models/user.dart';
+import '../screens/loading_screen.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -48,6 +49,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
+  }
+
+    void _showLoadingScreen(BuildContext context) {
+    // Push the loading screen onto the navigation stack
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const LoadingScreen()),
+    );
   }
 
   @override
@@ -210,13 +218,15 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               text: "Create Account",
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  AuthService().signup(
+                                  _showLoadingScreen(context);
+                                  
+                                  await authService.signUp(
                                       email: emailController.text,
                                       password: passwordController.text,
                                       firstName: firstNameController.text,
-                                      lastName: lastNameController.text,
-                                      phoneNumber: ''
-                                  );
+                                      lastName: lastNameController.text
+                                    );
+                                  Navigator.of(context).pop();
                                   context.go('/gettoknow');
                                   AnalyticsService().addSignUp();
                                 }
