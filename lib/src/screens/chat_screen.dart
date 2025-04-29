@@ -5,7 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart'; // Import for navigation
 
-// Custom ChatHeader widget
+// This file defines the chat screen and header layout for displaying message previews.
+// Includes user interactions like tapping a chat to open and adding users.
 class ChatHeader extends StatelessWidget {
   const ChatHeader({Key? key}) : super(key: key);
 
