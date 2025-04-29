@@ -227,7 +227,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                       email: emailController.text);
                                   //Add user to database
                                   _databaseService.addUser(user);
-                                  context.go('/gettoknow');
+                                  context.go('/gettoknowyou');
                                   AnalyticsService().addSignUp();
                                 }
                               })

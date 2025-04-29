@@ -1,70 +1,380 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 
-void main() {
-  runApp(GettoknowyouScreen());
+class GetToKnowYouScreen extends StatefulWidget {
+  const GetToKnowYouScreen({Key? key}) : super(key: key);
+
+  @override
+  State<GetToKnowYouScreen> createState() => _GetToKnowYouScreenState();
 }
 
-class GettoknowyouScreen extends StatelessWidget {
+class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
+  int currentStep = 1;
+
+  // Step 1 variables
+  String? petType;
+  String? ageRange;
+  String? size;
+  double energyLevel = 0.0;
+
+  // Step 2 variables
+  bool? hasExperience;
+  bool? hasOtherPets;
+  bool? hasAllergies;
+  String? livingSituation;
+  double timeAvailable = 0.0;
+
+  // Step 3 variables
+  String? personality;
+  bool? specialCareOk;
+  bool? goodWithAnimals;
+  bool? goodWithKids;
+
+  void _goNext() {
+    setState(() {
+      if (currentStep < 3) {
+        currentStep++;
+      } else {
+        context.go('/nextScreen');
+      }
+    });
+  }
+
+  void _goBack() {
+    setState(() {
+      if (currentStep > 1) {
+        currentStep--;
+      } else {
+        context.pop();
+      }
+    });
+  }
+
+  // Helper method for dynamic age options
+  List<String> _getAgeOptions() {
+    if (petType == 'Dog') {
+      return ['Puppy', 'Young', 'Adult'];
+    } else if (petType == 'Cat') {
+      return ['Kitten', 'Young', 'Adult'];
+    } else {
+      return ['Young', 'Adult'];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _router,
-      debugShowCheckedModeBanner: false,
-      title: 'Get to Know You',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      appBar: AppBar(
+        backgroundColor: Colors.yellow.shade200,
+        leading: IconButton(
+          icon: Image.asset(
+            'assets/images/Arrow_circle_dms.png',
+            width: 32,
+            height: 32,
+          ),
+          onPressed: _goBack,
+        ),
+        title: const Text(
+          'Pet Preferences',
+          style: TextStyle(color: Colors.black, fontFamily: 'Archivo', fontWeight: FontWeight.w900),
+        ),
+        centerTitle: true,
+        actions: const [
+          Icon(Icons.help_outline, color: Colors.black),
+          SizedBox(width: 12),
+        ],
+        elevation: 0,
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              // Progress bar
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Step $currentStep of 3',
+                    style: const TextStyle(fontSize: 16, fontFamily: 'Archivo', fontWeight: FontWeight.w900),
+                  ),
+                  const SizedBox(height: 8),
+                  LinearProgressIndicator(
+                    value: currentStep / 3,
+                    minHeight: 8,
+                    backgroundColor: Colors.grey.shade300,
+                    color: Colors.blue.shade300,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // Step content
+              Expanded(
+                child: _buildStepContent(),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Buttons
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: _goBack,
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        side: const BorderSide(color: Colors.grey),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: const Text(
+                        'Back',
+                        style: TextStyle(fontFamily: 'Archivo', fontWeight: FontWeight.w900, color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _goNext,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue.shade300,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: const Text(
+                        'Continue',
+                        style: TextStyle(fontFamily: 'Archivo', fontWeight: FontWeight.w900, color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
-}
 
-final GoRouter _router = GoRouter(
-  initialLocation: '/',
-  routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => HomeScreen(),
+  Widget _buildStepContent() {
+    switch (currentStep) {
+      case 1:
+        return _buildStep1();
+      case 2:
+        return _buildStep2();
+      case 3:
+        return _buildStep3();
+      default:
+        return Container();
+    }
+  }
+
+  Widget _buildStep1() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text(
+            'What type of pet are you looking for?',
+            style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo', fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: [
+    GestureDetector(
+      onTap: () => setState(() {
+        petType = 'Dog';
+        ageRange = null;
+      }),
+      child: Container(
+        width: 120,
+        height: 120,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: petType == 'Dog' ? Colors.blue.shade300 : Colors.grey.shade300,
+            width: 2,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/dog_icon.png',
+              width: 50,
+              height: 50,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 8),
+            const Text('Dog', style: TextStyle(fontFamily: 'Archivo', fontWeight: FontWeight.w500)),
+          ],
+        ),
+      ),
     ),
-    GoRoute(
-      path: '/details',
-      builder: (context, state) => DetailsScreen(),
-    ),
+    _optionCard('Cat', Icons.pets_outlined, selected: petType == 'Cat', onTap: () => setState(() {
+      petType = 'Cat';
+      ageRange = null;
+    })),
   ],
-);
+),
 
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Home')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            context.go('/details');
-          },
-          child: Text('Go to Details'),
+          const SizedBox(height: 24),
+          const Text('Age Range', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          const SizedBox(height: 8),
+          _choiceGroup(_getAgeOptions(), selected: ageRange, onSelected: (val) => setState(() => ageRange = val)),
+          const SizedBox(height: 24),
+          const Text('Size', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          const SizedBox(height: 8),
+          _choiceGroup(['Small', 'Medium', 'Large', 'No preference'], selected: size, onSelected: (val) => setState(() => size = val)),
+          const SizedBox(height: 24),
+          const Text('Energy Level', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          Slider(
+            value: energyLevel,
+            onChanged: (value) => setState(() => energyLevel = value),
+            divisions: 2,
+            activeColor: const Color(0xFFFFF581),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Text('Low', style: TextStyle(fontFamily: 'Archivo')),
+              Text('Medium', style: TextStyle(fontFamily: 'Archivo')),
+              Text('High', style: TextStyle(fontFamily: 'Archivo')),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStep2() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _yesNoQuestion('Do you have experience with pets?', hasExperience, (val) => setState(() => hasExperience = val)),
+          _yesNoQuestion('Do you have other pets at home?', hasOtherPets, (val) => setState(() => hasOtherPets = val)),
+          _yesNoQuestion('Do you have any pet allergies?', hasAllergies, (val) => setState(() => hasAllergies = val)),
+          const SizedBox(height: 16),
+          const Text('What is your living situation?', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          const SizedBox(height: 8),
+          _choiceGroup(['Apartment', 'House', 'House without yard', 'Rural property'], selected: livingSituation, onSelected: (val) => setState(() => livingSituation = val)),
+          const SizedBox(height: 24),
+          const Text('How much time daily can you dedicate to your pet?', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          Slider(
+            value: timeAvailable,
+            onChanged: (value) => setState(() => timeAvailable = value),
+            divisions: 24,
+            activeColor: const Color(0xFFFFF581),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Text('0 hour', style: TextStyle(fontFamily: 'Archivo')),
+              Text('24 hours', style: TextStyle(fontFamily: 'Archivo')),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStep3() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text('What kind of personality do you prefer in a pet?', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          const SizedBox(height: 8),
+          _choiceGroup(
+            ['Affectionate and cuddly', 'Playful and energetic', 'Calm and independent', 'Intelligent and Trainable'],
+            selected: personality,
+            onSelected: (val) => setState(() => personality = val),
+          ),
+          const SizedBox(height: 24),
+          _yesNoQuestion('Are you comfortable adopting a pet with special care?', specialCareOk, (val) => setState(() => specialCareOk = val)),
+          _yesNoQuestion('Do you want a pet that gets along with other animals?', goodWithAnimals, (val) => setState(() => goodWithAnimals = val)),
+          _yesNoQuestion('Do you want a pet that is good with kids?', goodWithKids, (val) => setState(() => goodWithKids = val)),
+        ],
+      ),
+    );
+  }
+
+  Widget _optionCard(String title, IconData icon, {bool selected = false, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 120,
+        height: 120,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: selected ? Colors.blue.shade300 : Colors.grey.shade300, width: 2),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 40, color: const Color(0xFFFFF581)),
+            const SizedBox(height: 8),
+            Text(title, style: const TextStyle(fontFamily: 'Archivo', fontWeight: FontWeight.w500)),
+          ],
         ),
       ),
     );
   }
-}
 
-class DetailsScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Details')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            context.pop();
-          },
-          child: Text('Back to Home'),
+  Widget _choiceGroup(List<String> options, {String? selected, required void Function(String) onSelected}) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      alignment: WrapAlignment.center,
+      children: options.map((option) {
+        bool isSelected = selected == option;
+        return ChoiceChip(
+          label: Text(option, style: const TextStyle(fontFamily: 'Archivo')),
+          selected: isSelected,
+          onSelected: (_) => onSelected(option),
+          selectedColor: Colors.blue.shade300,
+          backgroundColor: Colors.white,
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _yesNoQuestion(String question, bool? selected, void Function(bool) onSelected) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 16),
+        Text(question, textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ChoiceChip(
+              label: const Text('Yes', style: TextStyle(fontFamily: 'Archivo')),
+              selected: selected == true,
+              onSelected: (_) => onSelected(true),
+              selectedColor: Colors.blue.shade300,
+              backgroundColor: Colors.white,
+            ),
+            const SizedBox(width: 8),
+            ChoiceChip(
+              label: const Text('No', style: TextStyle(fontFamily: 'Archivo')),
+              selected: selected == false,
+              onSelected: (_) => onSelected(false),
+              selectedColor: Colors.blue.shade300,
+              backgroundColor: Colors.white,
+            ),
+          ],
         ),
-      ),
+      ],
     );
   }
 }
