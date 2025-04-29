@@ -8,6 +8,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:semester_project__uprm_pet_adoption/supabase/upload.dart';
 import '../widgets.dart';
 
+// This screen allows users to register a new pet profile.
+// It supports uploading a profile picture, filling in basic info (name, breed, age),
+// adding health documents, and selecting descriptive tags.
+// Once submitted, the profile data is sent to Supabase backend services.
 class PetProfile extends StatefulWidget {
   const PetProfile({Key? key}) : super(key: key);
 
@@ -37,12 +41,14 @@ class _PetProfileState extends State<PetProfile> {
   String? imageUrl;
   bool _isUploading = false;
   final List<String> selectedTags = [];
-
+  
+// Opens the device gallery to pick an image and uploads it to Supabase.
+// Handles both web and mobile platforms.
   Future<void> _uploadNewPetProfilePicture() async {
     if (_isUploading) return;
 
     setState(() => _isUploading = true);
-
+// If on web, store image in memory; else store the local file path
     try {
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(
@@ -160,6 +166,8 @@ class _PetProfileState extends State<PetProfile> {
   }
 
   @override
+  
+  // Builds the full pet profile creation screen UI
   Widget build(BuildContext context) {
     AnalyticsService().logScreenView("petProfile_screen");
 
@@ -168,7 +176,7 @@ class _PetProfileState extends State<PetProfile> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
+      appBar: AppBar(  
         title: Text(
           'New Pet Profile',
           style: TextStyle(
