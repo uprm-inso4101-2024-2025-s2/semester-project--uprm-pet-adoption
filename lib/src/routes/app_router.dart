@@ -20,11 +20,14 @@ import '../screens/favorites_screen.dart';
 import '../screens/user_profile_screen.dart';
 import '../screens/map_screen.dart';
 import '../screens/search_screen.dart';
+import '../screens/petFavorites_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/petFavorites_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_verification_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/shelter_info_screen.dart';
 import '../screens/petProfile_screen.dart' as petProfile;
+
 
 
 
@@ -35,11 +38,11 @@ final GoRouter appRouter = GoRouter(
     final container = ProviderScope.containerOf(context);
     final isLoggedIn = container.read(authProvider);
 
-    if (!isLoggedIn && state.matchedLocation == '/' ||
-        !isLoggedIn && state.matchedLocation == 'menu') {
-      return '/auth'; // get unauthenticated users back to start screen (authentication screen)
-    }
-    return null;
+    // if (!isLoggedIn && state.matchedLocation == '/' ||
+    //     !isLoggedIn && state.matchedLocation == 'menu') {
+    //   return '/auth'; // get unauthenticated users back to start screen (authentication screen)
+    // }
+    // return null;
   },
   routes: [
     //Route for home screen
@@ -383,6 +386,21 @@ final GoRouter appRouter = GoRouter(
           return SlideTransition(
             position: Tween<Offset>(
               begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/petFavorites',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const PetFavoriteScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0), // Slide in from right
               end: Offset.zero,
             ).animate(animation),
             child: child,

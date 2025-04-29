@@ -65,7 +65,7 @@ class TopNavBar extends StatelessWidget {
                   children: [
                     _buildNavItem(context, Icons.search, 0, "/search"),
                     _buildNavItem(context, Icons.lightbulb, 1, "/tips"),
-                    _buildNavItem(context, Icons.favorite_border, 2, "/favorites"),
+                    _buildNavItem(context, Icons.favorite_border, 2, "/petFavorites"),
                     IconButton(
                         onPressed: () {
                           scaffoldKey.currentState?.openEndDrawer();
