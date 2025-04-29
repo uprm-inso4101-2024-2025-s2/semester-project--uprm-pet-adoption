@@ -9,9 +9,9 @@ import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
 // Note: reason why a mock was created was to simulate
 // the same flow that a normal signIn function would do.
 // The imported mocks/fakes firebase auth and firestore
-// seemed to not be able to correctly throw exceptions 
+// seemed to not be able to correctly throw exceptions
 // during tests. This MockAuthService clearly helps in mocking the correct
-// way that signInWithEmailAndPassword() function should with the most 
+// way that signInWithEmailAndPassword() function should with the most
 // important exceptions that we experience during these signin's.
 
 // Note: to run test, open terminal and type
@@ -78,7 +78,7 @@ void main() {
   group('AuthService signUp', () {
     test('Successful signup creates a user document', () async {
       //user signups
-      await authService.signUp(
+      final result = await authService.signUp(
         firstName: 'John',
         lastName: 'Doe',
         password: 'password@123',
@@ -89,6 +89,7 @@ void main() {
       final userDocs = await fakeFirestore.collection('users').get();
       expect(userDocs.docs.length, 1);
       expect(userDocs.docs.first['email'], 'john@gmail.com');
+      expect(result, true);
     });
 
     test('Signup with duplicate email throws an error', () async {
@@ -106,15 +107,19 @@ void main() {
       expect(userDocs.docs.first['email'], 'jane@gmail.com');
 
       // Second signup with same email should throw
-      await authService.signUp(
+      final result = await authService.signUp(
         firstName: 'Jane',
         lastName: 'Smith',
-        password: 'password@123',
+        password: 'password@12',
         email: 'jane@gmail.com',
       );
 
       expect(userDocs.docs.length, 1);
       expect(userDocs.docs.first['email'], 'jane@gmail.com');
+      expect(userDocs.docs.first['password'], 'password@123');
+      //due to mockAuth not throwing exceptions we will not get a false
+      //however we can check if a duplicate email was added and if so
+      //did the doc length increase
     });
   });
 
@@ -167,8 +172,8 @@ void main() {
       expect(result, false);
     });
 
-      test('SignIn with non-existent user returns false', () async {
-      // No signup as there is no user  
+    test('SignIn with non-existent user returns false', () async {
+      // No signup as there is no user
 
       final result = await authService.signIn(
         email: 'user@gmail.com',
