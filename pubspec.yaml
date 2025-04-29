@@ -63,7 +63,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  #Auth service test
+  mockito: ^5.4.6
+  fake_cloud_firestore: ^3.1.0
+  firebase_auth_mocks: ^0.14.1
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
