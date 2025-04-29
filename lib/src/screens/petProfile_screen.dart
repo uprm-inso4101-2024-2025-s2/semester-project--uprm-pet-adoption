@@ -267,7 +267,7 @@ class _PetProfileState extends State<PetProfile> {
         });
       },
       child: AnimatedScale(
-        scale: isSelected ? 0.93 : 1.0,
+        scale: isSelected ? 0.93 : 1.0, // Slightly smaller when selected
         duration: const Duration(milliseconds: 150),
         curve: Curves.easeOut,
         child: Container(
@@ -279,22 +279,14 @@ class _PetProfileState extends State<PetProfile> {
               fit: BoxFit.contain,
               colorFilter: ColorFilter.mode(
                 HSLColor.fromColor(color)
-                    .withLightness(isSelected ? 0.5 : 0.7)
+                    .withLightness(
+                        isSelected ? 0.5 : 0.7) // darker when selected
                     .toColor()
                     .withOpacity(0.9),
                 BlendMode.srcATop,
               ),
             ),
-            boxShadow: isSelected
-                ? [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      offset: Offset(0, 1),
-                      blurRadius: 2,
-                      spreadRadius: -1,
-                    ),
-                  ]
-                : [],
+            // No shadow anymore!
           ),
           alignment: Alignment.center,
           child: FittedBox(
