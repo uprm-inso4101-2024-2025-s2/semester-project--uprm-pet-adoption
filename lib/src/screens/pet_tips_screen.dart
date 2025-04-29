@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/pet_article.dart';
 
 
 class PetTips extends StatefulWidget {
@@ -75,6 +76,7 @@ class _PetTipsState extends State<PetTips> {
       bulletPoints: [
         'House training a shelter dog requires consistency, supervision and positive reinforcement.',
         'Establishing a feeding and potty break routine helps predict when your dog needs to go out, while supervision and containment reduce accidents.',
+        'Take your dog out first thing in the morning, after meals, naps, and playtime. Use a leash or confined space, like a playpen or crate, when you’re unable to supervise closely.'
       ],
       itemType: _ItemType.article,
     ),
@@ -139,7 +141,7 @@ class _PetTipsState extends State<PetTips> {
   Widget build(BuildContext context) {
     AnalyticsService().logScreenView("pet_tips_screen");
 
-    const mainYellow = Color(0xFFFFF200);
+    const mainYellow = Color(0xFFFFF581);
 
     final displayedItems = _filterItems(_allItems);
 
@@ -150,7 +152,7 @@ class _PetTipsState extends State<PetTips> {
     return Scaffold(
       // Large "Pet Tips" text
       appBar: AppBar(
-        backgroundColor: mainYellow,
+        backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
         leading: IconButton(
           icon: Image.asset(
             'assets/images/Arrow_Circle_dms.png',
@@ -164,6 +166,7 @@ class _PetTipsState extends State<PetTips> {
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
+            fontFamily: 'Archivo',
             color: Colors.black,
           ),
         ),
@@ -260,6 +263,7 @@ class _PetTipsState extends State<PetTips> {
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
+                            fontFamily: 'Archivo',
                             color: Colors.black,
                           ),
                         ),
@@ -291,7 +295,7 @@ class _PetTipsState extends State<PetTips> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF200),
+        color: const Color.fromRGBO(255, 244,129, 1),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.black, width: 2),
       ),
@@ -318,7 +322,7 @@ class _PetTipsState extends State<PetTips> {
                       height: 120,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: const Color.fromRGBO(255, 255, 255, 1),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: Colors.black, width: 2),
                       ),
@@ -349,7 +353,7 @@ class _PetTipsState extends State<PetTips> {
             child: GestureDetector(
               onTap: onFavoriteToggle,
               child: Icon(
-                isFavorited ? Icons.favorite : Icons.favorite_border,
+                isFavorited ? Icons.bookmark : Icons.bookmark_add,
                 color: isFavorited ? Colors.red : Colors.black,
                 size: 28,
               ),
@@ -369,95 +373,91 @@ class _PetTipsState extends State<PetTips> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFB3D9FF), 
+        color: const Color.fromRGBO(130, 176, 255, 1), 
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.black, width: 2),
       ),
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
-           
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                
-                _ArrowLabel(
-                  label: item.title,
-                  backgroundColor: Colors.white,
-                  textColor: Colors.black,
-                  arrowSide: ArrowSide.left,
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // The image container
-                    Container(
-                      width: 120,
-                      height: 120,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.black, width: 2),
-                      ),
-                      child: Image.asset(
-                        item.imagePath,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    // Bullets
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: item.bulletPoints.map(
-                          (bp) => _BulletText(
-                            text: bp,
-                            alignCenter: false,
-                          ),
-                        ).toList(),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                // "Read more ->"  bottom
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    ),
-                    onPressed: () {
-                      
-                    },
-                    child: const Text(
-                      'Read more  ->',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Favorite heart icon
-          Positioned(
-            top: 8,
-            right: 8,
-            child: GestureDetector(
-              onTap: onFavoriteToggle,
-              child: Icon(
-                isFavorited ? Icons.favorite : Icons.favorite_border,
-                color: isFavorited ? Colors.red : Colors.black,
-                size: 28,
-              ),
-            ),
+           padding: const EdgeInsets.all(16),
+         
+           child: Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+              
+               _ArrowLabel(
+                 label: item.title,
+                 backgroundColor: Colors.white,
+                 textColor: Colors.black,
+                 arrowSide: ArrowSide.left,
+               ),
+               const SizedBox(height: 12),
+               Row(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                   // The image container
+                   Container(
+                     width: 120,
+                     height: 120,
+                     clipBehavior: Clip.antiAlias,
+                     decoration: BoxDecoration(
+                       color: Colors.white,
+                       borderRadius: BorderRadius.circular(12),
+                       border: Border.all(color: Colors.black, width: 2),
+                     ),
+                     child: Image.asset(
+                       item.imagePath,
+                       fit: BoxFit.cover,
+                     ),
+                   ),
+                   const SizedBox(width: 16),
+                   // Bullets
+                   Expanded(
+                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: item.bulletPoints.map(
+                         (bp) => _BulletText(
+                           text: bp,
+                           alignCenter: false,
+                         ),
+                       ).toList(),
+                     ),
+                   ),
+                 ],
+               ),
+               const SizedBox(height: 12),
+               // "Read more ->"  botton
+               Align(
+                 alignment: Alignment.centerRight,
+                 child: TextButton(
+                   style: TextButton.styleFrom(
+                     backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
+                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                   ),
+                   onPressed: () {
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(
+                         builder: (context) => PetArticle(
+                           title: item.title,
+                           bulletPoints: item.bulletPoints,
+                           imagePath: item.imagePath,
+                         ),
+                       ),
+                     );
+                   },
+                   child: const Text("Read More"),
+                  //   style: TextStyle(
+                  //      color: Color.fromRGBO(0, 0, 0, 1),
+                  //      fontWeight: FontWeight.bold,
+                  //      fontFamily: 'Archivo',
+                  //    ),
+                  //  ),
+                 
+               ),)]
+               
+           ),
           ),
         ],
       ),
