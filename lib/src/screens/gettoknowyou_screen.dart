@@ -11,20 +11,20 @@ class GetToKnowYouScreen extends StatefulWidget {
 class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
   int currentStep = 1;
 
-  // Step 1 variables
+  // Page 1 variables
   String? petType;
   String? ageRange;
   String? size;
   double energyLevel = 0.0;
 
-  // Step 2 variables
+  // Page 2 variables
   bool? hasExperience;
   bool? hasOtherPets;
   bool? hasAllergies;
   String? livingSituation;
   double timeAvailable = 0.0;
 
-  // Step 3 variables
+  // Page 3 variables
   String? personality;
   bool? specialCareOk;
   bool? goodWithAnimals;
@@ -35,7 +35,7 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
       if (currentStep < 3) {
         currentStep++;
       } else {
-        context.go('/nextScreen');
+        context.go('/');
       }
     });
   }
@@ -50,7 +50,6 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
     });
   }
 
-  // Helper method for dynamic age options
   List<String> _getAgeOptions() {
     if (petType == 'Dog') {
       return ['Puppy', 'Young', 'Adult'];
@@ -77,7 +76,10 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
         ),
         title: const Text(
           'Pet Preferences',
-          style: TextStyle(color: Colors.black, fontFamily: 'Archivo', fontWeight: FontWeight.w900),
+          style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'Archivo',
+              fontWeight: FontWeight.w900),
         ),
         centerTitle: true,
         actions: const [
@@ -97,7 +99,10 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
                 children: [
                   Text(
                     'Step $currentStep of 3',
-                    style: const TextStyle(fontSize: 16, fontFamily: 'Archivo', fontWeight: FontWeight.w900),
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Archivo',
+                        fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 8),
                   LinearProgressIndicator(
@@ -125,13 +130,17 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
                     child: OutlinedButton(
                       onPressed: _goBack,
                       style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                         side: const BorderSide(color: Colors.grey),
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
                       child: const Text(
                         'Back',
-                        style: TextStyle(fontFamily: 'Archivo', fontWeight: FontWeight.w900, color: Colors.black),
+                        style: TextStyle(
+                            fontFamily: 'Archivo',
+                            fontWeight: FontWeight.w900,
+                            color: Colors.black),
                       ),
                     ),
                   ),
@@ -141,12 +150,16 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
                       onPressed: _goNext,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue.shade300,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
                       child: const Text(
                         'Continue',
-                        style: TextStyle(fontFamily: 'Archivo', fontWeight: FontWeight.w900, color: Colors.black),
+                        style: TextStyle(
+                            fontFamily: 'Archivo',
+                            fontWeight: FontWeight.w900,
+                            color: Colors.black),
                       ),
                     ),
                   ),
@@ -179,61 +192,112 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
         children: [
           const Text(
             'What type of pet are you looking for?',
-            style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo', fontSize: 18),
+            style: TextStyle(
+                fontWeight: FontWeight.w900,
+                fontFamily: 'Archivo',
+                fontSize: 18),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  children: [
-    GestureDetector(
-      onTap: () => setState(() {
-        petType = 'Dog';
-        ageRange = null;
-      }),
-      child: Container(
-        width: 120,
-        height: 120,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: petType == 'Dog' ? Colors.blue.shade300 : Colors.grey.shade300,
-            width: 2,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              // Dog card
+              GestureDetector(
+                onTap: () => setState(() {
+                  petType = 'Dog';
+                  ageRange = null;
+                }),
+                child: Container(
+                  width: 140,
+                  height: 140,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: petType == 'Dog'
+                          ? Colors.blue.shade300
+                          : Colors.grey.shade300,
+                      width: 2,
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/dog_icon.png',
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
+                      const SizedBox(height: 8),
+                      const Text('Dog',
+                          style: TextStyle(
+                              fontFamily: 'Archivo',
+                              fontWeight: FontWeight.w500)),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              // Cat card
+              GestureDetector(
+                onTap: () => setState(() {
+                  petType = 'Cat';
+                  ageRange = null;
+                }),
+                child: Container(
+                  width: 140,
+                  height: 140,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: petType == 'Cat'
+                          ? Colors.blue.shade300
+                          : Colors.grey.shade300,
+                      width: 2,
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/cat_icon.png',
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
+                      const SizedBox(height: 8),
+                      const Text('Cat',
+                          style: TextStyle(
+                              fontFamily: 'Archivo',
+                              fontWeight: FontWeight.w500)),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/dog_icon.png',
-              width: 50,
-              height: 50,
-              fit: BoxFit.contain,
-            ),
-            const SizedBox(height: 8),
-            const Text('Dog', style: TextStyle(fontFamily: 'Archivo', fontWeight: FontWeight.w500)),
-          ],
-        ),
-      ),
-    ),
-    _optionCard('Cat', Icons.pets_outlined, selected: petType == 'Cat', onTap: () => setState(() {
-      petType = 'Cat';
-      ageRange = null;
-    })),
-  ],
-),
-
           const SizedBox(height: 24),
-          const Text('Age Range', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          const Text('Age Range',
+              style: TextStyle(
+                  fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
           const SizedBox(height: 8),
-          _choiceGroup(_getAgeOptions(), selected: ageRange, onSelected: (val) => setState(() => ageRange = val)),
+          _choiceGroup(_getAgeOptions(),
+              selected: ageRange,
+              onSelected: (val) => setState(() => ageRange = val)),
           const SizedBox(height: 24),
-          const Text('Size', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          const Text('Size',
+              style: TextStyle(
+                  fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
           const SizedBox(height: 8),
-          _choiceGroup(['Small', 'Medium', 'Large', 'No preference'], selected: size, onSelected: (val) => setState(() => size = val)),
+          _choiceGroup(['Small', 'Medium', 'Large', 'No preference'],
+              selected: size, onSelected: (val) => setState(() => size = val)),
           const SizedBox(height: 24),
-          const Text('Energy Level', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          const Text('Energy Level',
+              style: TextStyle(
+                  fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
           Slider(
             value: energyLevel,
             onChanged: (value) => setState(() => energyLevel = value),
@@ -258,21 +322,56 @@ Row(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _yesNoQuestion('Do you have experience with pets?', hasExperience, (val) => setState(() => hasExperience = val)),
-          _yesNoQuestion('Do you have other pets at home?', hasOtherPets, (val) => setState(() => hasOtherPets = val)),
-          _yesNoQuestion('Do you have any pet allergies?', hasAllergies, (val) => setState(() => hasAllergies = val)),
+          _yesNoQuestion('Do you have experience with pets?', hasExperience,
+              (val) => setState(() => hasExperience = val)),
+          _yesNoQuestion('Do you have other pets at home?', hasOtherPets,
+              (val) => setState(() => hasOtherPets = val)),
+          _yesNoQuestion('Do you have any pet allergies?', hasAllergies,
+              (val) => setState(() => hasAllergies = val)),
           const SizedBox(height: 16),
-          const Text('What is your living situation?', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          const Text('What is your living situation?',
+              style: TextStyle(
+                  fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
           const SizedBox(height: 8),
-          _choiceGroup(['Apartment', 'House', 'House without yard', 'Rural property'], selected: livingSituation, onSelected: (val) => setState(() => livingSituation = val)),
+          _choiceGroup(
+              ['Apartment', 'House', 'House without yard', 'Rural property'],
+              selected: livingSituation,
+              onSelected: (val) => setState(() => livingSituation = val)),
           const SizedBox(height: 24),
-          const Text('How much time daily can you dedicate to your pet?', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          const Text(
+            'How much time daily can you dedicate to your pet?',
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Archivo',
+            ),
+          ),
+
+// Show the selected hour
+          Text(
+            '${timeAvailable.toInt()} hour${timeAvailable.toInt() == 1 ? '' : 's'}',
+            style: const TextStyle(
+              fontFamily: 'Archivo',
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+// Actual slider control
           Slider(
             value: timeAvailable,
-            onChanged: (value) => setState(() => timeAvailable = value),
+            min: 0,
+            max: 24,
             divisions: 24,
+            label: '${timeAvailable.toInt()}',
+            onChanged: (value) {
+              setState(() {
+                timeAvailable = value;
+              });
+            },
             activeColor: const Color(0xFFFFF581),
           ),
+
+// Optional: scale below
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
@@ -290,23 +389,38 @@ Row(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text('What kind of personality do you prefer in a pet?', style: TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+          const Text('What kind of personality do you prefer in a pet?',
+              style: TextStyle(
+                  fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
           const SizedBox(height: 8),
           _choiceGroup(
-            ['Affectionate and cuddly', 'Playful and energetic', 'Calm and independent', 'Intelligent and Trainable'],
+            [
+              'Affectionate and cuddly',
+              'Playful and energetic',
+              'Calm and independent',
+              'Intelligent and Trainable'
+            ],
             selected: personality,
             onSelected: (val) => setState(() => personality = val),
           ),
           const SizedBox(height: 24),
-          _yesNoQuestion('Are you comfortable adopting a pet with special care?', specialCareOk, (val) => setState(() => specialCareOk = val)),
-          _yesNoQuestion('Do you want a pet that gets along with other animals?', goodWithAnimals, (val) => setState(() => goodWithAnimals = val)),
-          _yesNoQuestion('Do you want a pet that is good with kids?', goodWithKids, (val) => setState(() => goodWithKids = val)),
+          _yesNoQuestion(
+              'Are you comfortable adopting a pet with special care?',
+              specialCareOk,
+              (val) => setState(() => specialCareOk = val)),
+          _yesNoQuestion(
+              'Do you want a pet that gets along with other animals?',
+              goodWithAnimals,
+              (val) => setState(() => goodWithAnimals = val)),
+          _yesNoQuestion('Do you want a pet that is good with kids?',
+              goodWithKids, (val) => setState(() => goodWithKids = val)),
         ],
       ),
     );
   }
 
-  Widget _optionCard(String title, IconData icon, {bool selected = false, required VoidCallback onTap}) {
+  Widget _optionCard(String title, IconData icon,
+      {bool selected = false, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -315,21 +429,26 @@ Row(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: selected ? Colors.blue.shade300 : Colors.grey.shade300, width: 2),
+          border: Border.all(
+              color: selected ? Colors.blue.shade300 : Colors.grey.shade300,
+              width: 2),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 40, color: const Color(0xFFFFF581)),
             const SizedBox(height: 8),
-            Text(title, style: const TextStyle(fontFamily: 'Archivo', fontWeight: FontWeight.w500)),
+            Text(title,
+                style: const TextStyle(
+                    fontFamily: 'Archivo', fontWeight: FontWeight.w500)),
           ],
         ),
       ),
     );
   }
 
-  Widget _choiceGroup(List<String> options, {String? selected, required void Function(String) onSelected}) {
+  Widget _choiceGroup(List<String> options,
+      {String? selected, required void Function(String) onSelected}) {
     return Wrap(
       spacing: 8,
       runSpacing: 8,
@@ -347,12 +466,16 @@ Row(
     );
   }
 
-  Widget _yesNoQuestion(String question, bool? selected, void Function(bool) onSelected) {
+  Widget _yesNoQuestion(
+      String question, bool? selected, void Function(bool) onSelected) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 16),
-        Text(question, textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
+        Text(question,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
         const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
