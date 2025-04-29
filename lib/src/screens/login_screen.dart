@@ -15,6 +15,7 @@ class LogInScreen extends ConsumerStatefulWidget {
 class _LogInScreenState extends ConsumerState<LogInScreen> {
   late TextEditingController usernameController;
   late TextEditingController passwordController;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
   Widget build(BuildContext context) {
     // Watching status message from the provider
     final statusMessage = ref.watch(statusMessageProvider);
+
         // Function to validate email
     bool validateEmail(String email) {
       return email.contains('@') && email.split('@').last.contains('.');
@@ -56,6 +58,11 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
 
     // Function to handle login
     void handleLogin() async{
+     
+        setState(() {
+        isLoading = true; // Start loading
+      });
+     
       String email = usernameController.text.trim();
       String password = passwordController.text.trim();
 
@@ -165,13 +172,27 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
         return;
       }
 
-      // Directly set isLoggedIn to true                       Note: This is temprorary, as proper validation to set this to true
-      //                                                             will be done once the data base is set up.
-      ref.read(authProvider.notifier).state= await AuthService().signin(
+      // Directly set isLoggedIn to true
+      ref.read(authProvider.notifier).state= await AuthService().signIn(
         email: email,
         password: password,
         );
       context.go('/');
+
+      try {
+    bool success = await AuthService().signIn(email: email, password: password);
+    if (success) {
+      context.go('/');
+    } else {
+      // Handle failed login
+    }
+  } catch (e) {
+    // Handle error
+  } finally {
+    setState(() {
+      isLoading = false;  // Hide loading indicator
+    });
+  }
     }
 
     return Container(
@@ -202,6 +223,9 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                 ),
               ),
               // Login form container
+            if (isLoading)  // Show the loading spinner when isLoading is true
+              const CircularProgressIndicator(),
+            if (!isLoading)  // Show the login form when not loading
               Container(
                 height: 375,
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -292,17 +316,9 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                         foregroundColor: Colors.black,
                         minimumSize: const Size(200, 60),
                       ),
-                      onPressed:() {
-                        // Function in charge of validating every input before logging in
-                        handleLogin();
-                      },
-                      // onPressed: () async { 
-                      //   //Trigger login process through authentication provider                 //Note: this code works with firebase
-                      //   await ref.read(authProvider.notifier).login(                            //once it has been worked on, this will
-                      //     userId: usernameController.text,                                      //be uncommented and modified
-                      //     password: passwordController.text,
-                      //   );
-                      // },
+                        onPressed: isLoading ? null : () {
+                            handleLogin();
+                          },
                       child: const Text(
                         'Log In',
                         style: TextStyle(fontFamily: 'Archivo', fontSize: 20, fontWeight: FontWeight.bold),
