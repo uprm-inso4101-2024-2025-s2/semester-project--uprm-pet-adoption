@@ -11,7 +11,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/match_logic.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MatchMaker.generateMatches(pets);
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

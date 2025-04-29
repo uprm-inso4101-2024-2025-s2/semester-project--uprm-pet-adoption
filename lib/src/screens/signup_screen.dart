@@ -7,7 +7,7 @@ import 'package:semester_project__uprm_pet_adoption/services/database_service.da
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/gettoknow_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
-import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
+
 import 'package:semester_project__uprm_pet_adoption/models/user.dart';
 import '../screens/loading_screen.dart';
 
@@ -218,9 +218,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               text: "Create Account",
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  AuthService().signup(
+                                  AuthService().signUp(
                                     email: emailController.text, 
-                                    password: passwordController.text, firstName: '', lastName: '', phoneNumber: ''
+                                    password: passwordController.text, firstName: '', lastName: '',
+                                    //  phoneNumber: ''
                                     
 
                                     );
@@ -237,8 +238,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                       email: emailController.text);
                                   //Add user to database
                                   _databaseService.addUser(user);
-                                  context.go('/gettoknowyou');
                                   AnalyticsService().addSignUp();
+                                  context.go('/gettoknowyou');
+                                  
                                 }
                               })
                         ],

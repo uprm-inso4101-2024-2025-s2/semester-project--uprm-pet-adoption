@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/models/user.dart';
 
+import 'package:semester_project__uprm_pet_adoption/src/providers/match_logic.dart';
+// // Step 1: Define a GlobalKey
+// final GlobalKey<GetToKnowYouScreenState> _getToKnowYouScreenKey = GlobalKey<GetToKnowYouScreenState>();
 class GetToKnowYouScreen extends StatefulWidget {
   const GetToKnowYouScreen({Key? key}) : super(key: key);
 
   @override
-  State<GetToKnowYouScreen> createState() => _GetToKnowYouScreenState();
+  State<GetToKnowYouScreen> createState() => GetToKnowYouScreenState();
 }
 
-class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
+class GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
+  static Map<String, dynamic> userPreferences = {};
+  MatchMaker matchMaker = MatchMaker(); 
   int currentStep = 1;
 
   // Page 1 variables
@@ -35,6 +41,8 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
       if (currentStep < 3) {
         currentStep++;
       } else {
+
+        matchMaker.generateMatches(pets);
         context.go('/');
       }
     });
@@ -60,6 +68,38 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
     }
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the map with default or initial values
+    userPreferences = {
+      'petType': petType ?? "No pet type", // Handle null case
+        'ageRange': ageRange ?? "No age range",
+        'size': size ?? "No size",
+        'energyLevel':energyLevel,
+        'hasExperience': hasExperience ?? false,
+        'hasOtherPets': hasOtherPets ?? false,
+        'hasAllergies': hasAllergies ?? false,
+        'livingSituation': livingSituation ?? "No living situation",
+        'timeAvailable': timeAvailable,
+        'personality': personality ?? "No personality",
+        'specialCareOk': specialCareOk ?? false,
+        'goodWithAnimals': goodWithAnimals ?? false,
+        'goodWithKids': goodWithKids ?? false,
+    };
+  }
+  Map<String, dynamic> get _userPreferences => userPreferences;
+
+  // Function to update the map when values change
+  void updateUserPreferences(String key, dynamic value) {
+      setState(() {
+        userPreferences[key] = value; // Update the preferences map
+      });
+
+      // matchMaker.generateMatches(pets);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -207,6 +247,7 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
                 onTap: () => setState(() {
                   petType = 'Dog';
                   ageRange = null;
+                  updateUserPreferences('petType', 'Dog');
                 }),
                 child: Container(
                   width: 140,
@@ -245,6 +286,7 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
                 onTap: () => setState(() {
                   petType = 'Cat';
                   ageRange = null;
+                  updateUserPreferences('petType', 'Cat');
                 }),
                 child: Container(
                   width: 140,
@@ -286,21 +328,36 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
           const SizedBox(height: 8),
           _choiceGroup(_getAgeOptions(),
               selected: ageRange,
-              onSelected: (val) => setState(() => ageRange = val)),
+              onSelected: (val) => setState(() 
+              { ageRange = val;
+                updateUserPreferences('ageRange', val);
+              }
+              )),
           const SizedBox(height: 24),
           const Text('Size',
               style: TextStyle(
                   fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
           const SizedBox(height: 8),
           _choiceGroup(['Small', 'Medium', 'Large', 'No preference'],
-              selected: size, onSelected: (val) => setState(() => size = val)),
+              selected: size, onSelected: (val) => setState(() 
+              { 
+                size = val;
+                updateUserPreferences('size', val);
+              }
+              )),
           const SizedBox(height: 24),
           const Text('Energy Level',
               style: TextStyle(
                   fontWeight: FontWeight.w900, fontFamily: 'Archivo')),
           Slider(
             value: energyLevel,
-            onChanged: (value) => setState(() => energyLevel = value),
+            onChanged: (value) => setState(() 
+            {
+             energyLevel = value;
+             updateUserPreferences('energyLevel', value);
+              
+            }
+             ),
             divisions: 2,
             activeColor: const Color(0xFFFFF581),
           ),
@@ -323,11 +380,22 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _yesNoQuestion('Do you have experience with pets?', hasExperience,
-              (val) => setState(() => hasExperience = val)),
+              (val) => setState(() 
+              {
+              hasExperience = val;
+              updateUserPreferences('hasExperience', val);
+              }
+              )),
           _yesNoQuestion('Do you have other pets at home?', hasOtherPets,
-              (val) => setState(() => hasOtherPets = val)),
+              (val) => setState(() {
+                 hasOtherPets = val;
+                 updateUserPreferences('hasOtherPets', val);
+              })),
           _yesNoQuestion('Do you have any pet allergies?', hasAllergies,
-              (val) => setState(() => hasAllergies = val)),
+              (val) => setState(() 
+              { hasAllergies = val;
+                updateUserPreferences('hasAllergies', val);
+              })),
           const SizedBox(height: 16),
           const Text('What is your living situation?',
               style: TextStyle(
@@ -336,7 +404,12 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
           _choiceGroup(
               ['Apartment', 'House', 'House without yard', 'Rural property'],
               selected: livingSituation,
-              onSelected: (val) => setState(() => livingSituation = val)),
+              onSelected: (val) => setState(() 
+              {
+                livingSituation = val;
+                updateUserPreferences('livingSituation', val);
+              
+              })),
           const SizedBox(height: 24),
           const Text(
             'How much time daily can you dedicate to your pet?',
@@ -366,6 +439,7 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
             onChanged: (value) {
               setState(() {
                 timeAvailable = value;
+                updateUserPreferences('timeAvailable', value);
               });
             },
             activeColor: const Color(0xFFFFF581),
@@ -401,19 +475,35 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
               'Intelligent and Trainable'
             ],
             selected: personality,
-            onSelected: (val) => setState(() => personality = val),
+            onSelected: (val) => setState(() {
+
+             personality = val;
+             updateUserPreferences('personality', val);
+            }),
           ),
           const SizedBox(height: 24),
           _yesNoQuestion(
               'Are you comfortable adopting a pet with special care?',
               specialCareOk,
-              (val) => setState(() => specialCareOk = val)),
+              (val) => setState(() 
+              {
+                specialCareOk = val;
+                updateUserPreferences('specialCareOk', val);
+              
+              })),
           _yesNoQuestion(
               'Do you want a pet that gets along with other animals?',
               goodWithAnimals,
-              (val) => setState(() => goodWithAnimals = val)),
+              (val) => setState(() {
+                goodWithAnimals = val;
+                updateUserPreferences('goodWithAnimals', val);
+              })),
           _yesNoQuestion('Do you want a pet that is good with kids?',
-              goodWithKids, (val) => setState(() => goodWithKids = val)),
+              goodWithKids, (val) => setState(() 
+              {
+                goodWithKids = val;
+                updateUserPreferences('goodWithKids', val);
+              })),
         ],
       ),
     );
@@ -500,4 +590,12 @@ class _GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
       ],
     );
   }
+
+
+   
+    
+
+
 }
+
+

@@ -5,52 +5,169 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
+
 import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_card.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_details.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
-
+import '../screens/gettoknow_screen.dart';
 import 'package:tuple/tuple.dart';
 
 
 import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/gettoknowyou_screen.dart';
 /// MatchMakingScreen:
 /// Displays a placeholder layout for the future matching logic.
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+
+
 class MatchMaker {
+  
   static List<PetCard> match = [];
   static List<PetCard> closeMatch = [];
   static List<PetCard> uncompatible = [];
+  // // Page 1 variables
+  // String? petType;
+  // String? ageRange;
+  // String? size;
+  // double energyLevel = 0.0;
 
-  static void generateMatches(List<Tuple2<PetDetails, PetCard>> pets) {
+  // // Page 2 variables
+  // bool? hasExperience;
+  // bool? hasOtherPets;
+  // bool? hasAllergies;
+  // String? livingSituation;
+  // double timeAvailable = 0.0;
+
+  // // Page 3 variables
+  // String? personality;
+  // bool? specialCareOk;
+  // bool? goodWithAnimals;
+  // bool? goodWithKids;
+
+  
+  void generateMatches(List<Tuple2<PetDetails, PetCard>> pets)  {
+    Map<String, dynamic> preferences = GetToKnowYouScreenState.userPreferences;
     match.clear();
     closeMatch.clear();
     uncompatible.clear();
+    // Navigating to GetToKnowYouScreen and retrieving the result
+    Map<String,int>livingOptions={"Apartment":1,"House without yard":2,"House":3,"Rural Property":4};
 
     int track = 0;
     for (var tuple in pets) {
       PetDetails details = tuple.item1;
       PetCard pet = tuple.item2;
+      int count=0;
+      if(preferences['petType']==details.petType){
+          count+=15;
+      }
 
-      if (track % 2 == 0) {
+      if(preferences['ageRange']==details.ageRange){
+          count+=5;
+      }
+
+      //done with file
+      if (preferences['size']==details.size){
+        count+=3;
+      }
+
+      //done with file
+      if (preferences['energyLevel']<details.energyLevel+3 && preferences['energyLevel']>details.energyLevel-3){
+        count+=5;
+        if (preferences['energyLevel']==details.energyLevel){
+          count+=2;
+        }
+      }
+
+
+      if (preferences['hasExperience'] || preferences['hasExperience']==details.hasExperience){
+        count+=10;
+      }
+
+      //done with file
+      if (preferences['hasOtherPets'] && details.hasOtherPets==true){
+        count+=10;
+      }else if (!preferences['hasOtherPets']){
+        count+=5;
+      }
+
+
+
+
+      if (!preferences['hasAllergies'] || preferences['hasAllergies']==details.hasAllergies){
+        count+=10;
+      }
+
+      //done with file
+      if (preferences['livinSituation'] != null) {
+        // Ensure both values are non-null before comparing
+        if (preferences['livinSituation'] == details.livingSituation ||
+            (livingOptions[details.livingSituation ?? 0] ?? 0) < (livingOptions[preferences['livinSituation'] ?? 0] ?? 0)) {
+              count+=5;
+        }
+      }
+
+
+      if (preferences['timeAvailable'] != null) {
+        // Ensure both values are non-null before comparing
+        if (preferences['timeAvailable'] == details.timeAvailable ||
+            (details.timeAvailable < preferences['timeAvailable'] )) {
+              count+=10;
+        }
+      }
+
+      if (details.personality=="Friendly" || preferences['personality'].contain(details.personality)){
+        count+=5;
+      }
+      if (details.specialCareOk!=null){ 
+         if (!details.specialCareOk! || details.specialCareOk == preferences['specialCareOk']){
+            count+=10;
+        }
+      }
+
+      if (details.goodWithAnimals!=null){ 
+         if (details.goodWithAnimals! || details.goodWithAnimals == preferences['goodWithAnimals']){
+            count+=10;
+        }
+      }
+
+      if (details.goodWithKids!=null){ 
+         if (details.goodWithKids! || details.goodWithKids == preferences['goodWithKids']){
+            count+=10;
+        }
+      }
+      print(count);
+      if (count>65){
         match.add(pet);
-      } else {
+      }
+      else if (count>40){
         closeMatch.add(pet);
       }
-      track++;
+
+      // if (track % 2 == 0) {
+      //   match.add(pet);
+      // } else {
+      //   closeMatch.add(pet);
+      // }
+      // track++;
     }
   }
+
+// List<PetCard>  get _match => match;
+// List<PetCard>  get _closeMatch => closeMatch;
+
 }
 
-List<PetCard> match=[];
+// List<PetCard> match=[];
 List<PetCard> close_match=[];
 List<PetCard> uncompatible=[];
 // List<Tuple2<PetDetails, PetCard>> pets = [];
 // class PetStackNotifier extends StateNotifier<List<PetCard>> {
-  // PetStackNotifier() : super(_initialPets());
+//   PetStackNotifier() : super(_initialPets());
 
 
 List<Tuple2<PetDetails, PetCard>> pets = [
@@ -59,7 +176,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       petName: "Buddy",
       petBreed: "Golden Retriever",
       petLocation: "New York",
-      petAge: "2 years",
+      petAge: "Young",
       petImage: "assets/images/Buddy_golden_retiever.jpeg",
       petSex: "Male",
       petWeight: "30 kg",
@@ -68,6 +185,19 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       isFavorite: false,
       onFavoriteToggle: () => print("Buddy Favorite toggled!"),
       onAdopt: () => print("Buddy Adoption started!"),
+      petType: "Dog",
+      ageRange: "Young",
+      size: "Medium",
+      energyLevel: 8.0,
+      hasExperience: true,
+      hasOtherPets: true,
+      hasAllergies: false,
+      livingSituation: "Apartment",
+      timeAvailable: 5.0,
+      personality: "Friendly",
+      specialCareOk: true,
+      goodWithAnimals: true,
+      goodWithKids: true,
     ),
     PetCard(
       petName: "Buddy",
@@ -88,7 +218,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       petName: "Luna",
       petBreed: "Siberian Husky",
       petLocation: "Chicago",
-      petAge: "1 year",
+      petAge: "Young",
       petImage: "assets/images/Luna_siberian_husky.jpg",
       petSex: "Female",
       petWeight: "22 kg",
@@ -97,6 +227,19 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       isFavorite: false,
       onFavoriteToggle: () => print("Luna Favorite toggled!"),
       onAdopt: () => print("Luna Adoption started!"),
+      petType: "Dog",
+      ageRange: "Puppy",
+      size: "Medium",
+      energyLevel: 8.0,
+      hasExperience: true,
+      hasOtherPets: true,
+      hasAllergies: false,
+      livingSituation: "House",
+      timeAvailable: 5.0,
+      personality: "Friendly",
+      specialCareOk: true,
+      goodWithAnimals: true,
+      goodWithKids: true,
     ),
     PetCard(
       petName: "Luna",
@@ -110,6 +253,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       onAdopt: () => print("Luna Adoption started!"),
       onAccept: () => print("Luna Accepted!"),
       onReject: () => print("Luna Rejected!"),
+      
     ),
   ),
   Tuple2(
@@ -117,7 +261,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       petName: "Milo",
       petBreed: "Beagle",
       petLocation: "San Francisco",
-      petAge: "3 years",
+      petAge: "Young",
       petImage: "assets/images/Milo_beagle.jpg",
       petSex: "Male",
       petWeight: "12 kg",
@@ -126,6 +270,19 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       isFavorite: false,
       onFavoriteToggle: () => print("Milo Favorite toggled!"),
       onAdopt: () => print("Milo Adoption started!"),
+      petType: "Dog",
+      ageRange: "Adult",
+      size: "Medium",
+      energyLevel: 5.0,
+      hasExperience: false,
+      hasOtherPets: true,
+      hasAllergies: false,
+      livingSituation: "House",
+      timeAvailable: 5.0,
+      personality: "Friendly",
+      specialCareOk: true,
+      goodWithAnimals: true,
+      goodWithKids: true,
     ),
     PetCard(
       petName: "Milo",
@@ -146,7 +303,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       petName: "Chloe",
       petBreed: "British Shorthair",
       petLocation: "Austin",
-      petAge: "4 years",
+      petAge: "Adult",
       petImage: "assets/images/Chloe_british_shorthair.jpg",
       petSex: "Female",
       petWeight: "6 kg",
@@ -155,6 +312,19 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       isFavorite: false,
       onFavoriteToggle: () => print("Chloe Favorite toggled!"),
       onAdopt: () => print("Chloe Adoption started!"),
+      petType: "Cat",
+      ageRange: "Adult",
+      size: "Medium",
+      energyLevel: 5.0,
+      hasExperience: false,
+      hasOtherPets: true,
+      hasAllergies: false,
+      livingSituation: "Apartment",
+      timeAvailable: 5.0,
+      personality: "Friendly",
+      specialCareOk: true,
+      goodWithAnimals: true,
+      goodWithKids: true,
     ),
     PetCard(
       petName: "Chloe",
@@ -175,7 +345,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       petName: "Simba",
       petBreed: "Maine Coon",
       petLocation: "Seattle",
-      petAge: "2 years",
+      petAge: "Young",
       petImage: "assets/images/Simba_maine_coon.jpg",
       petSex: "Male",
       petWeight: "8 kg",
@@ -184,6 +354,17 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       isFavorite: false,
       onFavoriteToggle: () => print("Simba Favorite toggled!"),
       onAdopt: () => print("Simba Adoption started!"),
+      size: "Large",
+      energyLevel: 5.0,
+      hasExperience: true,
+      hasOtherPets: true,
+      hasAllergies: false,
+      livingSituation: "Apartment",
+      timeAvailable: 5.0,
+      personality: "Friendly",
+      specialCareOk: true,
+      goodWithAnimals: true,
+      goodWithKids: true,
     ),
     PetCard(
       petName: "Simba",
@@ -197,6 +378,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       onAdopt: () => print("Simba Adoption started!"),
       onAccept: () => print("Simba Accepted!"),
       onReject: () => print("Simba Rejected!"),
+      
     ),
   ),
   Tuple2(
@@ -204,7 +386,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       petName: "Max",
       petBreed: "Boxer",
       petLocation: "Los Angeles",
-      petAge: "5 years",
+      petAge: "Adult",
       petImage: "assets/images/Max_boxer.jpeg",
       petSex: "Male",
       petWeight: "28 kg",
@@ -213,6 +395,17 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       isFavorite: false,
       onFavoriteToggle: () => print("Max Favorite toggled!"),
       onAdopt: () => print("Max Adoption started!"),
+      size: "Medium",
+      energyLevel: 5.0,
+      hasExperience: true,
+      hasOtherPets: true,
+      hasAllergies: false,
+      livingSituation: "Apartment",
+      timeAvailable: 5.0,
+      personality: "Friendly",
+      specialCareOk: true,
+      goodWithAnimals: true,
+      goodWithKids: true,
     ),
     PetCard(
       petName: "Max",
@@ -233,7 +426,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       petName: "Misty",
       petBreed: "Persian Cat",
       petLocation: "Miami",
-      petAge: "3 years",
+      petAge: "Adult",
       petImage: "assets/images/Misty_persian_cat.jpg",
       petSex: "Female",
       petWeight: "5 kg",
@@ -242,6 +435,17 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       isFavorite: false,
       onFavoriteToggle: () => print("Misty Favorite toggled!"),
       onAdopt: () => print("Misty Adoption started!"),
+      size: "Small",
+      energyLevel: 5.0,
+      hasExperience: false,
+      hasOtherPets: true,
+      hasAllergies: false,
+      livingSituation: "Apartment",
+      timeAvailable: 5.0,
+      personality: "Friendly",
+      specialCareOk: true,
+      goodWithAnimals: true,
+      goodWithKids: true,
     ),
     PetCard(
       petName: "Misty",
@@ -262,7 +466,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       petName: "Charlie",
       petBreed: "French Bulldog",
       petLocation: "Boston",
-      petAge: "2 years",
+      petAge: "Young",
       petImage: "assets/images/Charlie_french_bulldog.jpg",
       petSex: "Male",
       petWeight: "11 kg",
@@ -271,6 +475,17 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       isFavorite: false,
       onFavoriteToggle: () => print("Charlie Favorite toggled!"),
       onAdopt: () => print("Charlie Adoption started!"),
+      size: "Small",
+      energyLevel: 2.0,
+      hasExperience: false,
+      hasOtherPets: true,
+      hasAllergies: false,
+      livingSituation: "Apartment",
+      timeAvailable: 5.0,
+      personality: "Friendly",
+      specialCareOk: true,
+      goodWithAnimals: true,
+      goodWithKids: true,
     ),
     PetCard(
       petName: "Charlie",
@@ -291,7 +506,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       petName: "Coco",
       petBreed: "Poodle",
       petLocation: "Dallas",
-      petAge: "1 year",
+      petAge: "Puppy",
       petImage: "assets/images/coco_poodle.jpg",
       petSex: "Female",
       petWeight: "7 kg",
@@ -300,6 +515,17 @@ List<Tuple2<PetDetails, PetCard>> pets = [
       isFavorite: false,
       onFavoriteToggle: () => print("Coco Favorite toggled!"),
       onAdopt: () => print("Coco Adoption started!"),
+      size: "Medium",
+      energyLevel: 5.0,
+      hasExperience: true,
+      hasOtherPets: true,
+      hasAllergies: false,
+      livingSituation: "Apartment",
+      timeAvailable: 5.0,
+      personality: "Friendly",
+      specialCareOk: true,
+      goodWithAnimals: true,
+      goodWithKids: true,
     ),
     PetCard(
       petName: "Coco",
@@ -316,6 +542,7 @@ List<Tuple2<PetDetails, PetCard>> pets = [
     ),
   ),
 ];
+
 
 class MatchStackNotifier extends StateNotifier<List<PetCard>> {
   MatchStackNotifier() : super(MatchMaker.match);
