@@ -454,7 +454,10 @@ GoRoute(
           );
         },
       ),
-    ),GoRoute(
+    ),
+    
+    
+GoRoute(
   path: '/gettoknowyou',
   pageBuilder: (context, state) => CustomTransitionPage(
     child: const GetToKnowYouScreen(),
@@ -469,6 +472,13 @@ GoRoute(
     },
   ),
 ),
+
+
+    // Route for success stories screen
+    GoRoute(
+      path: '/success-stories',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const SuccessStoriesScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return SlideTransition(
             position: Tween<Offset>(
