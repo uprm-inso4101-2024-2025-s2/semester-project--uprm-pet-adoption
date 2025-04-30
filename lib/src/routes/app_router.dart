@@ -28,7 +28,7 @@ import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_verification_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/shelter_info_screen.dart';
-
+import 'package:semester_project__uprm_pet_adoption/src/screens/success_stories_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/gettoknowyou_screen.dart';
 
 
@@ -424,6 +424,41 @@ final GoRouter appRouter = GoRouter(
     ),
 
 
+GoRoute(
+  path: '/gettoknowyou',
+  pageBuilder: (context, state) => CustomTransitionPage(
+    child: const GetToKnowYouScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  ),
+),
+
+
+    // Route for success stories screen
+    GoRoute(
+      path: '/success-stories',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const SuccessStoriesScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    
+    
 GoRoute(
   path: '/gettoknowyou',
   pageBuilder: (context, state) => CustomTransitionPage(

@@ -9,103 +9,129 @@ import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets/home_top_bar.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/favorite_pet_cards_provider.dart';
+import 'package:semester_project__uprm_pet_adoption/src/providers/match_logic.dart';
 
 import 'menu_screen.dart';
 
-class PetStackNotifier extends StateNotifier<List<PetCard>> {
-  PetStackNotifier()
-      : super([
-          _buildPetCard(
-            name: "Ronnie",
-            breed: "Labrador",
-            age: "Puppy",
-            images: [
-              "assets/images/temp_dog_img.jpg",
-              "assets/images/temp_dog_img2.jpg",
-            ],
-            description: "My name is Ronnie and I am looking for a loving home!",
-            tags: ["Labrador", "Puppy"],
-          ),
-          _buildPetCard(
-            name: "Luna",
-            breed: "Golden Retriever",
-            age: "Young Adult",
-            images: [
-              "assets/images/pet_placeholder.png",
-            ],
-            description: "Hi, I'm Luna! I'm a playful and friendly dog who loves belly rubs.",
-            tags: ["Golden Retriever", "Young Adult"],
-            isFavoriteDefault: true,
-          ),
-          _buildPetCard(
-            name: "Ronnie",
-            breed: "Labrador",
-            age: "Puppy",
-            images: [
-              "assets/images/temp_dog_img.jpg",
-              "assets/images/temp_dog_img2.jpg",
-            ],
-            description: "My name is Ronnie and I am looking for a loving home!",
-            tags: ["Labrador", "Puppy"],
-          ),
-          _buildPetCard(
-            name: "Luna",
-            breed: "Golden Retriever",
-            age: "Young Adult",
-            images: [
-              "assets/images/pet_placeholder.png",
-              "assets/images/temp_dog_img.jpg",
-            ],
-            description: "Hi, I'm Luna! I'm a playful and friendly dog who loves belly rubs.",
-            tags: ["Golden Retriever", "Young Adult"],
-            isFavoriteDefault: true,
-          ),
-        ]);
+//This file contains the Home Screen class. Everything that shows up in the home screen is managed here.
+// class PetStackNotifier extends StateNotifier<List<PetCard>> {
+//   PetStackNotifier() : super(_initialPets());
+//   static List<PetCard> _initialPets() => [
+//     PetCard(
 
-  void removeTopPet() {
-    if (state.isNotEmpty) {
-      state = [...state]..removeLast();
-    }
-  }
+//       petName: "Ronnie",
+//       petBreed: "Labrador",
+//       petAge: "Puppy",
+//       petImages: [
+//         "assets/images/temp_dog_img.jpg",
+//         "assets/images/temp_dog_img2.jpg",
+//       ],
+//       petDescription:
+//       "My name is Ronnie and I am looking for a loving home!",
+//       petTags: ["Labrador", "Puppy"],
+//       isFavorite: false,
+//       onFavoriteToggle: () {
+//         print("Favorite toggled!");
+//       },
+//       onAdopt: () {
+//         print("Adoption started!");
+//       },
+//       onAccept: () {
+//         print("Pet Accepted!");
+//       },
+//       onReject: () {
+//         print("Pet Rejected!");
+//       },
+//     ),
+//     PetCard(
+//       petName: "Luna",
+//       petBreed: "Golden Retriever",
+//       petAge: "Young Adult",
+//       petImages: [
+//         "assets/images/pet_placeholder.png",
 
-  PetCard? get currentPet => state.isNotEmpty ? state.last : null;
-}
+//       ],
+//       petDescription: "Hi, I'm Luna! I'm a playful and friendly dog who loves belly rubs.",
+//       petTags: ["Golden Retriever", "Young Adult"],
+//       isFavorite: true,
+//       onFavoriteToggle: () {
+//         print("Luna favorite toggled!");
+//       },
+//       onAdopt: () {
+//         print("Adoption started for Luna!");
+//       },
+//       onAccept: () {
+//         print("Luna Accepted!");
+//       },
+//       onReject: () {
+//         print("Luna Rejected!");
+//       },
+//     ),
+//     PetCard(
+//       petName: "Ronnie",
+//       petBreed: "Labrador",
+//       petAge: "Puppy",
+//       petImages: [
+//         "assets/images/temp_dog_img.jpg",
+//         "assets/images/temp_dog_img2.jpg",
+//       ],
+//       petDescription: "My name is Ronnie and I am looking for a loving home!",
+//       petTags: ["Labrador", "Puppy"],
+//       isFavorite: false,
+//       onFavoriteToggle: () {
+//         print("Favorite toggled!");
+//       },
+//       onAdopt: () {
+//         print("Adoption started!");
+//       },
+//       onAccept: () {
+//         print("Pet Accepted!");
+//       },
+//       onReject: () {
+//         print("Pet Rejected!");
+//       },
+//     ),
+//     PetCard(
+//       petName: "Luna",
+//       petBreed: "Golden Retriever",
+//       petAge: "Young Adult",
+//       petImages: [
+//         "assets/images/pet_placeholder.png",
+//         "assets/images/temp_dog_img.jpg",
+//       ],
+//       petDescription: "Hi, I'm Luna! I'm a playful and friendly dog who loves belly rubs.",
+//       petTags: ["Golden Retriever", "Young Adult"],
+//       isFavorite: true,
+//       onFavoriteToggle: () {
+//         print("Luna favorite toggled!");
+//       },
+//       onAdopt: () {
+//         print("Adoption started for Luna!");
+//       },
+//       onAccept: () {
+//         print("Luna Accepted!");
+//       },
+//       onReject: () {
+//         print("Luna Rejected!");
+//       },
+//     ),
+//   ];
 
-PetCard _buildPetCard({
-  required String name,
-  required String breed,
-  required String age,
-  required List<String> images,
-  required String description,
-  required List<String> tags,
-  bool isFavoriteDefault = false,
-}) {
-  return PetCard(
-    petName: name,
-    petBreed: breed,
-    petAge: age,
-    petImages: images,
-    petDescription: description,
-    petTags: tags,
-    isFavorite: isFavoriteDefault,
-    onFavoriteToggle: () {}, // dynamically replaced in build
-    onAdopt: () {
-      print("Adoption started for $name!");
-    },
-    onAccept: () {
-      print("$name Accepted!");
-    },
-    onReject: () {
-      print("$name Rejected!");
-    },
-  );
-}
+//   void removeTopPet() {
+//     if (state.isNotEmpty) {
+//       state = [...state]..removeLast();
+//     }
+//   }
 
-final petStackProvider =
-    StateNotifierProvider<PetStackNotifier, List<PetCard>>((ref) {
-  return PetStackNotifier();
-});
+//   PetCard? get currentPet => state.isNotEmpty ? state.last : null;
+// }
+// final matchProvider = StateNotifierProvider<MatchStackNotifier, List<PetCard>>((ref) => MatchStackNotifier());
+final petStackProvider = StateNotifierProvider<CloseMatchStackNotifier, List<PetCard>>((ref) => CloseMatchStackNotifier());
 
+// final petStackProvider =
+// StateNotifierProvider<CloseMatchStackNotifier, List<PetCard>>((ref) {
+//   return PetStackNotifier();
+// });
 final hasLoggedScreenViewProvider = StateProvider<bool>((ref) => false);
 
 class HomeScreen extends ConsumerWidget {

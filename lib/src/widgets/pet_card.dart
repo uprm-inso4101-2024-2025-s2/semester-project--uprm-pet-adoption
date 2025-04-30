@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as legacy_provider;
+import 'package:semester_project__uprm_pet_adoption/src/preference_manager.dart';
 
 /// PetCard Widget
 /// -----------------
@@ -26,7 +29,6 @@ import 'package:flutter/gestures.dart';
 /// - It supports interactive features like toggling favorites and swipe actions.
 
 class PetCard extends StatefulWidget {
-  // final String id;
   final String petName;
   final String petBreed;
   final String petAge;
@@ -34,36 +36,35 @@ class PetCard extends StatefulWidget {
   final String petDescription;
   final List<String> petTags;
   final bool isFavorite;
-  final VoidCallback? onFavoriteToggle;
+  final VoidCallback onFavoriteToggle;
   final VoidCallback onAdopt;
   final VoidCallback onAccept;
   final VoidCallback onReject;
 
-
   const PetCard({
     Key? key,
-    // required this.id,
     required this.petName,
     required this.petBreed,
     required this.petAge,
     required this.petImages,
     required this.petDescription,
     required this.petTags,
-    required this.isFavorite, 
-    this.onFavoriteToggle,   
+    required this.isFavorite,
+    required this.onFavoriteToggle,
     required this.onAdopt,
     required this.onAccept,
     required this.onReject,
   }) : super(key: key);
 
   @override
-  _PetCardState createState() => _PetCardState();
+  ConsumerState<PetCard> createState() => _PetCardState();
 }
 
-class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
+class _PetCardState extends ConsumerState<PetCard> with SingleTickerProviderStateMixin {
+  // ... rest of your existing state code
   late PageController _pageController;
   int _currentPage = 0;
-  // bool _isFavorite = false;
+  bool _isFavorite = false;
   Offset _dragOffset = Offset.zero;
   double _opacity = 1.0;
 
@@ -71,7 +72,7 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _pageController = PageController();
-    // _isFavorite = widget.isFavorite;
+    _isFavorite = widget.isFavorite;
   }
 
   @override
@@ -80,14 +81,12 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-//   void _toggleFavorite() {
-//   if (widget.onFavoriteToggle != null) {
-//     widget.onFavoriteToggle!();
-//   }
-// }
-  void _toggleFavorite() => widget.onFavoriteToggle?.call();
-
-
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+    widget.onFavoriteToggle();
+  }
 
   void _onHorizontalDragUpdate(DragUpdateDetails details) {
     setState(() {
@@ -110,20 +109,25 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onHorizontalDragUpdate: _onHorizontalDragUpdate,
-      onHorizontalDragEnd: _onHorizontalDragEnd,
-      child: AnimatedOpacity(
-        duration: Duration(milliseconds: 200),
-        opacity: _opacity,
-        child: Transform.translate(
-          offset: _dragOffset,
-          child: Card(
-            color: Colors.yellow[100],
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+     onHorizontalDragUpdate: _onHorizontalDragUpdate,
+     onHorizontalDragEnd: _onHorizontalDragEnd,
+     child: AnimatedOpacity(
+     duration: Duration(milliseconds: 200),
+     opacity: _opacity,
+     child: Transform.translate(
+      offset: _dragOffset,
+      child: Card(
+        color: matchesPreferences 
+            ? Colors.yellow[100]?.withOpacity(0.8) // Highlight matches
+            : Colors.yellow[100], // Regular color
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: matchesPreferences
+              ? BorderSide(color: Colors.blue, width: 2) // Blue border for matches
+              : BorderSide.none,),
             elevation: 5,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -161,6 +165,25 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
                         ),
                       ),
 
+                       // Add this new Positioned widget for the preference badge
+                      if (matchesPreferences)
+                          Positioned(
+                            top: 10,
+                            left: 10,
+                            child: Container(
+                              padding: EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                      ),
+
                       // Favorite Button (Top Right)
                       Positioned(
                         top: 10,
@@ -168,8 +191,8 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
                         child: GestureDetector(
                           onTap: _toggleFavorite,
                           child: Icon(
-                            widget.isFavorite ? Icons.favorite : Icons.favorite_border,
-                            color: widget.isFavorite ? Colors.pinkAccent : Colors.pinkAccent,
+                            _isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: _isFavorite ? Colors.pinkAccent : Colors.pinkAccent,
                             size: 30,
                           ),
                         ),

@@ -9,7 +9,7 @@ import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_details.dart
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
 
-
+import 'package:semester_project__uprm_pet_adoption/src/providers/match_logic.dart';
 
 import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
 /// MatchMakingScreen:
@@ -135,14 +135,18 @@ import 'package:go_router/go_router.dart';
 //   return PetStackNotifier();
 // });
 // final hasLoggedScreenViewProvider = StateProvider<bool>((ref) => false);
+
+
 class MatchMakingScreen extends ConsumerWidget {
    MatchMakingScreen({super.key});
-final petCardIndexProvider = StateProvider<int>((ref) => 0);
+final petCardIndexProvider = StateNotifierProvider<MatchStackNotifier, List<PetCard>>((ref) => MatchStackNotifier());
+
   @override
   Widget build(BuildContext context, WidgetRef ref){
-final pets = ref.watch(petStackProvider);
-    final currentPet = ref.watch(petStackProvider.notifier).currentPet;
+  final pets = ref.watch(petCardIndexProvider);
+  final currentPet = ref.watch(petCardIndexProvider.notifier).currentPet;
 
+ 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100), // Set desired height
@@ -151,7 +155,7 @@ final pets = ref.watch(petStackProvider);
           flexibleSpace: Column(
             mainAxisAlignment: MainAxisAlignment.end, // Align content to bottom
             children: [
-                    SizedBox(
+                SizedBox(
                 width: 200,
                 height: 100, // final visible area
                 child: Stack(
@@ -238,12 +242,13 @@ final pets = ref.watch(petStackProvider);
                                     },
                                     onAccept: () {
                                       print("${currentPet.petName} Accepted!");
-                                      ref.read(petStackProvider.notifier).removeTopPet();
+                                      ref.read(petCardIndexProvider.notifier).removeTopPet(); // Correct
                                     },
                                     onReject: () {
                                       print("${currentPet.petName} Rejected!");
-                                      ref.read(petStackProvider.notifier).removeTopPet();
+                                      ref.read(petCardIndexProvider.notifier).removeTopPet(); // Correct
                                     },
+
                                   ),
                                 )
                               : const Text(
