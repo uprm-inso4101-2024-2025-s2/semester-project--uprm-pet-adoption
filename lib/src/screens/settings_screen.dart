@@ -29,20 +29,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            context.go('/'); // Navigate to Home screen
-          },
+          icon: const Icon(Icons.arrow_back,
+          size: 18, color: Colors.black),
+          padding: EdgeInsets.zero,
+          onPressed: () => context.go('/?openMenu=true'),
         ),
-        centerTitle: true,
         title: const Text(
           'Settings',
           style: TextStyle(
-            fontSize: 32,
+            fontSize: 25,
             fontFamily: 'Archivo',
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
+        centerTitle: false,
       ),
       body: Column(
         children: [

@@ -32,14 +32,13 @@ class DMScreen extends StatelessWidget {
                 nipWidth: 8,
                 nipHeight: 24,
                 nip: BubbleNip.rightTop,
-                color: const Color(0xFF82B0FF),
+                color: const Color(0xFFD3D3D3),
                 child: const Text(
                   'Hello, I would like to adopt',
                   textAlign: TextAlign.right,
                   maxLines: 5,
                   style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w100,
+                    fontSize: 15,
                     fontFamily: 'Archivo',
                   ),
                 ),
@@ -59,13 +58,12 @@ class DMScreen extends StatelessWidget {
                 nipWidth: 8,
                 nipHeight: 24,
                 nip: BubbleNip.leftTop,
-                color: Colors.white,
+                color: const Color(0xFFF8F8FF),
                 child: const Text(
                   'Sure!!!',
                   maxLines: 5,
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w100,
                     fontFamily: 'Archivo',
                   ),
                 ),
@@ -85,14 +83,13 @@ class DMScreen extends StatelessWidget {
                 nipWidth: 8,
                 nipHeight: 24,
                 nip: BubbleNip.rightTop,
-                color: Color(0xFF82B0FF),
+                color: const Color(0xFFD3D3D3),
                 child: const Text(
                   'I want a pug',
                   textAlign: TextAlign.right,
                   maxLines: 5, //Character limit set to 5 lines of message
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w100,
                     fontFamily: 'Archivo',
                   ),
                 ),
@@ -120,7 +117,6 @@ class DMScreen extends StatelessWidget {
                   overflow: TextOverflow.clip,
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w100,
                     fontFamily: 'Archivo',
                   ),
                 ),

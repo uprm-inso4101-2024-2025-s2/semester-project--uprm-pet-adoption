@@ -47,16 +47,10 @@ class MenuScreen extends Drawer {
                           fontSize: 32,
                           fontFamily: 'Archivo',
                           color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(width: 6.0),
-                      // Three-bar menu icon -> Closes the drawer
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.menu),
-                      ),
                     ],
                   ),
                 ),

@@ -190,9 +190,11 @@ class _MapScreenState extends State<Maps> {
         titleTextStyle: TextStyle(
             fontFamily: 'Archivo',
             color: Colors.black,
+            fontWeight: FontWeight.bold,
             fontSize: 24 * fieldScale),
         title: const Text('Map'),
         backgroundColor: const Color(0xFFFFF581),
+        centerTitle: false,
       ),
       body: Stack(
         children: [

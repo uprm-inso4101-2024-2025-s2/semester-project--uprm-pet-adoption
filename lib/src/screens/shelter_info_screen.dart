@@ -67,20 +67,19 @@ class ShelterInfoScreen extends StatelessWidget {
           'Shelters',
           style: TextStyle(
             fontFamily: 'Archivo',
-            fontSize: 32,
-            fontWeight: FontWeight.w900,
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
         iconTheme: const IconThemeData(color: Colors.black, size: 32),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          iconSize: 32,
-          onPressed: () {
-            context.go('/'); // Go back to menu screen
-          },
+          icon: const Icon(Icons.arrow_back,
+              size: 18, color: Colors.black),
+          padding: EdgeInsets.zero,
+          onPressed: () => context.go('/?openMenu=true'),
         ),
       ),
       body: ListView.separated(

@@ -131,20 +131,17 @@ class _ProfileState extends State<Profile> {
               'Profile',
               style: TextStyle(
                 fontFamily: 'Archivo',
-                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
               ),
             ),
           ),
           titleSpacing: 0,
           leading: IconButton(
-            icon: Image.asset(
-              'assets/images/Arrow_Circle_dms.png',
-              width: 30,
-              height: 30,
-            ),
-            onPressed: () {
-              context.go('/');
-            },
+            icon: const Icon(Icons.arrow_back,
+            size: 18, color: Colors.black),
+            padding: EdgeInsets.zero,
+            onPressed: () => context.go('/?openMenu=true'),
           ),
         ),
       ),
@@ -282,7 +279,7 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 4),
     );
   }
 
