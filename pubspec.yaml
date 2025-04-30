@@ -30,10 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-<<<<<<< HEAD
-=======
-    
->>>>>>> 262d6cd8b44a96a1320faa99516a1acd6f9fd5e6
   google_maps_flutter: ^2.5.0
   flutter_riverpod: ^2.3.6  # Use latest version
   shared_preferences: ^2.2.0

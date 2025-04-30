@@ -1,0 +1,2 @@
+C:/Users/aleja/Desktop/PawfectMatch/semester-project--uprm-pet-adoption/android/app/.cxx/Debug/6x5d623n/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/aleja/Desktop/PawfectMatch/semester-project--uprm-pet-adoption/android/app/.cxx/Debug/6x5d623n/armeabi-v7a/CMakeFiles/rebuild_cache.dir

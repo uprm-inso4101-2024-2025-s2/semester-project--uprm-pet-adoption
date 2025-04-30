@@ -12,11 +12,14 @@ class AuthScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final hasLoggedScreenView = ref.watch(hasLoggedAuthScreenViewProvider);
-    if (!hasLoggedScreenView) {
-      AnalyticsService().logScreenView("auth_screen");
-      ref.read(hasLoggedAuthScreenViewProvider.notifier).state = true;
-    }
+    
+    Future.microtask(() {
+      final hasLogged = ref.read(hasLoggedAuthScreenViewProvider);
+      if (!hasLogged) {
+        AnalyticsService().logScreenView("auth_screen");
+        ref.read(hasLoggedAuthScreenViewProvider.notifier).state = true;
+      }
+    });
 
     return Scaffold(
       backgroundColor: Color(0xFF82B0FF),
