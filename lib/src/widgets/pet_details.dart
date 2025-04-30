@@ -118,6 +118,7 @@ class _PetDetailsState extends State<PetDetails> {
   bool _showBack = false; // Tracks whether to show front or back of the card
 
   void _toggleCard() {
+    context.go('/matchMaking');
     setState(() {
       _showBack = !_showBack; // Flips the card on tap
     });
@@ -133,7 +134,7 @@ class _PetDetailsState extends State<PetDetails> {
           transitionBuilder: (widget, animation) {
             return ScaleTransition(scale: animation, child: widget);
           },
-          child: _showBack ?  _buildFrontView():_buildBackView(scaffoldKey),
+          child: _showBack ? _buildBackView(scaffoldKey): _buildBackView(scaffoldKey),
         ),
       ),
     );
@@ -345,11 +346,22 @@ Widget _buildBackView(GlobalKey<ScaffoldState> scaffoldKey) {
   final int selectedIndex;
 
 return Scaffold(
-  backgroundColor: Color.fromRGBO(0, 0, 0, 1),
+  backgroundColor: Color.fromRGBO(254, 243, 243, 1),
   endDrawer: MenuScreen(),
       key: scaffoldKey,
     body: Stack(
   children: [
+    Container(
+       // Background image
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/Login_SignUp_Background.png'), // Replace with your image path
+            fit: BoxFit.cover, // You can change this to other options like BoxFit.fill or BoxFit.contain depending on your preference
+          ),
+        ),
+      ),
     // Top blue bar with logo and menu icon
     Container(
       padding: const EdgeInsets.only(bottom: 0,top: 0), // Extra top padding for status bar

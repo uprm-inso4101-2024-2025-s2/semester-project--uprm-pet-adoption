@@ -157,17 +157,13 @@ class MatchMaker {
     }
   }
 
-// List<PetCard>  get _match => match;
-// List<PetCard>  get _closeMatch => closeMatch;
+
 
 }
 
-// List<PetCard> match=[];
 List<PetCard> close_match=[];
 List<PetCard> uncompatible=[];
-// List<Tuple2<PetDetails, PetCard>> pets = [];
-// class PetStackNotifier extends StateNotifier<List<PetCard>> {
-//   PetStackNotifier() : super(_initialPets());
+
 
 
 List<Tuple2<PetDetails, PetCard>> pets = [
