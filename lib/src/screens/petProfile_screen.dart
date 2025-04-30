@@ -22,6 +22,7 @@ class _PetProfileState extends State<PetProfile> {
   final TextEditingController breedController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
+  String? healthDocumentFileName;
   String? petPictureFileName;
   Uint8List? _imageBytes;
   String? _localImagePath;
@@ -182,6 +183,18 @@ class _PetProfileState extends State<PetProfile> {
                   descriptionController, fieldScale,
                   maxLines: 3),
               SizedBox(height: 20 * fieldScale),
+              Text("Health Documents",
+                  style: TextStyle(
+                      fontSize: 16 * fieldScale,
+                  )),
+              HealthDocumentsUploader(
+                onFileUploaded: (fileName) {
+                  setState(() {
+                    healthDocumentFileName = fileName;
+                  });
+                },
+              ),
+              SizedBox(height: 20 * fieldScale),
               Text("Choose the best tags to describe the pet",
                   style: TextStyle(
                       fontSize: 16 * fieldScale,
@@ -198,7 +211,7 @@ class _PetProfileState extends State<PetProfile> {
                   child: ElevatedButton(
                     onPressed: () async {
                       await authService.petsSignUp(
-                        medicalDocument: 'fileName For medicalDocument',
+                        medicalDocument: healthDocumentFileName ?? '',
                         petPicture:
                             petPictureFileName ?? 'fileName For petPicture',
                         petAge: selectedAgeCategory,

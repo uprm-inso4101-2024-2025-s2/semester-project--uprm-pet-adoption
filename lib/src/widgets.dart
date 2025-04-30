@@ -64,7 +64,10 @@ class BottomNavBar extends StatelessWidget {
 
 
 class HealthDocumentsUploader extends StatefulWidget {
-  const HealthDocumentsUploader({super.key});
+  final void Function(String)? onFileUploaded;
+
+  const HealthDocumentsUploader({super.key, this.onFileUploaded});
+
 
   @override
   State<HealthDocumentsUploader> createState() => _HealthDocumentsUploaderState();
@@ -121,6 +124,8 @@ class _HealthDocumentsUploaderState extends State<HealthDocumentsUploader> {
           _uploading = false;
           _progress = 1.0;
         });
+
+        widget.onFileUploaded?.call(fileName);
 
         print('File uploaded to Supabase: $publicUrl');
       } else {
