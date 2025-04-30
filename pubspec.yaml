@@ -30,10 +30,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # Shared preferences
+  shared_preferences: ^2.2.2
+  provider: ^6.1.1
     
   google_maps_flutter: ^2.5.0
   flutter_riverpod: ^2.3.6  # Use latest version
-  shared_preferences: ^2.2.0
+  #shared_preferences: ^2.2.0
   image_picker: ^1.0.4
 
   # The following adds the Cupertino Icons font to your application.
