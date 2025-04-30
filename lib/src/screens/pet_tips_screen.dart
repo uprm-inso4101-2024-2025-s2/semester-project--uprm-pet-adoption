@@ -12,6 +12,8 @@ class PetTips extends StatefulWidget {
 }
 
 class _PetTipsState extends State<PetTips> {
+  bool _showTips = true;
+  bool _showArticles = true;
   bool _showFavorites = false;
   bool _isFiltered = false;
   final TextEditingController _searchController = TextEditingController();
@@ -109,9 +111,60 @@ class _PetTipsState extends State<PetTips> {
     });
   }
 
-  void _toggleFilter() {
-    setState(() => _isFiltered = !_isFiltered);
-  }
+  void _showFilterDialog() {
+  showDialog(
+    context: context,
+    builder: (context) {
+      // Local variables to track dialog state
+      bool showTips = _showTips;
+      bool showArticles = _showArticles;
+      
+      return StatefulBuilder(
+        builder: (context, setStateDialog) {
+          return AlertDialog(
+            title: const Text("Filter Content"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CheckboxListTile(
+                  title: const Text("Show Tips"),
+                  value: showTips,
+                  onChanged: (v) {
+                    setStateDialog(() => showTips = v!);
+                    // Update the main state when dialog closes
+                    _showTips = v!;
+                  },
+                ),
+                CheckboxListTile(
+                  title: const Text("Show Articles"),
+                  value: showArticles,
+                  onChanged: (v) {
+                    setStateDialog(() => showArticles = v!);
+                    // Update the main state when dialog closes
+                    _showArticles = v!;
+                  },
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  // Update the main widget state when done
+                  setState(() {
+                    _showTips = showTips;
+                    _showArticles = showArticles;
+                  });
+                  Navigator.pop(context);
+                },
+                child: const Text("Done"),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
 
   void _clearSearch() {
     _searchController.clear();
@@ -123,9 +176,13 @@ class _PetTipsState extends State<PetTips> {
     if (_showFavorites) {
       filtered = filtered.where((it) => _favoriteIds.contains(it.id)).toList();
     }
-    if (_isFiltered) {
-      
-    }
+
+    filtered = filtered.where((item){
+      if (item.itemType == _ItemType.tip) return _showTips;
+      if(item.itemType == _ItemType.article) return _showArticles;
+      return false;
+    }).toList();
+
     final query = _searchController.text.trim().toLowerCase();
     if (query.isNotEmpty) {
       filtered = filtered.where((item) {
@@ -146,8 +203,9 @@ class _PetTipsState extends State<PetTips> {
     final displayedItems = _filterItems(_allItems);
 
     
-    final tipItems = displayedItems.where((i) => i.itemType == _ItemType.tip).toList();
-    final articleItems = displayedItems.where((i) => i.itemType == _ItemType.article).toList();
+    // final tipItems = displayedItems.where((i) => i.itemType == _ItemType.tip).toList();
+    // final articleItems = displayedItems.where((i) => i.itemType == _ItemType.article).toList();
+
 
     return Scaffold(
       // Large "Pet Tips" text
@@ -217,7 +275,7 @@ class _PetTipsState extends State<PetTips> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.tune, color: Colors.black),
-                    onPressed: _toggleFilter,
+                    onPressed: _showFilterDialog,
                   ),
                   IconButton(
                     icon: const Icon(Icons.bookmark, color: Colors.black),
@@ -226,6 +284,26 @@ class _PetTipsState extends State<PetTips> {
                 ],
               ),
             ),
+
+            if (!_showTips || !_showArticles)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Wrap(
+                  spacing: 8,
+                  children: [
+                    if (!_showTips)
+                      Chip(
+                        label: const Text("Tips hidden"),
+                        onDeleted: () => setState(() => _showTips = true),
+                      ),
+                    if (!_showArticles)
+                      Chip(
+                        label: const Text("Articles hidden"),
+                        onDeleted: () => setState(() => _showArticles = true),
+                      ),
+                  ],
+                ),
+              ),
 
             if (_showFavorites && _favoriteIds.isEmpty)
               Padding(
@@ -241,41 +319,38 @@ class _PetTipsState extends State<PetTips> {
               ),
 
             Expanded(
-              child: SingleChildScrollView(
+              child: displayedItems.isEmpty && _searchController.text.isNotEmpty
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.start, // Positions content higher up
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.2), // Adjust this value to move it up/down
+                      const Text(
+                        'No results found',
+                        style: TextStyle(
+                          fontSize: 24, // Larger font size
+                          fontWeight: FontWeight.w500, // Slightly bolder
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  )
+              : SingleChildScrollView(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Column(
                   children: [
-                    // Show tip cards first
-                    for (final tip in tipItems)
-                      _buildTipCard(
-                        item: tip,
-                        isFavorited: _favoriteIds.contains(tip.id),
-                        onFavoriteToggle: () => _toggleFavorite(tip.id),
-                      ),
-
-                    // A centered "Articles" heading (based on your request)
-                    if (articleItems.isNotEmpty)
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 12),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'Articles',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Archivo',
-                            color: Colors.black,
-                          ),
+                    for (final item in displayedItems)
+                      if (item.itemType == _ItemType.tip)
+                        _buildTipCard(
+                          item: item,
+                          isFavorited: _favoriteIds.contains(item.id),
+                          onFavoriteToggle: () => _toggleFavorite(item.id),
+                        )
+                      else
+                        _buildArticleCard(
+                          item: item,
+                          isFavorited: _favoriteIds.contains(item.id),
+                          onFavoriteToggle: () => _toggleFavorite(item.id),
                         ),
-                      ),
-
-                    
-                    for (final article in articleItems)
-                      _buildArticleCard(
-                        item: article,
-                        isFavorited: _favoriteIds.contains(article.id),
-                        onFavoriteToggle: () => _toggleFavorite(article.id),
-                      ),
                   ],
                 ),
               ),
