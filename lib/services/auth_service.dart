@@ -154,16 +154,16 @@ class AuthService {
       await _firestore.collection('pets').add({
         'medicalDocument': medicalDocument,
         'petPicture': petPicture,
-        'petAge': petAge, // contains one of 3 options (Puppy, Adult, Elderly)
+        'petAge': petAge, // Contains one of 3 options (Puppy, Adult, Elderly)
         'petBreed':
-            petBreed, // contains the breed of the pet either from the selection or option other
+            petBreed, // Contains the breed of the pet either from the selection or option other
         'petDescription':
-            petDescription, // description and details that user gives of the pet
-        'petName': petName, // created pets name
-        'petOwner': uid, // the user who registered this pet
-        'petShelter': petShelter, // the shelter that registered this pet
+            petDescription, // Description and details that user gives of the pet
+        'petName': petName, // Created pets name
+        'petOwner': uid, // The user who registered this pet
+        'petShelter': petShelter, // The shelter that registered this pet
         'petTags':
-            petTags, //specific tags chosen from the new pet profile screen
+            petTags, //Specific tags chosen from the new pet profile screen
         'createdAt': FieldValue.serverTimestamp(), // Optional: Add a timestamp
       });
 
@@ -228,8 +228,7 @@ class AuthService {
           await _firestore.collection('users').doc(user.uid).get();
 
       if (userDoc.exists) {
-        // Return userDoc which can be used to access specific
-        // user data
+        // Return userDoc which can be used to access specific user data
         return userDoc;
       }
     }

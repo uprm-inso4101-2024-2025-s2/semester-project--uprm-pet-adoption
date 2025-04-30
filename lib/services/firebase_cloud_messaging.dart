@@ -9,13 +9,13 @@ class MessagingNotifications {
   static final MessagingNotifications instance = MessagingNotifications._();
 
   Future<void> initialize() async {
-    // get permission from user to allow notifications
+    // Get permission from user to allow notifications
     await getPermission();
 
-    // subscribe user to receive general notifications
+    // Subscribe user to receive general notifications
     await FirebaseMessaging.instance.subscribeToTopic("general");
 
-    // handles notifications when app is in the foreground, backgorund and terminated
+    // Handles notifications when app is in the foreground, background and terminated
     await setupNotifications();
   }
 
