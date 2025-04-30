@@ -20,6 +20,7 @@ class _SuccessStoriesScreenState extends State<SuccessStoriesScreen> {
       'image': 'assets/images/training.png',
       'likes': 42,
       'comments': 8,
+      'isLiked': false,
     },
     {
       'name': 'WHISKERS',
@@ -28,6 +29,7 @@ class _SuccessStoriesScreenState extends State<SuccessStoriesScreen> {
       'image': 'assets/images/temp_dog_img2.jpg',
       'likes': 36,
       'comments': 5,
+      'isLiked': false,
     },
     {
       'name': 'MAX',
@@ -36,6 +38,7 @@ class _SuccessStoriesScreenState extends State<SuccessStoriesScreen> {
       'image': 'assets/images/temp_dog_img.jpg',
       'likes': 58,
       'comments': 12,
+      'isLiked': false,
     },
   ];
 
@@ -62,6 +65,7 @@ class _SuccessStoriesScreenState extends State<SuccessStoriesScreen> {
           'image': _image != null ? _image : 'assets/images/default_pet.png',
           'likes': 0,
           'comments': 0,
+          'isLiked': false,
         });
         _nameController.clear();
         _storyController.clear();
@@ -190,9 +194,13 @@ class _SuccessStoriesScreenState extends State<SuccessStoriesScreen> {
                           : FileImage(story['image']) as ImageProvider,
                       likes: story['likes'],
                       comments: story['comments'],
+                      isLiked: story['isLiked'], // Pass the liked state
                       onLike: () {
                         setState(() {
-                          story['likes']++;
+                          if (!story['isLiked']) { // Only increment if not already liked
+                            story['likes']++;
+                            story['isLiked'] = true;
+                          }
                         });
                       },
                       onComment: () {

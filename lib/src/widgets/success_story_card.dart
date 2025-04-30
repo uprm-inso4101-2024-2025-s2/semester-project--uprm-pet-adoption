@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 class SuccessStoryCard extends StatelessWidget {
   final String petName;
   final String story;
-  final ImageProvider image; // Changed from String url to ImageProvider
+  final ImageProvider image;
   final int likes;
   final int comments;
+  final bool isLiked; // Add this new property
   final VoidCallback? onLike;
   final VoidCallback? onComment;
   final VoidCallback? onShare;
@@ -14,9 +15,10 @@ class SuccessStoryCard extends StatelessWidget {
     Key? key,
     required this.petName,
     required this.story,
-    required this.image, // Now accepts ImageProvider
+    required this.image,
     this.likes = 0,
     this.comments = 0,
+    this.isLiked = false, // Default to false
     this.onLike,
     this.onComment,
     this.onShare,
@@ -95,6 +97,7 @@ class SuccessStoryCard extends StatelessWidget {
                       activeIcon: Icons.favorite,
                       label: likes.toString(),
                       onPressed: onLike,
+                      isActive: isLiked, // Pass the liked state
                     ),
                     const SizedBox(width: 16),
                     // Comment Button
@@ -125,13 +128,14 @@ class SuccessStoryCard extends StatelessWidget {
     IconData? activeIcon,
     required String label,
     VoidCallback? onPressed,
+    bool isActive = false, // Add this parameter
   }) {
     return TextButton.icon(
       onPressed: onPressed,
       style: TextButton.styleFrom(
         foregroundColor: Colors.grey[700],
       ),
-      icon: Icon(icon, size: 20),
+      icon: Icon(isActive && activeIcon != null ? activeIcon : icon, size: 20),
       label: Text(
         label,
         style: const TextStyle(
