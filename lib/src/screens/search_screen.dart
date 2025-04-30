@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart'; // Your custom BottomNavBar
 
 class Search extends StatefulWidget {
@@ -90,6 +91,8 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("search_screen");
+    
     final Color appBarColor = const Color.fromRGBO(255, 245, 121, 1.0);
 
     return Scaffold(

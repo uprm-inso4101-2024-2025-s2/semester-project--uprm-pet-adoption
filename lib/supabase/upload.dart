@@ -22,7 +22,7 @@ class StorageService {
 
     // Fetch the previous file name from Firestore
     DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
-    String? previousFileName = userDoc['Profile_picture'];
+    String? previousFileName = userDoc['profilePicture'];
 
     // Pick an image from the user's gallery
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -51,7 +51,7 @@ class StorageService {
 
         // Update Firestore with the new file name
         await _firestore.collection('users').doc(user.uid).update({
-          'Profile_picture': fileName,
+          'profilePicture': fileName,
         });
 
         print('File uploaded and Firestore updated successfully: $fileName');
@@ -65,6 +65,35 @@ class StorageService {
     print('No file selected');
     return null;
   }
+
+  Future<String?> petPictureUpload({required Uint8List fileBytes}) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      print('No user is currently logged in');
+      return null;
+    }
+
+    if (fileBytes.lengthInBytes > maxFileSize) {
+      print('File size exceeds limit');
+      return null;
+    }
+
+    try {
+      String fileName = '${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      await supabase.storage.from('uploads').uploadBinary(fileName, fileBytes);
+      // await _firestore.collection('pets').doc(user.uid).update({
+      //   'petPicture': fileName,
+      // });
+
+      print('File uploaded and Firestore updated successfully: $fileName');
+      return fileName;
+    } catch (e) {
+      print('Error uploading file: $e');
+      return null;
+    }
+  }
+
 
   Future<String?> generalFileUpload() async {
     // This function allows for either image or PDFs (example usage: uploading a vaccine document as either a photo or a PDF)
@@ -100,4 +129,6 @@ class StorageService {
 
     return null;
   }
+
+  
 }

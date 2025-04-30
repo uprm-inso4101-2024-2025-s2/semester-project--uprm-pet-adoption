@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
 
 // This file contains the Menu Screen class. Everything that shows up in the menu screen is managed here.
@@ -11,9 +12,11 @@ class MenuScreen extends Drawer {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsService().logScreenView("menu_screen");
+
     return Container(
       // Set the width of the drawer
-      width: MediaQuery.sizeOf(context).width * 0.55, // Adjust as desired
+      width: MediaQuery.sizeOf(context).width * 0.65, // Adjust as desired
       child: Drawer(
         backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
         child: ListView(
@@ -165,7 +168,33 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 6: Settings
+            // Box 6: Success Stories Screen
+            Material(
+              color: const Color.fromRGBO(244, 233, 107, 1),
+              child: InkWell(
+                onTap: () {
+                  context.go('/success-stories');
+                },
+                child: ListTile(
+                  leading: Container(
+                    width: 25,
+                    height: 70,
+                    color: const Color.fromRGBO(198, 187, 60, 1),
+                    child: const Icon(Icons.star, color: Colors.black),
+                  ),
+                  title: const Text(
+                    'Success Stories',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: TextStyle(fontFamily: 'Archivo'),
+                  ),
+                  selected: false,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Box 7: Settings
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: ListTile(
