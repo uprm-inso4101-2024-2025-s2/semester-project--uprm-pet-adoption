@@ -26,6 +26,7 @@ import 'package:flutter/gestures.dart';
 /// - It supports interactive features like toggling favorites and swipe actions.
 
 class PetCard extends StatefulWidget {
+  // final String id;
   final String petName;
   final String petBreed;
   final String petAge;
@@ -33,21 +34,23 @@ class PetCard extends StatefulWidget {
   final String petDescription;
   final List<String> petTags;
   final bool isFavorite;
-  final VoidCallback onFavoriteToggle;
+  final VoidCallback? onFavoriteToggle;
   final VoidCallback onAdopt;
   final VoidCallback onAccept;
   final VoidCallback onReject;
 
+
   const PetCard({
     Key? key,
+    // required this.id,
     required this.petName,
     required this.petBreed,
     required this.petAge,
     required this.petImages,
     required this.petDescription,
     required this.petTags,
-    required this.isFavorite,
-    required this.onFavoriteToggle,
+    required this.isFavorite, 
+    this.onFavoriteToggle,   
     required this.onAdopt,
     required this.onAccept,
     required this.onReject,
@@ -60,7 +63,7 @@ class PetCard extends StatefulWidget {
 class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
   late PageController _pageController;
   int _currentPage = 0;
-  bool _isFavorite = false;
+  // bool _isFavorite = false;
   Offset _dragOffset = Offset.zero;
   double _opacity = 1.0;
 
@@ -68,7 +71,7 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _pageController = PageController();
-    _isFavorite = widget.isFavorite;
+    // _isFavorite = widget.isFavorite;
   }
 
   @override
@@ -77,12 +80,14 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  void _toggleFavorite() {
-    setState(() {
-      _isFavorite = !_isFavorite;
-    });
-    widget.onFavoriteToggle();
-  }
+//   void _toggleFavorite() {
+//   if (widget.onFavoriteToggle != null) {
+//     widget.onFavoriteToggle!();
+//   }
+// }
+  void _toggleFavorite() => widget.onFavoriteToggle?.call();
+
+
 
   void _onHorizontalDragUpdate(DragUpdateDetails details) {
     setState(() {
@@ -163,8 +168,8 @@ class _PetCardState extends State<PetCard> with SingleTickerProviderStateMixin {
                         child: GestureDetector(
                           onTap: _toggleFavorite,
                           child: Icon(
-                            _isFavorite ? Icons.favorite : Icons.favorite_border,
-                            color: _isFavorite ? Colors.pinkAccent : Colors.pinkAccent,
+                            widget.isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: widget.isFavorite ? Colors.pinkAccent : Colors.pinkAccent,
                             size: 30,
                           ),
                         ),

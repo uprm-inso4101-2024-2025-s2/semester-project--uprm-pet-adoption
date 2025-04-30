@@ -39,11 +39,11 @@ final GoRouter appRouter = GoRouter(
     final container = ProviderScope.containerOf(context);
     final isLoggedIn = container.read(authProvider);
 
-    // if (!isLoggedIn && state.matchedLocation == '/' ||
-    //     !isLoggedIn && state.matchedLocation == 'menu') {
-    //   return '/auth'; // get unauthenticated users back to start screen (authentication screen)
-    // }
-    // return null;
+    if (!isLoggedIn && state.matchedLocation == '/' ||
+        !isLoggedIn && state.matchedLocation == 'menu') {
+      return '/auth'; // get unauthenticated users back to start screen (authentication screen)
+    }
+    return null;
   },
   routes: [
     //Route for home screen
