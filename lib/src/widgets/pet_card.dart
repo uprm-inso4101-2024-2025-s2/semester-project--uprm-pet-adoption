@@ -28,7 +28,7 @@ import 'package:semester_project__uprm_pet_adoption/src/preference_manager.dart'
 /// - Any layout modifications should be made in the screen where it is used, not here.
 /// - It supports interactive features like toggling favorites and swipe actions.
 
-class PetCard extends StatefulWidget {
+class PetCard extends ConsumerStatefulWidget {
   final String petName;
   final String petBreed;
   final String petAge;
@@ -67,6 +67,7 @@ class _PetCardState extends ConsumerState<PetCard> with SingleTickerProviderStat
   bool _isFavorite = false;
   Offset _dragOffset = Offset.zero;
   double _opacity = 1.0;
+  bool matchesPreferences = false;
 
   @override
   void initState() {
