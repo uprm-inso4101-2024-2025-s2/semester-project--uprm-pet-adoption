@@ -534,6 +534,18 @@ class _PetTipsState extends State<PetTips> {
                
            ),
           ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: GestureDetector(
+              onTap: onFavoriteToggle,
+              child: Icon(
+                isFavorited ? Icons.bookmark : Icons.bookmark_add,
+                color: isFavorited ? Colors.red : Colors.black,
+                size: 28,
+              ),
+            ),
+          ),
         ],
       ),
     );
