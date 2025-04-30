@@ -36,7 +36,7 @@ class MenuScreen extends Drawer {
                       // Back arrow -> Goes to Home screen
                       IconButton(
                         onPressed: () {
-                          context.go('/');
+                          Navigator.of(context).pop();
                         },
                         icon: const Icon(Icons.arrow_back),
                       ),
