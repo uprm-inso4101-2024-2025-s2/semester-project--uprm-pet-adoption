@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:semester_project__uprm_pet_adoption/services/background_music_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -30,13 +31,17 @@ class AuthService {
         'firstName': firstName,
         'lastName': lastName,
         'location': '', // Initialize with an empty string
-        'password': password, // Note: Storing passwords in Firestore is not recommended
+        'password':
+            password, // Note: Storing passwords in Firestore is not recommended
         'pet': '', // Initialize with an empty string
         'phoneNumber': '', // Initialize with an empty string
         'profilePicture': '', // Initialize with an empty string
         'email': email,
         'createdAt': FieldValue.serverTimestamp(), // Optional: Add a timestamp
       });
+
+      // Play background music after successful signup
+      await BackgroundMusicService.play();
     } on FirebaseAuthException catch (e) {
       String message = '';
       if (e.code == 'weak-password') {
@@ -81,7 +86,8 @@ class AuthService {
           'firstName': '', // Initialize with an empty string
           'lastName': '', // Initialize with an empty string
           'location': '', // Initialize with an empty string
-          'password': password, // Note: Storing passwords in Firestore is not recommended
+          'password':
+              password, // Note: Storing passwords in Firestore is not recommended
           'pet': '', // Initialize with an empty string
           'phoneNumber': '', // Initialize with an empty string
           'profilePicture': '', // Initialize with an empty string
@@ -90,6 +96,9 @@ class AuthService {
               FieldValue.serverTimestamp(), // Optional: Add a timestamp
         });
       }
+
+      // Play background music after successful signup
+      await BackgroundMusicService.play();
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -146,12 +155,15 @@ class AuthService {
         'medicalDocument': medicalDocument,
         'petPicture': petPicture,
         'petAge': petAge, // contains one of 3 options (Puppy, Adult, Elderly)
-        'petBreed': petBreed, // contains the breed of the pet either from the selection or option other
-        'petDescription': petDescription, // description and details that user gives of the pet
+        'petBreed':
+            petBreed, // contains the breed of the pet either from the selection or option other
+        'petDescription':
+            petDescription, // description and details that user gives of the pet
         'petName': petName, // created pets name
         'petOwner': uid, // the user who registered this pet
         'petShelter': petShelter, // the shelter that registered this pet
-        'petTags': petTags, //specific tags chosen from the new pet profile screen
+        'petTags':
+            petTags, //specific tags chosen from the new pet profile screen
         'createdAt': FieldValue.serverTimestamp(), // Optional: Add a timestamp
       });
 
@@ -293,7 +305,8 @@ class AuthService {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
