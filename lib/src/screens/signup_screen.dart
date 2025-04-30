@@ -218,13 +218,15 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               text: "Create Account",
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  AuthService().signUp(
-                                    email: emailController.text, 
-                                    password: passwordController.text, firstName: '', lastName: '',
-                                    //  phoneNumber: ''
-                                    
-
+                                  _showLoadingScreen(context);
+                                  
+                                  await authService.signUp(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      firstName: firstNameController.text,
+                                      lastName: lastNameController.text
                                     );
+
                                   //Create user with signup inputs
                                   User user = User(
                                       First_name: firstNameController.text,
@@ -238,6 +240,11 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                       email: emailController.text);
                                   //Add user to database
                                   _databaseService.addUser(user);
+                                  context.go('/gettoknowyou');
+
+                                  Navigator.of(context).pop();
+                                  context.go('/gettoknow');
+
                                   AnalyticsService().addSignUp();
                                   context.go('/gettoknowyou');
                                   

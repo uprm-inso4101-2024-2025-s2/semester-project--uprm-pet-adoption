@@ -107,12 +107,15 @@ class GetToKnowYouScreenState extends State<GetToKnowYouScreen> {
       appBar: AppBar(
         backgroundColor: Colors.yellow.shade200,
         leading: IconButton(
+          tooltip: 'Go back',
           icon: Image.asset(
             'assets/images/Arrow_circle_dms.png',
             width: 32,
             height: 32,
           ),
-          onPressed: _goBack,
+          onPressed: () {
+            context.go('/auth'); // 👈 Directly navigates to the Auth screen
+          },
         ),
         title: const Text(
           'Pet Preferences',
