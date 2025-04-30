@@ -226,8 +226,25 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                       firstName: firstNameController.text,
                                       lastName: lastNameController.text
                                     );
+
+                                  //Create user with signup inputs
+                                  User user = User(
+                                      First_name: firstNameController.text,
+                                      Last_name: lastNameController.text,
+                                      Location: "",
+                                      Password: passwordController.text,
+                                      Pet: "",
+                                      Pet_picture: 0,
+                                      Phone_number: "000000000",
+                                      Profile_picture: 0,
+                                      email: emailController.text);
+                                  //Add user to database
+                                  _databaseService.addUser(user);
+                                  context.go('/gettoknowyou');
+
                                   Navigator.of(context).pop();
                                   context.go('/gettoknow');
+
                                   AnalyticsService().addSignUp();
                                 }
                               })
