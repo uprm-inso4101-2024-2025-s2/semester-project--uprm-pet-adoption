@@ -61,6 +61,7 @@ dependencies:
   firebase_storage: ^12.4.4
 
   audioplayers: ^5.2.1
+  confetti: ^0.7.0
 
 dev_dependencies:
   flutter_test:
