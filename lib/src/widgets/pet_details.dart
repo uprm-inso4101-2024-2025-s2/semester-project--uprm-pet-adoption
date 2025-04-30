@@ -1,4 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_card.dart';
+import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
+import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/menu_screen.dart';
+/// PetDetails Widget
 
 /// PetDetails Widget
 /// -----------------
@@ -48,6 +63,23 @@ class PetDetails extends StatefulWidget {
   final VoidCallback onFavoriteToggle;
   final VoidCallback onAdopt;
 
+  // User-related variables (added from User class)
+  final String? petType;
+  final String? ageRange;
+  final String? size;
+  final double energyLevel;
+  
+  final bool? hasExperience;
+  final bool? hasOtherPets;
+  final bool? hasAllergies;
+  final String? livingSituation;
+  final double timeAvailable;
+  
+  final String? personality;
+  final bool? specialCareOk;
+  final bool? goodWithAnimals;
+  final bool? goodWithKids;
+
   const PetDetails({
     Key? key,
     required this.petName,
@@ -62,6 +94,19 @@ class PetDetails extends StatefulWidget {
     required this.isFavorite,
     required this.onFavoriteToggle,
     required this.onAdopt,
+    this.petType,
+    this.ageRange,
+    this.size,
+    this.energyLevel = 0.0,
+    this.hasExperience,
+    this.hasOtherPets,
+    this.hasAllergies,
+    this.livingSituation,
+    this.timeAvailable = 0.0,
+    this.personality,
+    this.specialCareOk,
+    this.goodWithAnimals,
+    this.goodWithKids,
   }) : super(key: key);
 
   @override
@@ -69,6 +114,7 @@ class PetDetails extends StatefulWidget {
 }
 
 class _PetDetailsState extends State<PetDetails> {
+
   bool _showBack = false; // Tracks whether to show front or back of the card
 
   void _toggleCard() {
@@ -76,7 +122,7 @@ class _PetDetailsState extends State<PetDetails> {
       _showBack = !_showBack; // Flips the card on tap
     });
   }
-
+   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -87,7 +133,7 @@ class _PetDetailsState extends State<PetDetails> {
           transitionBuilder: (widget, animation) {
             return ScaleTransition(scale: animation, child: widget);
           },
-          child: _showBack ? _buildBackView() : _buildFrontView(),
+          child: _showBack ?  _buildFrontView():_buildBackView(scaffoldKey),
         ),
       ),
     );
@@ -124,7 +170,7 @@ class _PetDetailsState extends State<PetDetails> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: Image.asset(
-                  'assets/images/pet_placeholder.png',
+                 widget.petImage,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -248,31 +294,44 @@ class _PetDetailsState extends State<PetDetails> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Icon(
-                  Icons.home,
+                // Icon(Icons.home, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.message, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.search_rounded, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.location_on, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.person, color: Colors.amberAccent, size: 40),
+
+              
+                IconButton(
+                  onPressed: () => context.go('/'), 
+                  icon: Icon(Icons.home,size:40 ),
                   color: Colors.amberAccent,
-                  size: 40,
+                  
                 ),
-                Icon(
-                  Icons.message,
+                IconButton(
+                  onPressed: () => context.go('/chat'), 
+                  icon: Icon( Icons.message,size:40 ),
                   color: Colors.amberAccent,
-                  size: 40,
+                  
                 ),
-                Icon(
-                  Icons.search_rounded,
+                IconButton(
+                  onPressed: () => context.go('/petProfile'), 
+                  icon: Icon( Icons.add_circle_outline,size:40 ),
                   color: Colors.amberAccent,
-                  size: 40,
+                  
                 ),
-                Icon(
-                  Icons.location_on,
+                IconButton(
+                  onPressed: () => context.go('/map'), 
+                  icon: Icon( Icons.location_on,size:40 ),
                   color: Colors.amberAccent,
-                  size: 40,
+                  
                 ),
-                Icon(
-                  Icons.person,
+                IconButton(
+                  onPressed: () => context.go('/profile'), 
+                  icon: Icon( Icons.person,size:40 ),
                   color: Colors.amberAccent,
-                  size: 40,
-                )
+                  
+                ),
+                
               ],
             ),
           ),
@@ -282,36 +341,82 @@ class _PetDetailsState extends State<PetDetails> {
   }
 
   /// Builds the back view of the pet card
-  Widget _buildBackView() {
-    return Stack(
-      children: [
-        // Top blue bar with logo and menu icon
-        SafeArea(
-          child: Positioned(
-            child: Container(
-              width: double.infinity,
-              height: 90,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 98, 154, 250),
+Widget _buildBackView(GlobalKey<ScaffoldState> scaffoldKey) {
+  final int selectedIndex;
+
+return Scaffold(
+  backgroundColor: Color.fromRGBO(0, 0, 0, 1),
+  endDrawer: MenuScreen(),
+      key: scaffoldKey,
+    body: Stack(
+  children: [
+    // Top blue bar with logo and menu icon
+    Container(
+      padding: const EdgeInsets.only(bottom: 0,top: 0), // Extra top padding for status bar
+      width:double.infinity,
+      height: 150,
+
+      decoration:
+        const BoxDecoration(
+          color: Color.fromRGBO(130, 176, 255, 1),
+
+
+      ),
+      child: Padding(
+        padding: EdgeInsets.zero,
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children:[
+            Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+
+            children: [
+              // This makes the image bigger and ensures it doesn't get constrained
+              SizedBox(
+                width: 200,
+                height: 100, // final visible area
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: -25, // hide top 50px
+                      left: 0,
+                      child: Image.asset(
+                        "assets/images/sign_log.png",
+                        width: 200,
+                        height: 150, // taller than visible area
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Image.asset(
-                    'assets/images/sign_log.png',
-                    height: 100,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.menu,
-                        color: Colors.amberAccent, size: 30),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+              const SizedBox(width: 0,height: 0),
+              Expanded(
+                child: Row(
+
+                  mainAxisAlignment: MainAxisAlignment.end,
+
+                  children: [
+                    
+                     IconButton(
+                        onPressed: () {
+                          scaffoldKey.currentState?.openEndDrawer();
+                        },
+                        color: Color.fromRGBO(255, 245, 129, 1),
+                        icon: Icon(Icons.menu)
+                    )
+
+                  ],
+                ),
+
             ),
-          ),
+
+          ],
         ),
+          ]
+      ),
+    )
+    ),
 
         // Pet details card
         Center(
@@ -337,45 +442,47 @@ class _PetDetailsState extends State<PetDetails> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Image.asset(
-                              'assets/images/pet_placeholder.png',
+                              widget.petImage,
                               height: 200,
                               width: 120,
                               fit: BoxFit.cover,
                             ),
                           ),
                           const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.petName,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black)),
-                              Text("${widget.petAge} years old",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
-                              Text(widget.petLocation,
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(widget.petName,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                                Text("${widget.petAge} years old",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                                Text(widget.petLocation,
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
 
-                              const SizedBox(
-                                  height: 8), // Space between sections
+                                const SizedBox(
+                                    height: 8), // Space between sections
 
-                              Text("Sex: ${widget.petSex}",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
-                              Text("Weight: ${widget.petWeight} kg",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
-                              Text("Height: ${widget.petHeight} cm",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
-                              Text("Distance: ${widget.petDistance} km away",
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black)),
-                            ],
-                          ),
+                                Text("Sex: ${widget.petSex}",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                                Text("Weight: ${widget.petWeight} kg",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                                Text("Height: ${widget.petHeight} cm",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                                Text("Distance: ${widget.petDistance} km away",
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                              ],
+                            ),
+                      ),
                         ],
                       ),
                       const SizedBox(height: 15),
@@ -451,12 +558,43 @@ class _PetDetailsState extends State<PetDetails> {
             color: Colors.black,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                Icon(Icons.home, color: Colors.amberAccent, size: 40),
-                Icon(Icons.message, color: Colors.amberAccent, size: 40),
-                Icon(Icons.search_rounded, color: Colors.amberAccent, size: 40),
-                Icon(Icons.location_on, color: Colors.amberAccent, size: 40),
-                Icon(Icons.person, color: Colors.amberAccent, size: 40),
+              children:  [
+                // Icon(Icons.home, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.message, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.search_rounded, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.location_on, color: Colors.amberAccent, size: 40),
+                // Icon(Icons.person, color: Colors.amberAccent, size: 40),
+                IconButton(
+                  onPressed: () => context.go('/'), 
+                  icon: Icon(Icons.home,size:40 ),
+                  color: Colors.amberAccent,
+                  
+                ),
+                IconButton(
+                  onPressed: () => context.go('/chat'), 
+                  icon: Icon( Icons.message,size:40 ),
+                  color: Colors.amberAccent,
+                  
+                ),
+                IconButton(
+                  onPressed: () => context.go('/petProfile'), 
+                  icon: Icon( Icons.add_circle_outline,size:40 ),
+                  color: Colors.amberAccent,
+                  
+                ),
+                IconButton(
+                  onPressed: () => context.go('/map'), 
+                  icon: Icon( Icons.location_on,size:40 ),
+                  color: Colors.amberAccent,
+                  
+                ),
+                IconButton(
+                  onPressed: () => context.go('/profile'), 
+                  icon: Icon( Icons.person),
+                  color: Colors.amberAccent,
+                  
+                ),
+                
               ],
             ),
           ),
@@ -495,6 +633,7 @@ class _PetDetailsState extends State<PetDetails> {
           ),
         ),
       ],
+    ),
     );
   }
 }

@@ -30,14 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  # Shared preferences
-  shared_preferences: ^2.2.2
-  provider: ^6.1.1
-    
+  tuple: ^2.0.1
   google_maps_flutter: ^2.5.0
   flutter_riverpod: ^2.3.6  # Use latest version
-  #shared_preferences: ^2.2.0
+  shared_preferences: ^2.2.0
   image_picker: ^1.0.4
 
   # The following adds the Cupertino Icons font to your application.
@@ -64,6 +60,8 @@ dependencies:
   #Health doc storage
   firebase_storage: ^12.4.4
 
+  audioplayers: ^5.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -89,6 +87,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/images/audio/background/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

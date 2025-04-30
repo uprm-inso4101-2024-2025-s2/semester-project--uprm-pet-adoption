@@ -1,277 +1,321 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:semester_project__uprm_pet_adoption/main.dart';
-import 'package:semester_project__uprm_pet_adoption/supabase/retrieval.dart';
-import 'package:semester_project__uprm_pet_adoption/supabase/upload.dart';
-import '../services/storage_service.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
+import 'dart:async';
+import 'package:semester_project__uprm_pet_adoption/src/screens/utils.dart';
 
-class MapsHeader extends StatelessWidget {
-  const MapsHeader({Key? key}) : super(key: key);
+/// Map screen with filterable markers for shelters, pet stores, and vets.
+///
+/// This file defines a [Maps] widget that displays a Google Map centered on UPRM,
+/// allowing users to search locations and toggle visibility of three categories of markers:
+/// - Shelters (static, predefined locations)
+/// - Nearby pet stores (fetched via Google Places API)
+/// - Nearby veterinary clinics (fetched via Google Places API)
+///
+/// It also animates the map zoom when filters are applied.
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 50, bottom: 5),
-      decoration: const BoxDecoration(
-        // Setting background image
-        image: DecorationImage(
-          image: AssetImage('images/Login_SignUp_Background.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            //input desired location
-            child: TextField(
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                hintText: "location...",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide.none,
-                ),
-                fillColor: const Color.fromARGB(255, 243, 243, 243),
-                filled: true,
-                prefixIcon: const Icon(
-                  Icons.location_on,
-                  color: Color.fromARGB(255, 131, 131, 131),
-                ),
-                suffixIcon: IconButton(
-                    onPressed: () {
-                      //delete current location
-                    },
-                    icon: const Icon(
-                      Icons.highlight_remove,
-                      color: const Color.fromARGB(255, 131, 131, 131),
-                    )),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
-class Mapsfooter extends StatelessWidget {
-  const Mapsfooter({super.key});
+/// Google API key for Maps and Places services
+const API_KEY = "AIzaSyAjoFyPh0K04QGWx8lP9q0oeIRfop7HtJM";
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 180,
-      decoration: BoxDecoration(
-        image: const DecorationImage(
-          image: AssetImage('images/Login_SignUp_Background.png'),
-          fit: BoxFit.cover,
-        ),
-        color: const Color(0xFF82B0FF),
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(30),
-        ),
-      ),
-      padding: const EdgeInsets.only(bottom: 30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          // Distance & Duration blocks
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                children: const [
-                  Icon(Icons.map_outlined, size: 32, color: Color(0xFFFFF581)),
-                  SizedBox(height: 4),
-                  Text('Distance',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white)),
-                  Text('25 km',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                ],
-              ),
-              Column(
-                children: const [
-                  Icon(Icons.access_time_filled,
-                      size: 32, color: Color(0xFFFFF581)),
-                  SizedBox(height: 4),
-                  Text('Duration',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white)),
-                  Text('10 min',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ElevatedButton(
-            onPressed: () {
-              // Add directions logic here
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFFF581),
-              foregroundColor: Colors.black,
-              minimumSize: const Size(200, 45),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-            ),
-            child: const Text(
-              'DIRECTIONS',
-              style: TextStyle(
-                fontFamily: 'Archivo',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
-class Maps extends StatelessWidget {
+
+/// Static markers that are only shown when the 'Our Shelters' filter is active
+final Map<MarkerId, Marker> staticShelterMarkers = <MarkerId, Marker>{
+  MarkerId("Villa Michelle"): Marker(
+      infoWindow: InfoWindow(
+          title: "Villa Michelle", snippet: "telefono +1-787-834-4510"),
+      markerId: MarkerId("Villa Michelle"),
+      position: LatLng(18.212666922750877, -67.12830818309874)),
+  MarkerId("Silver Paws PR"): Marker(
+      infoWindow:
+      InfoWindow(title: "Silver Paws PR", snippet: "aditional info"),
+      markerId: MarkerId("Silver Paws PR"),
+      position: LatLng(18.292368879983687, -67.14552825427558)),
+  MarkerId("Humane Society PR"): Marker(
+      infoWindow:
+      InfoWindow(title: "Humane Society PR", snippet: "aditional info"),
+      markerId: MarkerId("Humane Society PR"),
+      position: LatLng(18.36756339597641, -66.11573767321015)),
+  MarkerId("San Juan Animal Shelter"): Marker(
+      infoWindow: InfoWindow(
+          title: "San Juan Animal Shelter", snippet: "aditional info"),
+      markerId: MarkerId("San Juan Municipality Animal Shelter"),
+      position: LatLng(18.43262103793806, -66.08586202877375)),
+  MarkerId("Animal Den Shelter"): Marker(
+      infoWindow:
+      InfoWindow(title: "Animal Den Shelter", snippet: "aditional info"),
+      markerId: MarkerId("Animal Den Shelter"),
+      position: LatLng(18.280305463358008, -67.14655566551384)),
+  MarkerId("El Faro de los Animales"): Marker(
+      infoWindow: InfoWindow(
+          title: "El Faro de los Animales", snippet: "aditional info"),
+      markerId: MarkerId("El Faro de los Animales"),
+      position: LatLng(18.280305463358008, -67.14655566551384)),
+  MarkerId("Amigo de los Animales Animal Shelter"): Marker(
+      infoWindow: InfoWindow(
+          title: "Amigo de los Animales Animal Shelter",
+          snippet: "aditional info"),
+      markerId: MarkerId("Amigo de los animales Animal Shelter"),
+      position: LatLng(18.457367604371182, -65.9849927854507)),
+};
+/// Map of current dynamic markers shown on the map
+Map<MarkerId, Marker> markers = {MarkerId("start"):Marker(markerId: MarkerId("start"),position: LatLng(18,-67))};
+
+
+/// Map screen widget that encapsulates the map and filter logic.
+class Maps extends StatefulWidget {
   const Maps({super.key});
 
   @override
+  State<Maps> createState() => _MapScreenState();
+}
+
+/// State for [Maps], managing map controller, search, filters, and marker updates.
+class _MapScreenState extends State<Maps> {
+  /// Initial center of the map (UPRM)
+  static const LatLng _center = LatLng(18.2109, -67.1409);
+
+  /// Controller to manipulate Google Map camera
+  final Completer<GoogleMapController> _mapController = Completer();
+
+  /// Text controller for the search input field.
+  final TextEditingController _searchController = TextEditingController();
+
+  /// Last known user position or search target.
+  LatLng position = const LatLng(0, 0);
+  String locationName = "here";
+
+  /// Places returned from the Places API for pet stores and vets.
+  List<Place> places = [];
+
+  /// Index of currently selected place
+  int currentPlace = 0;
+
+  /// Filter toggles for each category of markers
+  bool showVets = false;
+  bool showPetStores = false;
+  bool showShelters = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Perform an initial search to center on UPRM and load markers
+    search("University of Puerto Rico Mayaguez");
+  }
+
+  /// Performs geocoding for [address], recenters map, and updates markers.
+  Future<void> search(String address) async {
+    final controller = await _mapController.future;
+    final location = await getLatLngFromAddress(address, API_KEY);
+    locationName = address;
+    if (location != null) {
+      // Animate camera to the new location
+      controller.animateCamera(CameraUpdate.newLatLng(location));
+      position = location;
+      // Update markers according to current filter state
+      await updateNearbyMarkers(address);
+    }
+  }
+
+  /// Clears and repopulates [markers] based on filter toggles:
+  /// - Always shows the "self" location marker.
+  /// - Receives name of Place [address] as parameter
+  /// - Adds [staticShelterMarkers] if [showShelters] is true.
+  /// - Fetches nearby pet stores and vets when their filters are on.
+  Future<void> updateNearbyMarkers(String address) async {
+    markers.clear();
+    addLocation(address, position); // add current position marker
+
+    // Define types of places to search for
+    List<String> types = [];
+    if (showVets) types.add("veterinary_care");
+    if (showPetStores) types.add("pet_store");
+
+    // Conditionally include static shelter markers
+    if (showShelters) {
+      markers.addAll(staticShelterMarkers);
+    }
+
+    // Add markers for each selected type
+    for (String type in types) {
+      final results = await getNearbyPlaces(position, 5000, [type], API_KEY);
+      for (var place in results) {
+        final markerId = MarkerId(place.name);
+        final marker = Marker(
+          markerId: markerId,
+          position: place.location,
+          infoWindow: InfoWindow(title: place.name),
+        );
+        markers[markerId] = marker;
+      }
+    }
+    // Trigger a rebuild to update the map UI
+    setState(() {});
+  }
+
+  /// Adds or updates the marker at [location] with title [address].
+  void addLocation(String address, LatLng location) {
+    setState(() {
+      markers[MarkerId(address)] = Marker(
+          markerId: MarkerId(address),
+          position: location,
+          infoWindow: InfoWindow(title: address));
+    });
+  }
+
+  /// Initializes the map controller when the map is created.
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController.complete(controller);
+  }
+  // Zooms out to have a broader range of view depending on the filter chosen.
+  Future<void> zoomToUserLocation() async {
+    final controller = await _mapController.future;
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: position,
+          zoom: 12.0,
+        ),
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final fieldScale = screenHeight < 700 ? 0.8 : 1.0;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
-        child: const MapsHeader(),
+      appBar: AppBar(
+        titleTextStyle: TextStyle(
+            fontFamily: 'Archivo',
+            color: Colors.black,
+            fontSize: 24 * fieldScale),
+        title: const Text('Map'),
+        backgroundColor: const Color(0xFFFFF581),
       ),
       body: Stack(
         children: [
-          // Background map
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/temp_map_img.png'),
-                fit: BoxFit.cover,
-              ),
+          // The Google Map widget in the background.
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: const CameraPosition(
+              target: _center,
+              zoom: 16.0,
             ),
+            // markers: {Marker(markerId: const MarkerId("self"),position: _center)},
+            markers: Set<Marker>.of(markers.values),
           ),
-
-          // Filter buttons row
-          Column(
-            children: [
-              const SizedBox(height: 15),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFF581),
-                        foregroundColor: Colors.black,
-                        minimumSize: const Size(25, 25),
-                      ),
-                      onPressed: () {},
-                      child: const Text('Shelters',
-                          style:
-                              TextStyle(fontFamily: 'Archivo', fontSize: 20)),
-                    ),
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFF581),
-                        foregroundColor: Colors.black,
-                        minimumSize: const Size(25, 25),
-                      ),
-                      onPressed: () {},
-                      child: const Text('Rescues',
-                          style:
-                              TextStyle(fontFamily: 'Archivo', fontSize: 20)),
-                    ),
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFF581),
-                        foregroundColor: Colors.black,
-                        minimumSize: const Size(25, 25),
-                      ),
-                      onPressed: () {},
-                      child: const Text('Vet',
-                          style:
-                              TextStyle(fontFamily: 'Archivo', fontSize: 20)),
-                    ),
-                    const SizedBox(width: 10),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          // Floating location + zoom controls
+          // The search bar positioned on top of the map.
           Positioned(
-            bottom: 220,
-            right: 16,
-            child: SizedBox(
-              width: 60,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image(
-                    image:
-                        const AssetImage("assets/images/map_location_icon.png"),
-                    width: 60,
-                    height: 60,
+            top: 20,
+            left: 15,
+            right: 15,
+            child: Material(
+              elevation: 5.0,
+              borderRadius: BorderRadius.circular(8.0),
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: "location...",
+                  border: InputBorder.none,
+                  prefixIcon: const Icon(
+                    Icons.location_on,
+                    color: Color.fromARGB(255, 131, 131, 131),
                   ),
-                  const SizedBox(height: 8),
-
-                  // Zoom In
-                  Container(
-                    width: 38,
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 200, 200, 200),
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.add, size: 20),
-                      padding: EdgeInsets.zero,
-                      color: Colors.black,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      _searchController.clear();
+                    },
+                    icon: const Icon(
+                      Icons.highlight_remove,
+                      color: Color.fromARGB(255, 131, 131, 131),
                     ),
                   ),
-
-                  // Zoom Out
-                  Container(
-                    width: 38,
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 201, 201, 201),
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.remove, size: 20),
-                      padding: EdgeInsets.zero,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
+                  contentPadding: const EdgeInsets.all(15.0),
+                ),
+                onSubmitted: (value) {
+                  // Call the search function when the user submits a query.
+                  search(value);
+                },
               ),
             ),
           ),
-
-          // Footer
-          const Align(
-            alignment: Alignment.bottomCenter,
-            child: Mapsfooter(),
+          // Filter Buttons Row (below your search bar)
+          Positioned(
+            top: 90,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisSize: MainAxisSize.min, // keeps buttons centered
+              children: [
+                const SizedBox(width: 5),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                    showShelters ?Colors.black : const Color(0xFFFFF581),
+                    foregroundColor: showShelters ? Colors.white:Colors.black,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 8), // tighter padding
+                    minimumSize: const Size(0, 0),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      showShelters = !showShelters;
+                    });
+                    updateNearbyMarkers(locationName);
+                    zoomToUserLocation();
+                  },
+                  child: const Text('Our Shelters',
+                      style: TextStyle(fontFamily: 'Archivo', fontSize: 13)),
+                ),
+                const SizedBox(width: 5),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                    showPetStores ? Colors.black: const Color(0xFFFFF581),
+                    foregroundColor:
+                    showPetStores ? Colors.white : Colors.black,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 8), // tighter padding
+                    minimumSize: const Size(0, 0),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      showPetStores = !showPetStores;
+                    });
+                    updateNearbyMarkers(locationName);
+                    zoomToUserLocation();
+                  },
+                  child: const Text('Nearby Pet Stores',
+                      style: TextStyle(fontFamily: 'Archivo', fontSize: 13)),
+                ),
+                const SizedBox(width: 5),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                    showVets ?Colors.black : const Color(0xFFFFF581),
+                    foregroundColor: showVets ? Colors.white : Colors.black,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 8), // tighter padding
+                    minimumSize: const Size(0, 0),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      showVets = !showVets;
+                    });
+                    updateNearbyMarkers(locationName);
+                    zoomToUserLocation();
+                  },
+                  child: const Text('Nearby Vets',
+                      style: TextStyle(fontFamily: 'Archivo', fontSize: 13)),
+                ),
+              ],
+            ),
           ),
         ],
       ),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 3),
     );
   }
 }
