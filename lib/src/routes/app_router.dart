@@ -457,6 +457,7 @@ GoRoute(
         },
       ),
     ),
+
     GoRoute(
       path: '/petFavorites',
       pageBuilder: (context, state) => CustomTransitionPage(
