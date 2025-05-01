@@ -22,22 +22,22 @@ class AboutUsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFF581),
         leading: IconButton(
-          icon: Image.asset(
-            'assets/images/Arrow_Circle_dms.png',
-            width: 40,
-            height: 40,
-          ),
+          icon: const Icon(Icons.arrow_back,
+              size: 18, color: Colors.black),
+          padding: EdgeInsets.zero,
           onPressed: () => context.go('/?openMenu=true'),
         ),
         title: const Text(
           'About Us',
           style: TextStyle(
             fontFamily: 'Archivo',
-            fontSize: 20,
+            fontSize: 25,
             color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
         titleSpacing: 0,
+        centerTitle: false,
       ),
 
       // Body uses a Stack to layer multiple images

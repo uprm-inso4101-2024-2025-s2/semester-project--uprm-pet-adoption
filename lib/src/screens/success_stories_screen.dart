@@ -82,18 +82,19 @@ class _SuccessStoriesScreenState extends State<SuccessStoriesScreen> {
         title: const Text(
           'Success Stories',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 25,
             fontFamily: 'Archivo',
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: const Color(0xFFFFF581),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            context.go('/');
-          },
+          icon: const Icon(Icons.arrow_back,
+          size: 18, color: Colors.black),
+          padding: EdgeInsets.zero,
+          onPressed: () => context.go('/?openMenu=true'),
         ),
         actions: [
           IconButton(
