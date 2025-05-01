@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
@@ -45,9 +46,19 @@ class _ProfileState extends State<Profile> {
 
     phoneFocusNode.addListener(() {
       if (!phoneFocusNode.hasFocus) {
-        updateUserField('phoneNumber', phoneController.text);
+        // Validate before saving to ensure only numbers are stored
+        if (_isValidPhoneNumber(phoneController.text)) {
+          updateUserField('phoneNumber', phoneController.text);
+        }
       }
     });
+  }
+
+  // Check if the phone number contains only digits
+  bool _isValidPhoneNumber(String value) {
+    // Check if the string contains only digits
+    final numericRegex = RegExp(r'^[0-9]+$');
+    return numericRegex.hasMatch(value);
   }
 
   void _initializeUserData() async {
@@ -131,20 +142,17 @@ class _ProfileState extends State<Profile> {
               'Profile',
               style: TextStyle(
                 fontFamily: 'Archivo',
-                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
               ),
             ),
           ),
           titleSpacing: 0,
           leading: IconButton(
-            icon: Image.asset(
-              'assets/images/Arrow_Circle_dms.png',
-              width: 30,
-              height: 30,
-            ),
-            onPressed: () {
-              context.go('/');
-            },
+            icon: const Icon(Icons.arrow_back,
+            size: 18, color: Colors.black),
+            padding: EdgeInsets.zero,
+            onPressed: () => context.go('/?openMenu=true'),
           ),
         ),
       ),
@@ -282,7 +290,7 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 4),
     );
   }
 
@@ -318,6 +326,9 @@ class _ProfileState extends State<Profile> {
 
   Widget _buildEditableProfileField(IconData icon, String label,
       TextEditingController controller, FocusNode focusNode) {
+    // Determine if this is the phone field to apply specific input formatting
+    bool isPhoneField = label == "Phone Number";
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
@@ -333,6 +344,11 @@ class _ProfileState extends State<Profile> {
             child: TextField(
               controller: controller,
               focusNode: focusNode,
+              // Apply phone-specific settings only to phone field
+              keyboardType: isPhoneField ? TextInputType.number : TextInputType.text,
+              inputFormatters: isPhoneField 
+                  ? [FilteringTextInputFormatter.digitsOnly]
+                  : null,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: label,

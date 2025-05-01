@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'dart:math';
+
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,8 +10,10 @@ import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_card.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_details.dart';
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/widgets.dart';
+import 'package:confetti/confetti.dart';
 
 
+import 'package:semester_project__uprm_pet_adoption/src/providers/match_logic.dart';
 
 import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
 /// MatchMakingScreen:
@@ -135,210 +139,207 @@ import 'package:go_router/go_router.dart';
 //   return PetStackNotifier();
 // });
 // final hasLoggedScreenViewProvider = StateProvider<bool>((ref) => false);
-class MatchMakingScreen extends ConsumerWidget {
-   MatchMakingScreen({super.key});
-final petCardIndexProvider = StateProvider<int>((ref) => 0);
+
+
+class MatchMakingScreen extends ConsumerStatefulWidget {
+  MatchMakingScreen({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref){
-final pets = ref.watch(petStackProvider);
-    final currentPet = ref.watch(petStackProvider.notifier).currentPet;
+  ConsumerState<MatchMakingScreen> createState() => _MatchMakingScreenState();
+}
+
+class _MatchMakingScreenState extends ConsumerState<MatchMakingScreen> {
+  final petCardIndexProvider =
+      StateNotifierProvider<MatchStackNotifier, List<PetCard>>((ref) => MatchStackNotifier());
+
+  late ConfettiController _confettiController;
+
+  @override
+  void initState() {
+    super.initState();
+    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final pets = ref.watch(petCardIndexProvider);
+    final currentPet = ref.watch(petCardIndexProvider.notifier).currentPet;
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100), // Set desired height
+        preferredSize: const Size.fromHeight(100),
         child: AppBar(
           backgroundColor: const Color.fromRGBO(130, 176, 255, 1),
           flexibleSpace: Column(
-            mainAxisAlignment: MainAxisAlignment.end, // Align content to bottom
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-                    SizedBox(
+              SizedBox(
                 width: 200,
-                height: 100, // final visible area
+                height: 100,
                 child: Stack(
                   children: [
                     Positioned(
-                      top: -25, // hide top 50px
+                      top: -25,
                       left: 0,
                       child: Image.asset(
                         "assets/images/sign_log.png",
                         width: 200,
-                        height: 150, // taller than visible area
+                        height: 150,
                         fit: BoxFit.cover,
                       ),
                     ),
                   ],
                 ),
               ),
-                  ],
+            ],
           ),
         ),
       ),
-      body:SafeArea(
-        child: Container(
-          // Background
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/Login_SignUp_Background.png'),
-              fit: BoxFit.cover,
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/Login_SignUp_Background.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(height: 15),
+                            AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: currentPet != null
+                                  ? GestureDetector(
+                                      key: ValueKey(currentPet.petName),
+                                      onTap: () {
+                                        context.push('/petDetails', extra: {
+                                          'petName': currentPet.petName,
+                                          'petBreed': currentPet.petBreed,
+                                          'petLocation': 'San Juan, PR',
+                                          'petAge': currentPet.petAge,
+                                          'petImage': currentPet.petImages.first,
+                                          'petSex': 'Female',
+                                          'petWeight': '15 lbs',
+                                          'petHeight': '22 in',
+                                          'petDistance': '3 miles',
+                                          'isFavorite': currentPet.isFavorite,
+                                          'onFavoriteToggle': currentPet.onFavoriteToggle,
+                                          'onAdopt': currentPet.onAdopt,
+                                        });
+                                      },
+                                      child: PetCard(
+                                        petName: currentPet.petName,
+                                        petBreed: currentPet.petBreed,
+                                        petAge: currentPet.petAge,
+                                        petImages: currentPet.petImages,
+                                        petDescription: currentPet.petDescription,
+                                        petTags: currentPet.petTags,
+                                        isFavorite: currentPet.isFavorite,
+                                        onFavoriteToggle: () {
+                                          ref.invalidate(petCardIndexProvider);
+                                        },
+                                        onAdopt: () {
+                                          print("Adoption started for \${currentPet.petName}!");
+                                        },
+                                        onAccept: () {
+                                          print("\${currentPet.petName} Accepted!");
+                                          _confettiController.play();
+                                          ref.read(petCardIndexProvider.notifier).removeTopPet();
+                                        },
+                                        onReject: () {
+                                          print("\${currentPet.petName} Rejected!");
+                                          ref.read(petCardIndexProvider.notifier).removeTopPet();
+                                        },
+                                      ),
+                                    )
+                                  : const Text("No more pets to show!", style: TextStyle(fontSize: 20)),
+                            ),
+                            const SizedBox(height: 30),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Confetti animation centered with the PetCard
+            Positioned(
+            bottom: 600,
+            left: 10,
+            child: ConfettiWidget(
+              confettiController: _confettiController,
+              blastDirection: -pi / 2,
+              blastDirectionality: BlastDirectionality.directional,
+              emissionFrequency: 0.05,
+              numberOfParticles: 20,
+              gravity: 0.3,
+              minBlastForce: 5,
+              maxBlastForce: 10,
+              colors: const [
+                Colors.red,
+                Colors.blue,
+                Colors.green,
+                Colors.orange,
+                Colors.purple,
+              ],
             ),
           ),
 
-          // Main layout: Column with header, middle content, and footer
-          child: Column(
-            children: [
-              // Middle content centered in remaining space
-              Expanded(
-                child: Center(
-                  child: Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    padding: const EdgeInsets.all(10),
-                    // color: Colors.white.withOpacity(0.4),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(height: 15),
-                        // AnimatedSwitcher to switch between cards
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 200), // Slightly longer for visible animation
-                          child: currentPet != null
-                              ? GestureDetector(
-                                  key: ValueKey(currentPet.petName),
-                                  onTap: () {
-                                  print(currentPet.petImages.first,);
-                                  context.push('/petDetails', extra: {
-                                  'petName': currentPet.petName,
-                                  'petBreed': currentPet.petBreed,
-                                  'petLocation': 'San Juan, PR',
-                                  'petAge': currentPet.petAge,
-                                  'petImage': currentPet.petImages.first,
-                                  'petSex': 'Female',
-                                  'petWeight': '15 lbs',
-                                  'petHeight': '22 in',
-                                  'petDistance': '3 miles',
-                                  'isFavorite': currentPet.isFavorite,
-                                  'onFavoriteToggle': currentPet.onFavoriteToggle,
-                                  'onAdopt': currentPet.onAdopt,
-                                });
-                                },
-                                  child: PetCard(
-                                    petName: currentPet.petName,
-                                    petBreed: currentPet.petBreed,
-                                    petAge: currentPet.petAge,
-                                    petImages: currentPet.petImages,
-                                    petDescription: currentPet.petDescription,
-                                    petTags: currentPet.petTags,
-                                    isFavorite: currentPet.isFavorite,
-                                    onFavoriteToggle: () {
-                                      print("${currentPet.petName} favorite toggled: ${currentPet.isFavorite}");
-                                      ref.invalidate(petCardIndexProvider);
-                                    },
-                                    onAdopt: () {
-                                      print("Adoption started for ${currentPet.petName}!");
-                                    },
-                                    onAccept: () {
-                                      print("${currentPet.petName} Accepted!");
-                                      ref.read(petStackProvider.notifier).removeTopPet();
-                                    },
-                                    onReject: () {
-                                      print("${currentPet.petName} Rejected!");
-                                      ref.read(petStackProvider.notifier).removeTopPet();
-                                    },
-                                  ),
-                                )
-                              : const Text(
-                                  "No more pets to show!",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                        ),
-
-                        const SizedBox(height: 30),
-                        if (currentPet != null)
-                            Positioned(
-                              bottom: 120,
-                              left: MediaQuery.of(context).size.width * 0.5 - 95,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      currentPet.onReject(); // reject = left heart
-                                    },
-                                    child: const Icon(
-                                      Icons.heart_broken_outlined,
-                                      color: Colors.amberAccent,
-                                      size: 70,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 80),
-                                  GestureDetector(
-                                    onTap: () {
-                                      currentPet.onAccept(); // accept = right heart
-                                    },
-                                    child: const Icon(
-                                      Icons.favorite_border_outlined,
-                                      color: Colors.amberAccent,
-                                      size: 70,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                        // TextButton(
-                        //   onPressed: () => context.go('/matchmaking'),
-                        //   style: TextButton.styleFrom(
-                        //     padding: EdgeInsets.zero,
-                        //     backgroundColor: Colors.transparent,
-                        //   ),
-                        //   // child: Image.asset(
-                        //   //   'assets/images/Find_Pawfect_Match_button.png',
-                        //   //   width: 300,
-                        //   //   height: 120,
-                        //   //   fit: BoxFit.contain,
-                        //   // ),
-                        // ),
-                        const SizedBox(height: 20),
-                      ],
+            // Accept / Reject buttons centered under the PetCard
+            if (currentPet != null)
+              Positioned(
+                bottom: 50,
+                left: MediaQuery.of(context).size.width * 0.5 - 95,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        currentPet.onReject(); // reject = left heart
+                      },
+                      child: const Icon(
+                        Icons.heart_broken_outlined,
+                        color: Colors.amberAccent,
+                        size: 70,
+                      ),
                     ),
-                  ),
+                    const SizedBox(width: 80),
+                    GestureDetector(
+                      onTap: () {
+                        currentPet.onAccept(); // accept = right heart
+                      },
+                      child: const Icon(
+                        Icons.favorite_border_outlined,
+                        color: Colors.amberAccent,
+                        size: 70,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              
-            ],
-            
-          ),
-
-
+          ],
         ),
-        
       ),
-      
-      // body: Stack(
-      //   children: [
-      //     // Background Image
-      //     Positioned.fill(
-      //       child: Image.asset(
-      //         'assets/images/Login_SignUp_Background.png', // Make sure to add this image in your pubspec.yaml
-      //         fit: BoxFit.cover,
-      //       ),
-      //     ),
-      //     // Foreground content
-      //     Center(
-      //       child: TextButton(
-      //         onPressed: () {
-      //           context.go('/petProfile');
-      //         },
-      //         style: ButtonStyle(
-      //           textStyle: MaterialStateProperty.all(
-      //             const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      //           ),
-      //         ),
-      //         child: const Text('Pet Profile Temp button'),
-      //       ),
-      //     ),
-      //   ],
-      // ),
       bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
     );
   }

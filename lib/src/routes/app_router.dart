@@ -22,11 +22,18 @@ import '../screens/favorites_screen.dart';
 import '../screens/user_profile_screen.dart';
 import '../screens/map_screen.dart';
 import '../screens/search_screen.dart';
+import '../screens/petFavorites_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/petFavorites_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_verification_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/forgot_password_change_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/shelter_info_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/success_stories_screen.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/gettoknowyou_screen.dart';
+
+
+import 'package:semester_project__uprm_pet_adoption/src/screens/success_stories_screen.dart';
+
 import '../screens/petProfile_screen.dart' as petProfile;
 import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_details.dart';
 
@@ -418,6 +425,24 @@ final GoRouter appRouter = GoRouter(
       },
     ),
 
+
+GoRoute(
+  path: '/gettoknowyou',
+  pageBuilder: (context, state) => CustomTransitionPage(
+    child: const GetToKnowYouScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  ),
+),
+
+
     // Route for success stories screen
     GoRoute(
       path: '/success-stories',
@@ -427,6 +452,57 @@ final GoRouter appRouter = GoRouter(
           return SlideTransition(
             position: Tween<Offset>(
               begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+    
+    
+GoRoute(
+  path: '/gettoknowyou',
+  pageBuilder: (context, state) => CustomTransitionPage(
+    child: const GetToKnowYouScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  ),
+),
+
+
+    // Route for success stories screen
+    GoRoute(
+      path: '/success-stories',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const SuccessStoriesScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+    ),
+
+    GoRoute(
+      path: '/petFavorites',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const PetFavoriteScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0), // Slide in from right
               end: Offset.zero,
             ).animate(animation),
             child: child,

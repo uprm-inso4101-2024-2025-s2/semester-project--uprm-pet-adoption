@@ -7,7 +7,7 @@ import 'package:semester_project__uprm_pet_adoption/services/database_service.da
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/gettoknow_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
-import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
+
 import 'package:semester_project__uprm_pet_adoption/models/user.dart';
 import '../screens/loading_screen.dart';
 
@@ -51,7 +51,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     super.dispose();
   }
 
-    void _showLoadingScreen(BuildContext context) {
+  void _showLoadingScreen(BuildContext context) {
     // Push the loading screen onto the navigation stack
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const LoadingScreen()),
@@ -219,16 +219,54 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   _showLoadingScreen(context);
-                                  
-                                  await authService.signUp(
+
+                                  bool signUpSuccess = await authService.signUp(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    firstName: firstNameController.text,
+                                    lastName: lastNameController.text,
+                                  );
+
+                                  if (signUpSuccess) {
+                                    bool signInSuccess = ref
+                                        .read(authProvider.notifier)
+                                        .state = await AuthService().signIn(
                                       email: emailController.text,
                                       password: passwordController.text,
-                                      firstName: firstNameController.text,
-                                      lastName: lastNameController.text
                                     );
+
+
+                                    if (signInSuccess) {
+                                      Navigator.of(context).pop();
+                                      context.go('/gettoknow');
+                                      AnalyticsService().addSignUp();
+                                    }
+                                  } else {
+                                    Navigator.of(context).pop();
+                                  }
+
+                                  //Create user with signup inputs
+                                  User user = User(
+                                      First_name: firstNameController.text,
+                                      Last_name: lastNameController.text,
+                                      Location: "",
+                                      Password: passwordController.text,
+                                      Pet: "",
+                                      Pet_picture: 0,
+                                      Phone_number: "000000000",
+                                      Profile_picture: 0,
+                                      email: emailController.text);
+                                  //Add user to database
+                                  _databaseService.addUser(user);
+                                  context.go('/gettoknowyou');
+
                                   Navigator.of(context).pop();
                                   context.go('/gettoknow');
+
                                   AnalyticsService().addSignUp();
+                                  context.go('/gettoknowyou');
+                                  
+
                                 }
                               })
                         ],

@@ -8,9 +8,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-
+import 'package:semester_project__uprm_pet_adoption/src/providers/match_logic.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -25,6 +26,7 @@ void main() async {
   runApp(
     DevicePreview(
       enabled: true, // Set to false in production
+      
       builder: (context) => ProviderScope(child: MyApp()),
     ),
   );

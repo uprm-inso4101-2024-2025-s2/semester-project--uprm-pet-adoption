@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:semester_project__uprm_pet_adoption/analytics_service.dart';
 import 'package:go_router/go_router.dart';
+import 'package:semester_project__uprm_pet_adoption/src/screens/pet_article.dart';
 
 
 class PetTips extends StatefulWidget {
@@ -11,6 +12,8 @@ class PetTips extends StatefulWidget {
 }
 
 class _PetTipsState extends State<PetTips> {
+  bool _showTips = true;
+  bool _showArticles = true;
   bool _showFavorites = false;
   bool _isFiltered = false;
   final TextEditingController _searchController = TextEditingController();
@@ -75,6 +78,7 @@ class _PetTipsState extends State<PetTips> {
       bulletPoints: [
         'House training a shelter dog requires consistency, supervision and positive reinforcement.',
         'Establishing a feeding and potty break routine helps predict when your dog needs to go out, while supervision and containment reduce accidents.',
+        'Take your dog out first thing in the morning, after meals, naps, and playtime. Use a leash or confined space, like a playpen or crate, when you’re unable to supervise closely.'
       ],
       itemType: _ItemType.article,
     ),
@@ -107,9 +111,60 @@ class _PetTipsState extends State<PetTips> {
     });
   }
 
-  void _toggleFilter() {
-    setState(() => _isFiltered = !_isFiltered);
-  }
+  void _showFilterDialog() {
+  showDialog(
+    context: context,
+    builder: (context) {
+      // Local variables to track dialog state
+      bool showTips = _showTips;
+      bool showArticles = _showArticles;
+      
+      return StatefulBuilder(
+        builder: (context, setStateDialog) {
+          return AlertDialog(
+            title: const Text("Filter Content"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CheckboxListTile(
+                  title: const Text("Show Tips"),
+                  value: showTips,
+                  onChanged: (v) {
+                    setStateDialog(() => showTips = v!);
+                    // Update the main state when dialog closes
+                    _showTips = v!;
+                  },
+                ),
+                CheckboxListTile(
+                  title: const Text("Show Articles"),
+                  value: showArticles,
+                  onChanged: (v) {
+                    setStateDialog(() => showArticles = v!);
+                    // Update the main state when dialog closes
+                    _showArticles = v!;
+                  },
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  // Update the main widget state when done
+                  setState(() {
+                    _showTips = showTips;
+                    _showArticles = showArticles;
+                  });
+                  Navigator.pop(context);
+                },
+                child: const Text("Done"),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
 
   void _clearSearch() {
     _searchController.clear();
@@ -121,9 +176,13 @@ class _PetTipsState extends State<PetTips> {
     if (_showFavorites) {
       filtered = filtered.where((it) => _favoriteIds.contains(it.id)).toList();
     }
-    if (_isFiltered) {
-      
-    }
+
+    filtered = filtered.where((item){
+      if (item.itemType == _ItemType.tip) return _showTips;
+      if(item.itemType == _ItemType.article) return _showArticles;
+      return false;
+    }).toList();
+
     final query = _searchController.text.trim().toLowerCase();
     if (query.isNotEmpty) {
       filtered = filtered.where((item) {
@@ -139,31 +198,31 @@ class _PetTipsState extends State<PetTips> {
   Widget build(BuildContext context) {
     AnalyticsService().logScreenView("pet_tips_screen");
 
-    const mainYellow = Color(0xFFFFF200);
+    const mainYellow = Color(0xFFFFF581);
 
     final displayedItems = _filterItems(_allItems);
 
     
-    final tipItems = displayedItems.where((i) => i.itemType == _ItemType.tip).toList();
-    final articleItems = displayedItems.where((i) => i.itemType == _ItemType.article).toList();
+    // final tipItems = displayedItems.where((i) => i.itemType == _ItemType.tip).toList();
+    // final articleItems = displayedItems.where((i) => i.itemType == _ItemType.article).toList();
+
 
     return Scaffold(
       // Large "Pet Tips" text
       appBar: AppBar(
-        backgroundColor: mainYellow,
+        backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
         leading: IconButton(
-          icon: Image.asset(
-            'assets/images/Arrow_Circle_dms.png',
-            width: 30,
-            height: 30,
-          ),
+          icon: const Icon(Icons.arrow_back,
+              size: 18, color: Colors.black),
+          padding: EdgeInsets.zero,
           onPressed: () => context.go('/'),
         ),
         title: const Text(
           'Pet Tips',
           style: TextStyle(
-            fontSize: 32,
+            fontSize: 25,
             fontWeight: FontWeight.bold,
+            fontFamily: 'Archivo',
             color: Colors.black,
           ),
         ),
@@ -214,7 +273,7 @@ class _PetTipsState extends State<PetTips> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.tune, color: Colors.black),
-                    onPressed: _toggleFilter,
+                    onPressed: _showFilterDialog,
                   ),
                   IconButton(
                     icon: const Icon(Icons.bookmark, color: Colors.black),
@@ -223,6 +282,26 @@ class _PetTipsState extends State<PetTips> {
                 ],
               ),
             ),
+
+            if (!_showTips || !_showArticles)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Wrap(
+                  spacing: 8,
+                  children: [
+                    if (!_showTips)
+                      Chip(
+                        label: const Text("Tips hidden"),
+                        onDeleted: () => setState(() => _showTips = true),
+                      ),
+                    if (!_showArticles)
+                      Chip(
+                        label: const Text("Articles hidden"),
+                        onDeleted: () => setState(() => _showArticles = true),
+                      ),
+                  ],
+                ),
+              ),
 
             if (_showFavorites && _favoriteIds.isEmpty)
               Padding(
@@ -238,40 +317,38 @@ class _PetTipsState extends State<PetTips> {
               ),
 
             Expanded(
-              child: SingleChildScrollView(
+              child: displayedItems.isEmpty && _searchController.text.isNotEmpty
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.start, // Positions content higher up
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.2), // Adjust this value to move it up/down
+                      const Text(
+                        'No results found',
+                        style: TextStyle(
+                          fontSize: 24, // Larger font size
+                          fontWeight: FontWeight.w500, // Slightly bolder
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  )
+              : SingleChildScrollView(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Column(
                   children: [
-                    // Show tip cards first
-                    for (final tip in tipItems)
-                      _buildTipCard(
-                        item: tip,
-                        isFavorited: _favoriteIds.contains(tip.id),
-                        onFavoriteToggle: () => _toggleFavorite(tip.id),
-                      ),
-
-                    // A centered "Articles" heading (based on your request)
-                    if (articleItems.isNotEmpty)
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 12),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'Articles',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                    for (final item in displayedItems)
+                      if (item.itemType == _ItemType.tip)
+                        _buildTipCard(
+                          item: item,
+                          isFavorited: _favoriteIds.contains(item.id),
+                          onFavoriteToggle: () => _toggleFavorite(item.id),
+                        )
+                      else
+                        _buildArticleCard(
+                          item: item,
+                          isFavorited: _favoriteIds.contains(item.id),
+                          onFavoriteToggle: () => _toggleFavorite(item.id),
                         ),
-                      ),
-
-                    
-                    for (final article in articleItems)
-                      _buildArticleCard(
-                        item: article,
-                        isFavorited: _favoriteIds.contains(article.id),
-                        onFavoriteToggle: () => _toggleFavorite(article.id),
-                      ),
                   ],
                 ),
               ),
@@ -291,7 +368,7 @@ class _PetTipsState extends State<PetTips> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF200),
+        color: const Color.fromRGBO(255, 244,129, 1),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.black, width: 2),
       ),
@@ -318,7 +395,7 @@ class _PetTipsState extends State<PetTips> {
                       height: 120,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: const Color.fromRGBO(255, 255, 255, 1),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: Colors.black, width: 2),
                       ),
@@ -349,7 +426,7 @@ class _PetTipsState extends State<PetTips> {
             child: GestureDetector(
               onTap: onFavoriteToggle,
               child: Icon(
-                isFavorited ? Icons.favorite : Icons.favorite_border,
+                isFavorited ? Icons.bookmark : Icons.bookmark_add,
                 color: isFavorited ? Colors.red : Colors.black,
                 size: 28,
               ),
@@ -369,91 +446,99 @@ class _PetTipsState extends State<PetTips> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFB3D9FF), 
+        color: const Color.fromRGBO(130, 176, 255, 1), 
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.black, width: 2),
       ),
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
-           
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                
-                _ArrowLabel(
-                  label: item.title,
-                  backgroundColor: Colors.white,
-                  textColor: Colors.black,
-                  arrowSide: ArrowSide.left,
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // The image container
-                    Container(
-                      width: 120,
-                      height: 120,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.black, width: 2),
-                      ),
-                      child: Image.asset(
-                        item.imagePath,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    // Bullets
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: item.bulletPoints.map(
-                          (bp) => _BulletText(
-                            text: bp,
-                            alignCenter: false,
-                          ),
-                        ).toList(),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                // "Read more ->"  bottom
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    ),
-                    onPressed: () {
-                      
-                    },
-                    child: const Text(
-                      'Read more  ->',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+           padding: const EdgeInsets.all(16),
+         
+           child: Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+              
+               _ArrowLabel(
+                 label: item.title,
+                 backgroundColor: Colors.white,
+                 textColor: Colors.black,
+                 arrowSide: ArrowSide.left,
+               ),
+               const SizedBox(height: 12),
+               Row(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                   // The image container
+                   Container(
+                     width: 120,
+                     height: 120,
+                     clipBehavior: Clip.antiAlias,
+                     decoration: BoxDecoration(
+                       color: Colors.white,
+                       borderRadius: BorderRadius.circular(12),
+                       border: Border.all(color: Colors.black, width: 2),
+                     ),
+                     child: Image.asset(
+                       item.imagePath,
+                       fit: BoxFit.cover,
+                     ),
+                   ),
+                   const SizedBox(width: 16),
+                   // Bullets
+                   Expanded(
+                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: item.bulletPoints.map(
+                         (bp) => _BulletText(
+                           text: bp,
+                           alignCenter: false,
+                         ),
+                       ).toList(),
+                     ),
+                   ),
+                 ],
+               ),
+               const SizedBox(height: 12),
+               // "Read more ->"  botton
+               Align(
+                 alignment: Alignment.centerRight,
+                 child: TextButton(
+                   style: TextButton.styleFrom(
+                     backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
+                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                   ),
+                   onPressed: () {
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(
+                         builder: (context) => PetArticle(
+                           title: item.title,
+                           bulletPoints: item.bulletPoints,
+                           imagePath: item.imagePath,
+                         ),
+                       ),
+                     );
+                   },
+                   child: const Text("Read More"),
+                  //   style: TextStyle(
+                  //      color: Color.fromRGBO(0, 0, 0, 1),
+                  //      fontWeight: FontWeight.bold,
+                  //      fontFamily: 'Archivo',
+                  //    ),
+                  //  ),
+                 
+               ),)]
+               
+           ),
           ),
-          // Favorite heart icon
           Positioned(
             top: 8,
             right: 8,
             child: GestureDetector(
               onTap: onFavoriteToggle,
               child: Icon(
-                isFavorited ? Icons.favorite : Icons.favorite_border,
+                isFavorited ? Icons.bookmark : Icons.bookmark_add,
                 color: isFavorited ? Colors.red : Colors.black,
                 size: 28,
               ),
