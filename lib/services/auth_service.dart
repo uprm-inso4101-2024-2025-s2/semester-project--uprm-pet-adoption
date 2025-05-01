@@ -14,7 +14,7 @@ class AuthService {
       : _auth = auth ?? FirebaseAuth.instance,
         _firestore = firestore ?? FirebaseFirestore.instance;
 
-  Future<void> signUp({
+  Future<bool> signUp({
     required String firstName,
     required String lastName,
     required String password,
@@ -44,8 +44,13 @@ class AuthService {
         'createdAt': FieldValue.serverTimestamp(), // Optional: Add a timestamp
       });
 
+
+      return true;
+
+
       // Play background music after successful signup
       await BackgroundMusicService.play();
+
     } on FirebaseAuthException catch (e) {
       String message = '';
       if (e.code == 'weak-password') {
@@ -62,8 +67,13 @@ class AuthService {
         textColor: Colors.white,
         fontSize: 14.0,
       );
+
+      return false;
+
     } catch (e) {
       print('Error during signup: $e');
+
+      return false;
     }
   }
 

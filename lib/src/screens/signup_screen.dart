@@ -51,7 +51,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     super.dispose();
   }
 
-    void _showLoadingScreen(BuildContext context) {
+  void _showLoadingScreen(BuildContext context) {
     // Push the loading screen onto the navigation stack
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const LoadingScreen()),
@@ -219,13 +219,31 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   _showLoadingScreen(context);
-                                  
-                                  await authService.signUp(
+
+                                  bool signUpSuccess = await authService.signUp(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    firstName: firstNameController.text,
+                                    lastName: lastNameController.text,
+                                  );
+
+                                  if (signUpSuccess) {
+                                    bool signInSuccess = ref
+                                        .read(authProvider.notifier)
+                                        .state = await AuthService().signIn(
                                       email: emailController.text,
                                       password: passwordController.text,
-                                      firstName: firstNameController.text,
-                                      lastName: lastNameController.text
                                     );
+
+
+                                    if (signInSuccess) {
+                                      Navigator.of(context).pop();
+                                      context.go('/gettoknow');
+                                      AnalyticsService().addSignUp();
+                                    }
+                                  } else {
+                                    Navigator.of(context).pop();
+                                  }
 
                                   //Create user with signup inputs
                                   User user = User(
@@ -248,6 +266,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                   AnalyticsService().addSignUp();
                                   context.go('/gettoknowyou');
                                   
+
                                 }
                               })
                         ],

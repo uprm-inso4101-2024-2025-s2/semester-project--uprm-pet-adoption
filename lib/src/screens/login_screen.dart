@@ -180,19 +180,19 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
       context.go('/');
 
       try {
-    bool success = await AuthService().signIn(email: email, password: password);
-    if (success) {
-      context.go('/');
-    } else {
-      // Handle failed login
-    }
-  } catch (e) {
-    // Handle error
-  } finally {
-    setState(() {
-      isLoading = false;  // Hide loading indicator
-    });
-  }
+        bool success = await AuthService().signIn(email: email, password: password);
+        if (success) {
+          context.go('/');
+        } else {
+          // Handle failed login
+        }
+      } catch (e) {
+        // Handle error
+      } finally {
+        setState(() {
+          isLoading = false;  // Hide loading indicator
+        });
+      }
     }
 
     return Container(
