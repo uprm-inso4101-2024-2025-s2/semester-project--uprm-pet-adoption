@@ -1,52 +1,44 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
 class MessagingNotifications {
-  MessagingNotifications._();
-  static final MessagingNotifications instance = MessagingNotifications._();
+  final FirebaseMessaging firebaseMessaging;
+  final FlutterLocalNotificationsPlugin notificationsPlugin;
+
+  MessagingNotifications({
+    required this.firebaseMessaging,
+    required this.notificationsPlugin,
+  });
 
   Future<void> initialize() async {
-    // Get permission from user to allow notifications
     await getPermission();
-
-    // Subscribe user to receive general notifications
-    await FirebaseMessaging.instance.subscribeToTopic("general");
-
-    // Handles notifications when app is in the foreground, background and terminated
+    await firebaseMessaging.subscribeToTopic("general");
     await setupNotifications();
   }
 
   Future<void> getPermission() async {
-    await FirebaseMessaging.instance.requestPermission(
+    await firebaseMessaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
       carPlay: false,
       criticalAlert: false,
-      provisional: false,
       sound: true,
     );
   }
 
   Future<void> setupNotifications() async {
-    const AndroidInitializationSettings androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
-  
-    const InitializationSettings settings = InitializationSettings(
-      android: androidSettings,
-    );
+    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const initSettings = InitializationSettings(android: androidSettings);
 
-    await flutterLocalNotificationsPlugin.initialize(settings);
+    await notificationsPlugin.initialize(initSettings);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
+      final notification = message.notification;
+      final android = message.notification?.android;
 
       if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
+        notificationsPlugin.show(
           notification.hashCode,
           notification.title,
           notification.body,
