@@ -133,7 +133,7 @@ class _PetDetailsState extends State<PetDetails> {
           transitionBuilder: (widget, animation) {
             return ScaleTransition(scale: animation, child: widget);
           },
-          child: _showBack ?  _buildFrontView():_buildBackView(scaffoldKey),
+          child: _showBack ?  _buildBackView(scaffoldKey):_buildBackView(scaffoldKey),
         ),
       ),
     );
@@ -350,6 +350,17 @@ return Scaffold(
       key: scaffoldKey,
     body: Stack(
   children: [
+    Container(
+       // Background image
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/Login_SignUp_Background.png'), // Replace with your image path
+            fit: BoxFit.cover, // You can change this to other options like BoxFit.fill or BoxFit.contain depending on your preference
+          ),
+        ),
+      ),
     // Top blue bar with logo and menu icon
     Container(
       padding: const EdgeInsets.only(bottom: 0,top: 0), // Extra top padding for status bar

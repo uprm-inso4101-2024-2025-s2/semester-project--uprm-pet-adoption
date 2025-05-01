@@ -212,17 +212,15 @@ class _PetTipsState extends State<PetTips> {
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
         leading: IconButton(
-          icon: Image.asset(
-            'assets/images/Arrow_Circle_dms.png',
-            width: 30,
-            height: 30,
-          ),
+          icon: const Icon(Icons.arrow_back,
+              size: 18, color: Colors.black),
+          padding: EdgeInsets.zero,
           onPressed: () => context.go('/'),
         ),
         title: const Text(
           'Pet Tips',
           style: TextStyle(
-            fontSize: 32,
+            fontSize: 25,
             fontWeight: FontWeight.bold,
             fontFamily: 'Archivo',
             color: Colors.black,
@@ -533,6 +531,18 @@ class _PetTipsState extends State<PetTips> {
                ),)]
                
            ),
+          ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: GestureDetector(
+              onTap: onFavoriteToggle,
+              child: Icon(
+                isFavorited ? Icons.bookmark : Icons.bookmark_add,
+                color: isFavorited ? Colors.red : Colors.black,
+                size: 28,
+              ),
+            ),
           ),
         ],
       ),

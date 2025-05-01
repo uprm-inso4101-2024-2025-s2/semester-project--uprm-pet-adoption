@@ -128,26 +128,24 @@ class _FAQScreenState extends State<FAQ_Screen> {
       endDrawer: const MenuScreen(), // Add the MenuScreen as a drawer instead of full-screen
       appBar: AppBar(
         automaticallyImplyLeading: false, // disables automatic hamburger
-        backgroundColor: Colors.yellow,
+        backgroundColor: const Color(0xFFFFF581),
         // ✅ Menu icon to open drawer
         leading: IconButton(
-          icon: Image.asset(
-            'assets/images/Arrow_Circle_dms.png',
-            width: 40,
-            height: 40,
-          ),
+          icon: const Icon(Icons.arrow_back,
+              size: 18, color: Colors.black),
+          padding: EdgeInsets.zero,
           onPressed: () => context.go('/?openMenu=true'),
-
         ),
         title: const  Text(
           'FAQ',
           style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontFamily: 'Archivo',
+            fontSize: 25,
             color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
+        centerTitle: false,
         actions: [
           const SizedBox.shrink(), // placeholder to block auto hamburger
         ],

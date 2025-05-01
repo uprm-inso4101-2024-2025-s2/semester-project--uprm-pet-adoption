@@ -26,11 +26,13 @@ class ChatHeader extends StatelessWidget {
               const Text(
                 "Messages",
                 style: TextStyle(
-                  fontSize: 26,
+                  fontSize: 25,
+                  fontFamily: 'Archivo',
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
+
               IconButton(
                 icon: const Icon(Icons.person_add,
                     size: 35, color: Colors.black), // Add User to chat icon

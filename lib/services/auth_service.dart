@@ -7,10 +7,14 @@ import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth;
+  final FirebaseFirestore _firestore;
 
-  Future<void> signUp({
+  AuthService({FirebaseAuth? auth, FirebaseFirestore? firestore})
+      : _auth = auth ?? FirebaseAuth.instance,
+        _firestore = firestore ?? FirebaseFirestore.instance;
+
+  Future<bool> signUp({
     required String firstName,
     required String lastName,
     required String password,
@@ -40,8 +44,13 @@ class AuthService {
         'createdAt': FieldValue.serverTimestamp(), // Optional: Add a timestamp
       });
 
+
+      return true;
+
+
       // Play background music after successful signup
       await BackgroundMusicService.play();
+
     } on FirebaseAuthException catch (e) {
       String message = '';
       if (e.code == 'weak-password') {
@@ -58,8 +67,13 @@ class AuthService {
         textColor: Colors.white,
         fontSize: 14.0,
       );
+
+      return false;
+
     } catch (e) {
       print('Error during signup: $e');
+
+      return false;
     }
   }
 
@@ -154,16 +168,16 @@ class AuthService {
       await _firestore.collection('pets').add({
         'medicalDocument': medicalDocument,
         'petPicture': petPicture,
-        'petAge': petAge, // contains one of 3 options (Puppy, Adult, Elderly)
+        'petAge': petAge, // Contains one of 3 options (Puppy, Adult, Elderly)
         'petBreed':
-            petBreed, // contains the breed of the pet either from the selection or option other
+            petBreed, // Contains the breed of the pet either from the selection or option other
         'petDescription':
-            petDescription, // description and details that user gives of the pet
-        'petName': petName, // created pets name
-        'petOwner': uid, // the user who registered this pet
-        'petShelter': petShelter, // the shelter that registered this pet
+            petDescription, // Description and details that user gives of the pet
+        'petName': petName, // Created pets name
+        'petOwner': uid, // The user who registered this pet
+        'petShelter': petShelter, // The shelter that registered this pet
         'petTags':
-            petTags, //specific tags chosen from the new pet profile screen
+            petTags, //Specific tags chosen from the new pet profile screen
         'createdAt': FieldValue.serverTimestamp(), // Optional: Add a timestamp
       });
 
@@ -228,8 +242,7 @@ class AuthService {
           await _firestore.collection('users').doc(user.uid).get();
 
       if (userDoc.exists) {
-        // Return userDoc which can be used to access specific
-        // user data
+        // Return userDoc which can be used to access specific user data
         return userDoc;
       }
     }

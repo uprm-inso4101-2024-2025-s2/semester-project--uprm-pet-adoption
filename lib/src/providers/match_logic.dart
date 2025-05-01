@@ -70,12 +70,12 @@ class MatchMaker {
           count+=5;
       }
 
-      //done with file
+      //Done with file
       if (preferences['size']==details.size){
         count+=3;
       }
 
-      //done with file
+      //Done with file
       if (preferences['energyLevel']<details.energyLevel+3 && preferences['energyLevel']>details.energyLevel-3){
         count+=5;
         if (preferences['energyLevel']==details.energyLevel){
@@ -88,7 +88,7 @@ class MatchMaker {
         count+=10;
       }
 
-      //done with file
+      //Done with file
       if (preferences['hasOtherPets'] && details.hasOtherPets==true){
         count+=10;
       }else if (!preferences['hasOtherPets']){
@@ -102,7 +102,7 @@ class MatchMaker {
         count+=10;
       }
 
-      //done with file
+      //Done with file
       if (preferences['livinSituation'] != null) {
         // Ensure both values are non-null before comparing
         if (preferences['livinSituation'] == details.livingSituation ||
