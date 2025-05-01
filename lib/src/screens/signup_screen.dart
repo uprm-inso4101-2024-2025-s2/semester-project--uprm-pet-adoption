@@ -7,7 +7,7 @@ import 'package:semester_project__uprm_pet_adoption/services/database_service.da
 import 'package:semester_project__uprm_pet_adoption/src/providers/auth_provider.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/gettoknow_screen.dart';
 import 'package:semester_project__uprm_pet_adoption/src/screens/home_screen.dart';
-import 'package:semester_project__uprm_pet_adoption/services/auth_service.dart';
+
 import 'package:semester_project__uprm_pet_adoption/models/user.dart';
 import '../screens/loading_screen.dart';
 
@@ -235,6 +235,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                       password: passwordController.text,
                                     );
 
+
                                     if (signInSuccess) {
                                       Navigator.of(context).pop();
                                       context.go('/gettoknow');
@@ -243,6 +244,29 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                   } else {
                                     Navigator.of(context).pop();
                                   }
+
+                                  //Create user with signup inputs
+                                  User user = User(
+                                      First_name: firstNameController.text,
+                                      Last_name: lastNameController.text,
+                                      Location: "",
+                                      Password: passwordController.text,
+                                      Pet: "",
+                                      Pet_picture: 0,
+                                      Phone_number: "000000000",
+                                      Profile_picture: 0,
+                                      email: emailController.text);
+                                  //Add user to database
+                                  _databaseService.addUser(user);
+                                  context.go('/gettoknowyou');
+
+                                  Navigator.of(context).pop();
+                                  context.go('/gettoknow');
+
+                                  AnalyticsService().addSignUp();
+                                  context.go('/gettoknowyou');
+                                  
+
                                 }
                               })
                         ],

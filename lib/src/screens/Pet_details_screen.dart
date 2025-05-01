@@ -21,6 +21,20 @@ class PetDetailsScreen extends StatelessWidget {
       isFavorite: pet['isFavorite'],
       onFavoriteToggle: pet['onFavoriteToggle'],
       onAdopt: pet['onAdopt'],
+      // User-related properties
+      petType: pet['petType'] ?? "Dog", // Adding default values if not available
+      ageRange: pet['ageRange'] ?? "1-3 years", 
+      size: pet['size'], // "Medium"
+      energyLevel: pet['energyLevel'] ?? 0.0, // Default to 0 if not provided
+      hasExperience: pet['hasExperience'] ?? true,
+      hasOtherPets: pet['hasOtherPets'] ?? true,
+      hasAllergies: pet['hasAllergies'] ?? false,
+      livingSituation: pet['livingSituation'] ?? "Apartment",
+      timeAvailable: pet['timeAvailable'] ?? 5.0,
+      personality: pet['personality'] ?? "Friendly",
+      specialCareOk: pet['specialCareOk'] ?? true,
+      goodWithAnimals: pet['goodWithAnimals'] ?? true,
+      goodWithKids: pet['goodWithKids'] ?? true,
     );
   }
 }

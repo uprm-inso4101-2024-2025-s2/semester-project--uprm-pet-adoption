@@ -36,7 +36,7 @@ class MenuScreen extends Drawer {
                       // Back arrow -> Goes to Home screen
                       IconButton(
                         onPressed: () {
-                          context.go('/');
+                          Navigator.of(context).pop();
                         },
                         icon: const Icon(Icons.arrow_back),
                       ),
@@ -47,16 +47,10 @@ class MenuScreen extends Drawer {
                           fontSize: 32,
                           fontFamily: 'Archivo',
                           color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(width: 6.0),
-                      // Three-bar menu icon -> Closes the drawer
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.menu),
-                      ),
                     ],
                   ),
                 ),

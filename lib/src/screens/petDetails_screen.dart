@@ -53,6 +53,23 @@ class PetScreen extends StatelessWidget {
   final VoidCallback onFavoriteToggle;
   final VoidCallback onAdopt;
 
+// User-related variables (added from User class)
+  final String? petType;
+  final String? ageRange;
+  final String? size;
+  final double energyLevel;
+  
+  final bool? hasExperience;
+  final bool? hasOtherPets;
+  final bool? hasAllergies;
+  final String? livingSituation;
+  final double timeAvailable;
+  
+  final String? personality;
+  final bool? specialCareOk;
+  final bool? goodWithAnimals;
+  final bool? goodWithKids;
+  
   const PetScreen({
     super.key,
     required this.petName,
@@ -67,6 +84,19 @@ class PetScreen extends StatelessWidget {
     required this.isFavorite,
     required this.onFavoriteToggle,
     required this.onAdopt,
+    this.petType,
+    this.ageRange,
+    this.size,
+    this.energyLevel = 0.0,
+    this.hasExperience,
+    this.hasOtherPets,
+    this.hasAllergies,
+    this.livingSituation,
+    this.timeAvailable = 0.0,
+    this.personality,
+    this.specialCareOk,
+    this.goodWithAnimals,
+    this.goodWithKids,
   });
 
   @override
@@ -100,6 +130,22 @@ class PetScreen extends StatelessWidget {
             isFavorite: isFavorite,
             onFavoriteToggle: onFavoriteToggle,
             onAdopt: onAdopt,
+            
+             // User-related properties
+            petType: petType,
+            ageRange: ageRange,
+            size: size,
+            energyLevel: energyLevel,
+            hasExperience: hasExperience,
+            hasOtherPets:hasOtherPets,
+            hasAllergies: hasAllergies,
+            livingSituation: livingSituation,
+            timeAvailable: timeAvailable,
+            personality: personality,
+            specialCareOk: specialCareOk,
+            goodWithAnimals: goodWithAnimals,
+            goodWithKids: goodWithKids,
+            
           ),
         ),
       ),

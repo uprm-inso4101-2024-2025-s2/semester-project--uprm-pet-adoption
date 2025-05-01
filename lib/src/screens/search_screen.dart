@@ -116,11 +116,11 @@ class _SearchState extends State<Search> {
                 child: Container(
                   width: 36,
                   height: 36,
-                  decoration: BoxDecoration(
-                    color: appBarColor,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.black, width: 2.0),
-                  ),
+                  // decoration: BoxDecoration(
+                  //   color: appBarColor,
+                  //   shape: BoxShape.circle,
+                  //   border: Border.all(color: Colors.black, width: 2.0),
+                  // ),
                   child: Center(
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back,
