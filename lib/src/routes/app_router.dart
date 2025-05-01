@@ -38,9 +38,9 @@ import '../screens/petProfile_screen.dart' as petProfile;
 import 'package:semester_project__uprm_pet_adoption/src/widgets/pet_details.dart';
 
 //This file contains the routes for all screens. It also manages transitions between screens.
-
+//redirects users back to the auth
 final GoRouter appRouter = GoRouter(
-  redirect: (context, state) {
+  redirect: (context, state) { 
     final container = ProviderScope.containerOf(context);
     final isLoggedIn = container.read(authProvider);
 
@@ -415,7 +415,9 @@ final GoRouter appRouter = GoRouter(
           );
         },
       ),
-    ),    GoRoute(
+    ),
+    //route for Pet Details Screen
+    GoRoute(
       path: '/petDetails',
       builder: (context, state) {
         final pet = state.extra as Map<String, dynamic>;

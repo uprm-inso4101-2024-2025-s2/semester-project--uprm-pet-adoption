@@ -97,7 +97,7 @@ class _PetCardState extends ConsumerState<PetCard> with SingleTickerProviderStat
     });
   }
 
-  void _onHorizontalDragEnd(DragEndDetails details) {
+  void _onHorizontalDragEnd(DragEndDetails details) {  //determines the swipe direction: accept(right)-reject(left)
     if (_dragOffset.dx > 100) {
       widget.onAccept(); // Swipe right - Accept
     } else if (_dragOffset.dx < -100) {
@@ -111,7 +111,7 @@ class _PetCardState extends ConsumerState<PetCard> with SingleTickerProviderStat
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//builds the whole PetCard widget
     return GestureDetector(
      onHorizontalDragUpdate: _onHorizontalDragUpdate,
      onHorizontalDragEnd: _onHorizontalDragEnd,
@@ -155,7 +155,7 @@ class _PetCardState extends ConsumerState<PetCard> with SingleTickerProviderStat
                             onPageChanged: (index) {
                               setState(() => _currentPage = index);
                             },
-                            itemBuilder: (context, index) {
+                            itemBuilder: (context, index) {  //builds each pet image inside the image carousel
                               return Image.asset(
                                 widget.petImages[index],
                                 width: double.infinity,

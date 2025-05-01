@@ -12,14 +12,14 @@ class MenuScreen extends Drawer {
 
   @override
   Widget build(BuildContext context) {
-    AnalyticsService().logScreenView("menu_screen");
+    AnalyticsService().logScreenView("menu_screen");  //log screen view for analytics tracking
 
     return Container(
       // Set the width of the drawer
-      width: MediaQuery.sizeOf(context).width * 0.65, // Adjust as desired
+      width: MediaQuery.sizeOf(context).width * 0.65, // Adjust as needed - currently at 65% of the screen width
       child: Drawer(
         backgroundColor: const Color.fromRGBO(255, 245, 129, 1),
-        child: ListView(
+        child: ListView(  //list of navigable menu options, each with its own icon and route
           children: [
             const SizedBox(height: 6.0),
             // Arrow, MENU, and drawer icon
@@ -29,7 +29,7 @@ class MenuScreen extends Drawer {
                 alignment: Alignment.center,
                 child: SizedBox(
                   height: 40,
-                  child: ListView(
+                  child: ListView( 
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     children: [
@@ -57,7 +57,7 @@ class MenuScreen extends Drawer {
               ),
             ),
             const SizedBox(height: 40.0),
-
+            // Menu items start here: each leads to a different screen
             // Box 1: Account
             Material(
               child: InkWell(
@@ -87,7 +87,7 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 3: FAQ
+            // Box 2: FAQ  
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: InkWell(
@@ -111,7 +111,7 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 4: About Us
+            // Box 3: About Us  
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: ListTile(
@@ -135,7 +135,7 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 5: Shelters
+            // Box 4: Shelters  
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: ListTile(
@@ -162,7 +162,7 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 6: Success Stories Screen
+            // Box 5: Success Stories Screen
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: InkWell(
@@ -188,7 +188,7 @@ class MenuScreen extends Drawer {
             ),
             const SizedBox(height: 8),
 
-            // Box 7: Settings
+            // Box 6: Settings
             Material(
               color: const Color.fromRGBO(244, 233, 107, 1),
               child: ListTile(

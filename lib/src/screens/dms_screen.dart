@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:bubble/bubble.dart'; //import flutter bubble widget
 
 // Import for navigation
+// This file defines the direct message (DM) screen UI.
+// Includes message bubbles, timestamps, user header, and a custom chat input bar for image/text sending.
 
 class DMScreen extends StatelessWidget {
 
@@ -13,7 +15,7 @@ class DMScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color color = const Color.fromRGBO(255, 245, 121, 100);
-    return Scaffold(
+    return Scaffold(  // DM screen layout with background image, chat bubbles, and chat input
       body: Container(
           decoration: const BoxDecoration(
             // Setting background image
@@ -136,7 +138,7 @@ class DMScreen extends StatelessWidget {
 
       //TOP BAR
       //HEADER IMPLEMENTATION
-      appBar: AppBar(
+      appBar: AppBar(  // Top app bar with profile info, back button, and chat settings icon
         backgroundColor: const Color(0xFFFFF581),
         leadingWidth: 200,
         leading: Row(
